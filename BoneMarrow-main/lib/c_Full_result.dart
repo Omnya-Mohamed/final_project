@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:g_project/widget/fields.dart';
 
 import 'home_screen.dart';
-import 'p_Record.dart';
+import 'patient_record.dart';
 
 class C_FullResult extends StatefulWidget {
   const C_FullResult({Key? key}) : super(key: key);

@@ -1,38 +1,44 @@
 import "dart:convert";
+import "dart:developer";
 
-import "package:g_project/addPatient_screen.dart";
 import "package:g_project/models.dart";
 import "package:g_project/shared_pref.dart";
 import "package:http/http.dart" as http;
 
-class ApiHealperFinalEdit {
-  static Future searchInClassificationandPrediction({
+class ApiHelperFinalEdit {
+  static Future<Map<String, dynamic>> searchInClassificationAndPrediction({
     required String nationalId,
   }) async {
     var headers = {"Content-Type": "application/json"};
 
     var request = http.Request(
-        'POST',
-        Uri.parse(
-            "http://ec2-16-16-128-143.eu-north-1.compute.amazonaws.com/api/v1/searchp/"));
+      'POST',
+      Uri.parse(
+          "http://ec2-16-16-128-143.eu-north-1.compute.amazonaws.com/api/v1/searchp/"),
+    );
+
     request.body = json.encode({
       "query": nationalId.toString(),
     });
+
     request.headers.addAll(headers);
+
     http.StreamedResponse response = await request.send();
     final stringData = await response.stream.bytesToString();
-    dynamic userData = json.decode(stringData);
-    print(userData);
+    Map<String, dynamic> userData = json.decode(stringData);
+    log(userData.toString(), name: "user data");
+
     if (response.statusCode == 200) {
-      if ((userData['patient'] as List).isNotEmpty) {
-        return PatientModel.fromJson(userData['Patient'][0]);
+      if ((userData['Patient']).isNotEmpty) {
+        return userData['Patient'][0] as Map<String, dynamic>;
       } else {
-        print('this Id is not found');
+        print('This ID is not found');
       }
     } else {
-      print("error error server");
-      return PatientModel.fromJson(userData['Patient'[0]]);
+      print("Error: server error");
     }
+
+    return {}; // Return an empty map if the ID is not found or an error occurred
   }
 
   static Future searchInPatient({
@@ -184,7 +190,7 @@ class ApiHealperFinalEdit {
       "birth_date": birthDate.toString(),
       "profile_photo": profilePhoto == null
           ? null
-          : await http.MultipartFile.fromPath('', profilePhoto!),
+          : await http.MultipartFile.fromPath('', profilePhoto),
     });
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
@@ -200,9 +206,7 @@ class ApiHealperFinalEdit {
       // CashHelper.saveData(key: 'birthDate', value: userData['birth_date']);
       //  CashHelper.saveData(key: 'gender', value: userData['gender']);
       // CashHelper.saveData(key: 'profilePhoto', value: userData['profile_photo']);
-       
 
-    
       print("hello");
       return PatientModel.fromJson(userData);
     } else {

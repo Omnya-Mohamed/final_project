@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:g_project/api_final_edit.dart';
 import 'package:g_project/widget/fields.dart';
 
-import 'p_Record.dart';
+import 'patient_record.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key, required this.isappbar}) : super(key: key);
@@ -38,7 +38,7 @@ class _SearchPageState extends State<SearchPage> {
               children: [
                 Expanded(
                   child: TextFormField(
-                     controller: searchController,
+                    controller: searchController,
                     showCursor: true,
                     autofocus: true,
                     decoration: InputDecoration(
@@ -56,16 +56,16 @@ class _SearchPageState extends State<SearchPage> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 15,
                 ),
                 FloatingActionButton.small(
                   onPressed: () {
-                    ApiHealperFinalEdit.searchInClassificationandPrediction(
+                    ApiHelperFinalEdit.searchInClassificationAndPrediction(
                         nationalId: searchController.text);
                   },
                   backgroundColor: m_color,
-                  child: Icon(Icons.search),
+                  child: const Icon(Icons.search),
                 ),
               ],
             ),
@@ -79,8 +79,8 @@ class _SearchPageState extends State<SearchPage> {
                   // color: Colors.blue,
                   elevation: 10,
                   child: ListTile(
-                    title: Text("Patient Name"),
-                    subtitle: Text("ID:"),
+                    title: const Text("Patient Name"),
+                    subtitle: const Text("ID:"),
                     trailing: MaterialButton(
                         minWidth: 20.0,
                         color: m_color,

@@ -40,7 +40,7 @@ class _Login_ScreenState extends State<Login_Screen> {
                 height: 300,
                 decoration: const BoxDecoration(
                     image: DecorationImage(
-                        image:AssetImage('assets/images/background1.png'),
+                        image: AssetImage('assets/images/background1.png'),
                         fit: BoxFit.fill)),
                 child: Stack(
                   children: <Widget>[
@@ -240,27 +240,23 @@ class _Login_ScreenState extends State<Login_Screen> {
                     borderRadius: BorderRadius.circular(15.0)),
                 onPressed: () {
                   if (_key1.currentState!.validate()) {
-                    ApiHealper.loginAuth(
+                    ApiHelper.loginAuth(
                       userName: _namecontroller.text.toString().trim(),
                       password: passwordcontroler.text.toString(),
                     ).then((value) {
                       if (value.authToken == null) {
-                       
                         final snackBar = SnackBar(
                           content: const Text('try again'),
                           backgroundColor: Colors.red.shade900,
                         );
 
-                       
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       } else {
-            
                         final snackBar = SnackBar(
                           content: Text('successfuly'),
                           backgroundColor:
                               const Color.fromARGB(255, 37, 238, 51),
                         );
-
 
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         Future.delayed(const Duration(seconds: 4), () {

@@ -253,7 +253,7 @@ class _UpdateRecordState extends State<UpdateRecord> {
               backgroundColor: MaterialStateProperty.all<Color>(m_color!),
             ),
             onPressed: () {
-              ApiHealperFinalEdit.editPatient(
+              ApiHelperFinalEdit.editPatient(
                   id: 1,
                   address: addresscontroler.text,
                   phoneNumber: phonecontroler.text,

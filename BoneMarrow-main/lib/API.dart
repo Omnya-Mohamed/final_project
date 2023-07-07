@@ -1,11 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:g_project/models.dart';
 import 'package:g_project/shared_pref.dart';
-import 'package:get/get_connect/http/src/multipart/multipart_file.dart';
 import "package:http/http.dart" as http;
 
-class ApiHealper {
+class ApiHelper {
   static Future<RegisterModel> registerAuth(
       {required String userName,
       required String email,
@@ -131,16 +131,18 @@ class ApiHealper {
         'POST',
         Uri.parse(
             "http://ec2-16-16-128-143.eu-north-1.compute.amazonaws.com/api/v1/prediction/"));
+    List<int> fileBytes = await File(file).readAsBytes();
+
     request.body = json.encode({
       "national_id": nationalId.toString(),
-      'medicalfile': await http.MultipartFile.fromPath('', file),
+      "medicalfile": base64Encode(fileBytes),
     });
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     final stringData = await response.stream.bytesToString();
     dynamic userData = json.decode(stringData);
     print(userData);
-    if (response.statusCode == 204) {
+    if (response.statusCode == 201) {
       print('check your gmail');
       //return RegisterModel.fromJson(userData);
     } else {
@@ -177,6 +179,4 @@ class ApiHealper {
       //return RegisterModel.fromJson(userData);
     }
   }
- 
- 
- }
+}

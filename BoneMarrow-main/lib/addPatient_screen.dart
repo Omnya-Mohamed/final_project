@@ -1,5 +1,3 @@
-
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -8,14 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:g_project/widget/fields.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-import 'p_fullResult.dart';
-class AddPatient extends StatefulWidget {
-  const AddPatient({Key? key}) : super(key: key);
+import 'prediction_final_result_screen.dart';
+
+class AddPatientScreen extends StatefulWidget {
+  const AddPatientScreen({Key? key}) : super(key: key);
   @override
-  State<AddPatient> createState() => _AddPatientState();
+  State<AddPatientScreen> createState() => _AddPatientScreenState();
 }
 
-class _AddPatientState extends State<AddPatient> {
+class _AddPatientScreenState extends State<AddPatientScreen> {
   var namecontroler = TextEditingController();
   var phonecontroler = TextEditingController();
   var gendercontroler = TextEditingController();
@@ -168,7 +167,6 @@ class _AddPatientState extends State<AddPatient> {
               const SizedBox(
                 height: 10,
               ),
-
               defultTextFied(
                 hint: "Patient phone",
                 label: "Phone",
@@ -183,7 +181,7 @@ class _AddPatientState extends State<AddPatient> {
                   }
                 },
                 vall: false,
-                mycontroler:  phonecontroler,
+                mycontroler: phonecontroler,
               ),
               SizedBox(
                 height: 10,
@@ -207,7 +205,6 @@ class _AddPatientState extends State<AddPatient> {
               const SizedBox(
                 height: 10,
               ),
-
               defultTextFied(
                 hint: "Patient Address",
                 label: "Address",
@@ -226,7 +223,6 @@ class _AddPatientState extends State<AddPatient> {
                     "Gender ?",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-
                   Expanded(
                     child: RadioListTile(
                       title: const Text("Male"),
@@ -261,7 +257,7 @@ class _AddPatientState extends State<AddPatient> {
                   shape: RoundedRectangleBorder(
                       side: BorderSide(color: Colors.purple.shade300),
                       borderRadius: BorderRadius.circular(15.0)),
-                  onPressed:(){},
+                  onPressed: () {},
                   child: const Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Text(
@@ -275,6 +271,7 @@ class _AddPatientState extends State<AddPatient> {
       ),
     );
   }
+
   myDialog() {
     var ad = AlertDialog(
       title: Center(child: Text("Chose Image From")),

@@ -16,31 +16,13 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   DioHelper.init();
   CashHelper.init();
-  ApiHealperFinalEdit.editPatient(
-      id: 5,
-      address: "sssssssssssssss",
-      phoneNumber: "55555",
-      gender: "male",
-      profilePhoto: null,
-      age: 8,
-      birthDate: "5-10-2001",
-      name: "mmmm");
-/* ApiHealperFinalEdit.addPatient(
-      nid: "30201851238943",
-      address: "bns",
-      phoneNumber: "01150335243",
-      gender: "female",
-      profilePhoto: null,
-      age: 21,
-      birthDate: "5-1-2002",
-      name: "oma");
-  ApiHealperFinalEdit.getPatientsLists();
 
-  shared = await SharedPreferences.getInstance();
-  runApp(MyApp());*/
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

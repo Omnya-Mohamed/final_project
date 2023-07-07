@@ -1,14 +1,18 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:g_project/API.dart';
+import 'package:g_project/addPatient_screen.dart';
 import 'package:g_project/api_final_edit.dart';
 import 'package:g_project/widget/fields.dart';
 
-import 'p_fullResult.dart';
+import 'prediction_final_result_screen.dart';
 
 //import 'package:managment/data/model/add_date.dart';
 //import 'package:hive_flutter/hive_flutter.dart';
 
 class Prediction_Screen extends StatefulWidget {
+  const Prediction_Screen({super.key});
+
   //const Prediction_Screen({super.key});
 
   @override
@@ -18,7 +22,7 @@ class Prediction_Screen extends StatefulWidget {
 class _Prediction_ScreenState extends State<Prediction_Screen> {
   //final box = Hive.box<Add_data>('data');
 
-  DateTime _ProcessTime = DateTime.now();
+  final DateTime _ProcessTime = DateTime.now();
   var ProcessTime;
 
   // String? selctedItem;
@@ -30,8 +34,9 @@ class _Prediction_ScreenState extends State<Prediction_Screen> {
   var gendercontroler = TextEditingController();
   var agecontroler = TextEditingController();
   var addresscontroler = TextEditingController();
-  var n_idcontroler = TextEditingController();
-  bool isVissible = false;
+  var nationalIdController = TextEditingController();
+  bool isVisible = false;
+  bool isAddPatientVisible = false;
   final _key = GlobalKey<FormState>();
 
   final List<String> _itemei = [
@@ -41,7 +46,7 @@ class _Prediction_ScreenState extends State<Prediction_Screen> {
   @override
   PlatformFile? file;
 
-  void loadP_File() async {
+  void loadPredictionFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
     if (result != null) {
       setState(() {
@@ -49,13 +54,11 @@ class _Prediction_ScreenState extends State<Prediction_Screen> {
         fileName = file!.name;
       });
 
-      // File file = File(result.files.single.path);
-      print(file?.name);
-    } else {
-      // User canceled the picker
-    }
+      print(file?.path);
+    } else {}
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
@@ -97,8 +100,8 @@ class _Prediction_ScreenState extends State<Prediction_Screen> {
                     pIcon: const Icon(Icons.edit),
                     onSave: () => (String? val) {
                       setState(() {
-                        ApiHealperFinalEdit.searchInClassificationandPrediction(
-                            nationalId: n_idcontroler.text);
+                        ApiHelperFinalEdit.searchInClassificationAndPrediction(
+                            nationalId: nationalIdController.text);
                       });
                     },
                     validate: () => (String? val) {
@@ -107,18 +110,25 @@ class _Prediction_ScreenState extends State<Prediction_Screen> {
                       }
                     },
                     vall: false,
-                    mycontroler: n_idcontroler,
+                    mycontroler: nationalIdController,
                   ),
                 ),
                 const SizedBox(
                   width: 15,
                 ),
                 FloatingActionButton.small(
-                  onPressed: () {
+                  onPressed: () async {
+                    var result = await ApiHelperFinalEdit
+                        .searchInClassificationAndPrediction(
+                            nationalId: nationalIdController.text);
                     setState(() {
-                      ApiHealperFinalEdit.searchInClassificationandPrediction(
-                          nationalId: n_idcontroler.text);
-                      isVissible = !isVissible;
+                      if (result.isEmpty) {
+                        isAddPatientVisible = !isAddPatientVisible;
+                        !isVisible;
+                      } else {
+                        isVisible = !isVisible;
+                        !isAddPatientVisible;
+                      }
                     });
                   },
                   backgroundColor: Colors.purple,
@@ -127,9 +137,9 @@ class _Prediction_ScreenState extends State<Prediction_Screen> {
               ],
             ),
           ),
-          isVissible
+          isVisible
               ? InkWell(
-                  onTap: isVissible ? () => loadP_File() : null,
+                  onTap: isVisible ? () => loadPredictionFile() : null,
                   child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
@@ -140,6 +150,31 @@ class _Prediction_ScreenState extends State<Prediction_Screen> {
                       child: const Center(
                           child: Text(
                         "upload files",
+                        style: TextStyle(color: Colors.white),
+                      ))),
+                )
+              : Container(),
+          isAddPatientVisible
+              ? InkWell(
+                  onTap: isAddPatientVisible
+                      ? () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const AddPatientScreen()));
+                        }
+                      : null,
+                  child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: m_color!,
+                      ),
+                      height: 40,
+                      width: 100,
+                      child: const Center(
+                          child: Text(
+                        "Add Patient",
                         style: TextStyle(color: Colors.white),
                       ))),
                 )
@@ -245,7 +280,7 @@ class _Prediction_ScreenState extends State<Prediction_Screen> {
     );
   }
 
-  myDialog() {
+  myDialog() async {
     Widget saveButton = TextButton(
       child: const Text(
         "Save",
@@ -259,30 +294,39 @@ class _Prediction_ScreenState extends State<Prediction_Screen> {
         Navigator.of(context).pop();
       },
     );
-    Widget datailsButton = TextButton(
+    Widget detailsButton = TextButton(
       child:
           const Text("Show in details", style: TextStyle(color: Colors.purple)),
-      onPressed: () {
+      onPressed: () async {
+        var result =
+            await ApiHelperFinalEdit.searchInClassificationAndPrediction(
+                nationalId: nationalIdController.text);
+        print(result['id']);
         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
-          /* return FullResult(
-            result: "Nigative",
-            PName: "${namecontroler.text}",
-            image: pickedImage,
-            id: idcontroler.text,
-            age: agecontroler.text,
-            Gender: gendercontroler.text,
-          );*/
-          return FullResult();
+          return PredictionFullResultScreen(
+            result: "Negative",
+            predictionName: result['name'],
+            image: 'pickedImage',
+            id: result['id'].toString(),
+            age: result['age'].toString(),
+            gender: result['gender'],
+            address: result['address'],
+            phoneNumber: result['phone_number'].toString(),
+          );
         }));
       },
     );
+    var predictionResult = ApiHelper.prediction(
+        nationalId: nationalIdController.text.trim(),
+        file: file!.path!.toString());
+    print(predictionResult);
     var ad = AlertDialog(
       title: const Center(child: Text("Result")),
-      content: const Text("Status:"),
+      content: Text("Status: $predictionResult"),
       actions: [
         saveButton,
         cancelButton,
-        datailsButton,
+        detailsButton,
       ],
     );
     showDialog(

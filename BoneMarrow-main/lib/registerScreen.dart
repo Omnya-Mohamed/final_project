@@ -26,8 +26,9 @@ class _DoctorRegistState extends State<DoctorRegist> {
 
   @override
   Widget build(BuildContext context) {
-    print(
-        'userName ${CashHelper.getData(key: 'email',)}');
+    print('userName ${CashHelper.getData(
+      key: 'email',
+    )}');
     return Scaffold(
       body: Container(
         height: double.infinity,
@@ -200,7 +201,7 @@ class _DoctorRegistState extends State<DoctorRegist> {
                 onPressed: () {
                   print(namecontroller.text.toString());
                   if (_key.currentState!.validate()) {
-                    ApiHealper.registerAuth(
+                    ApiHelper.registerAuth(
                             userName: namecontroller.text.toString().trim(),
                             email: emailcontroler.text.toString(),
                             password: passwordcontroler.text.toString(),
