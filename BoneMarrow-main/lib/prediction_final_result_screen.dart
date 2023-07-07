@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:g_project/widget/fields.dart';
 
-import 'patient_record.dart';
+import 'patient_record_screen.dart';
 
 class PredictionFullResultScreen extends StatefulWidget {
-  final String? id;
+  final String? nid;
   final String? predictionName;
   final String? result;
   final String? gender;
@@ -12,6 +12,7 @@ class PredictionFullResultScreen extends StatefulWidget {
   final String? image;
   final String? address;
   final String? phoneNumber;
+  final String? birthDate;
 
   const PredictionFullResultScreen(
       {super.key,
@@ -20,9 +21,10 @@ class PredictionFullResultScreen extends StatefulWidget {
       this.gender,
       this.age,
       this.image,
-      this.id,
+      this.nid,
       this.address,
-      this.phoneNumber});
+      this.phoneNumber,
+      this.birthDate});
 
   @override
   State<PredictionFullResultScreen> createState() =>
@@ -68,7 +70,7 @@ class _PredictionFullResultScreenState
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text("Result : result ", style: t_style),
+                Text("Result : ${widget.result}", style: t_style),
                 Text("Patient Name : ${widget.predictionName} ",
                     style: t_style),
                 Text("Patient Age : ${widget.age}", style: t_style),
@@ -95,7 +97,15 @@ class _PredictionFullResultScreenState
                       SwitchColor = !SwitchColor;
                     });
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (_) => const PatientRecord()));
+                        builder: (_) => PatientRecordScreen(
+                              name: widget.predictionName,
+                              age: widget.age,
+                              address: widget.address,
+                              gender: widget.gender,
+                              birthDate: widget.birthDate,
+                              phone: widget.phoneNumber,
+                              nid: widget.nid,
+                            )));
                   },
                   child: const Padding(
                     padding: EdgeInsets.all(8.0),

@@ -260,8 +260,10 @@ class _Login_ScreenState extends State<Login_Screen> {
 
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         Future.delayed(const Duration(seconds: 4), () {
-                          Navigator.pushReplacement(context,
-                              MaterialPageRoute(builder: (_) => HomePage()));
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => HomePageScreen()));
                         });
                       }
                     });

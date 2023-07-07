@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:g_project/API.dart';
@@ -10,16 +12,16 @@ import 'prediction_final_result_screen.dart';
 //import 'package:managment/data/model/add_date.dart';
 //import 'package:hive_flutter/hive_flutter.dart';
 
-class Prediction_Screen extends StatefulWidget {
-  const Prediction_Screen({super.key});
+class PredictionScreen extends StatefulWidget {
+  const PredictionScreen({super.key});
 
   //const Prediction_Screen({super.key});
 
   @override
-  State<Prediction_Screen> createState() => _Prediction_ScreenState();
+  State<PredictionScreen> createState() => _PredictionScreenState();
 }
 
-class _Prediction_ScreenState extends State<Prediction_Screen> {
+class _PredictionScreenState extends State<PredictionScreen> {
   //final box = Hive.box<Add_data>('data');
 
   final DateTime _ProcessTime = DateTime.now();
@@ -44,18 +46,20 @@ class _Prediction_ScreenState extends State<Prediction_Screen> {
     "Femal",
   ];
   @override
-  PlatformFile? file;
+  File? file;
 
   void loadPredictionFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
+
     if (result != null) {
       setState(() {
-        file = result.files.first;
-        fileName = file!.name;
+        file = File(result.files.single.path!);
+        fileName = result.names.first.toString();
       });
-
-      print(file?.path);
-    } else {}
+      print("file $fileName");
+    } else {
+      print("hasnt't added yet");
+    }
   }
 
   @override
@@ -281,6 +285,10 @@ class _Prediction_ScreenState extends State<Prediction_Screen> {
   }
 
   myDialog() async {
+    var predictionResult = await ApiHelper.uploadFile(
+      file: file!,
+      nationalId: nationalIdController.text.trim(),
+    );
     Widget saveButton = TextButton(
       child: const Text(
         "Save",
@@ -301,25 +309,22 @@ class _Prediction_ScreenState extends State<Prediction_Screen> {
         var result =
             await ApiHelperFinalEdit.searchInClassificationAndPrediction(
                 nationalId: nationalIdController.text);
-        print(result['id']);
         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
           return PredictionFullResultScreen(
-            result: "Negative",
+            result: predictionResult,
             predictionName: result['name'],
             image: 'pickedImage',
-            id: result['id'].toString(),
+            nid: result['national_id'].toString(),
             age: result['age'].toString(),
             gender: result['gender'],
             address: result['address'],
             phoneNumber: result['phone_number'].toString(),
+            birthDate: result['birth_date'].toString(),
           );
         }));
       },
     );
-    var predictionResult = ApiHelper.prediction(
-        nationalId: nationalIdController.text.trim(),
-        file: file!.path!.toString());
-    print(predictionResult);
+
     var ad = AlertDialog(
       title: const Center(child: Text("Result")),
       content: Text("Status: $predictionResult"),

@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:g_project/models.dart';
 import 'package:g_project/shared_pref.dart';
 import "package:http/http.dart" as http;
+import 'package:path/path.dart';
 
 class ApiHelper {
   static Future<RegisterModel> registerAuth(
@@ -92,32 +93,61 @@ class ApiHelper {
     }
   }
 
-  static Future changePassword(
-      {required String newPassword,
-      required String renewPassword,
-      required String currentPassword}) async {
-    var headers = {"Content-Type": "application/json"};
+  // static Future changePassword(
+  //     {required String newPassword,
+  //     required String renewPassword,
+  //     required String currentPassword}) async {
+  //   var headers = {"Content-Type": "application/json"};
 
-    var request = http.Request(
+  //   var request = http.Request(
+  //       'POST',
+  //       Uri.parse(
+  //           "http://ec2-16-16-128-143.eu-north-1.compute.amazonaws.com/auth/users/reset_password/"));
+  //   request.body = json.encode({
+  //     "current_password": currentPassword.toString(),
+  //     "re_new_password": renewPassword.toString(),
+  //     "new_password": newPassword.toString(),
+  //   });
+  //   request.headers.addAll(headers);
+  //   http.StreamedResponse response = await request.send();
+  //   final stringData = await response.stream.bytesToString();
+  //   dynamic userData = json.decode(stringData);
+  //   print(userData);
+  //   if (response.statusCode == 204) {
+  //     print('successful');
+  //     //return RegisterModel.fromJson(userData);
+  //   } else {
+  //     print("error try again");
+  //     //return RegisterModel.fromJson(userData);
+  //   }
+  // }
+  static uploadFile({required File file, required String nationalId}) async {
+    var request = http.MultipartRequest(
         'POST',
         Uri.parse(
-            "http://ec2-16-16-128-143.eu-north-1.compute.amazonaws.com/auth/users/reset_password/"));
-    request.body = json.encode({
-      "current_password": currentPassword.toString(),
-      "re_new_password": renewPassword.toString(),
-      "new_password": newPassword.toString(),
+            'http://ec2-16-16-128-143.eu-north-1.compute.amazonaws.com/api/v1/prediction/'));
+    var length = await file.length();
+    var stream = http.ByteStream(file.openRead());
+    var multiPartFile = http.MultipartFile('medicalfile', stream, length,
+        filename: basename(file.path));
+    request.files.add(multiPartFile);
+    request.fields.addAll({
+      "national_id": nationalId.toString(),
+      // "medicalfile": multiPartFile.toString(),
     });
-    request.headers.addAll(headers);
-    http.StreamedResponse response = await request.send();
-    final stringData = await response.stream.bytesToString();
-    dynamic userData = json.decode(stringData);
-    print(userData);
-    if (response.statusCode == 204) {
-      print('successful');
-      //return RegisterModel.fromJson(userData);
+    var myRequest = await request.send();
+    var response = await http.Response.fromStream(myRequest);
+    String finalResult;
+    if (myRequest.statusCode == 201 || myRequest.statusCode == 200) {
+      Map<String, dynamic> responseBody = jsonDecode(response.body);
+      if (responseBody['result'] == "1") {
+        finalResult = "${responseBody['result']}: Dead";
+      } else {
+        finalResult = "${responseBody['result']}: Alive";
+      }
+      return finalResult;
     } else {
-      print("error try again");
-      //return RegisterModel.fromJson(userData);
+      print('Error ${myRequest.statusCode}');
     }
   }
 
@@ -132,7 +162,6 @@ class ApiHelper {
         Uri.parse(
             "http://ec2-16-16-128-143.eu-north-1.compute.amazonaws.com/api/v1/prediction/"));
     List<int> fileBytes = await File(file).readAsBytes();
-
     request.body = json.encode({
       "national_id": nationalId.toString(),
       "medicalfile": base64Encode(fileBytes),
@@ -144,10 +173,8 @@ class ApiHelper {
     print(userData);
     if (response.statusCode == 201) {
       print('check your gmail');
-      //return RegisterModel.fromJson(userData);
     } else {
       print("error try again");
-      //return RegisterModel.fromJson(userData);
     }
   }
 

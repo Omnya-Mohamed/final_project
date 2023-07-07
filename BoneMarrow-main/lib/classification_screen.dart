@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:g_project/widget/fields.dart';
 import 'package:image_picker/image_picker.dart';
 
+import 'api_final_edit.dart';
 import 'c_Full_result.dart';
 
 class Classification extends StatefulWidget {
@@ -22,15 +23,15 @@ class _ClassificationState extends State<Classification> {
   var gendercontroler = TextEditingController();
   var agecontroler = TextEditingController();
   var addresscontroler = TextEditingController();
-  var nidcontroler = TextEditingController();
+  var nationalIdController = TextEditingController();
   final _key = GlobalKey<FormState>();
   var gender;
   String? _radioVal;
-  bool isVissible = false;
+  bool isVisible = false;
 
   //late DateTime _startTime;
 
-  DateTime _ProcessTime = DateTime.now();
+  final DateTime _ProcessTime = DateTime.now();
   var ProcessTime;
 
   final ImagePicker _picker = ImagePicker();
@@ -99,16 +100,21 @@ class _ClassificationState extends State<Classification> {
                     }
                   },
                   vall: false,
-                  mycontroler: nidcontroler,
+                  mycontroler: nationalIdController,
                 ),
               ),
               const SizedBox(
                 width: 15,
               ),
               FloatingActionButton.small(
-                onPressed: () {
+                onPressed: () async {
+                  var result = await ApiHelperFinalEdit
+                      .searchInClassificationAndPrediction(
+                          nationalId: nationalIdController.text);
                   setState(() {
-                    isVissible = !isVissible;
+                    if (result.isNotEmpty) {
+                      isVisible = true;
+                    }
                   });
                 },
                 backgroundColor: Colors.purple,
@@ -127,7 +133,7 @@ class _ClassificationState extends State<Classification> {
                   shape: RoundedRectangleBorder(
                       side: const BorderSide(color: Colors.white),
                       borderRadius: BorderRadius.circular(15.0)),
-                  onPressed: isVissible? fitchImage:null,
+                  onPressed: isVisible ? fitchImage : null,
                   child: const Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Text(
@@ -144,21 +150,21 @@ class _ClassificationState extends State<Classification> {
                 margin: const EdgeInsets.all(10),
                 padding: const EdgeInsets.all(5),
                 decoration: BoxDecoration(
-                  //color: Colors.yellow[100],
+                    //color: Colors.yellow[100],
                     border: Border.all(
-                      color: Colors.purple.shade100,
-                      width: 3,
-                    )),
+                  color: Colors.purple.shade100,
+                  width: 3,
+                )),
                 child: Center(
                     child: pickedImage == null
                         ? CircularProgressIndicator(
-                      color: Colors.purple.shade200,
-                    )
+                            color: Colors.purple.shade200,
+                          )
                         : Image.file(
-                      pickedImage!,
-                      width: 400,
-                      height: 400,
-                    )),
+                            pickedImage!,
+                            width: 400,
+                            height: 400,
+                          )),
               ),
               const SizedBox(
                 height: 10,

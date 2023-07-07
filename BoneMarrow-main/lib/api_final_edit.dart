@@ -57,13 +57,9 @@ class ApiHelperFinalEdit {
     http.StreamedResponse response = await request.send();
     final stringData = await response.stream.bytesToString();
     dynamic userData = json.decode(stringData);
-    print(userData);
+    // print(userData);
     if (response.statusCode == 200) {
-      if ((userData['patient'] as List).isNotEmpty) {
-        return PatientModel.fromJson(userData[0]);
-      } else {
-        print('this Id is not found');
-      }
+      return userData[0]['predictions'];
     } else {
       print("error error server");
       return PatientModel.fromJson(userData['Patient'[0]]);

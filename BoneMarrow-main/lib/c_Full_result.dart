@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:g_project/widget/fields.dart';
 
 import 'home_screen.dart';
-import 'patient_record.dart';
+import 'patient_record_screen.dart';
 
 class C_FullResult extends StatefulWidget {
   const C_FullResult({Key? key}) : super(key: key);
@@ -37,7 +37,7 @@ class _C_FullResultState extends State<C_FullResult> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => HomePage()));
+                                      builder: (context) => HomePageScreen()));
                             },
                             child: const Text('ignore'))
                       ],
@@ -310,7 +310,7 @@ class _C_FullResultState extends State<C_FullResult> {
                         borderRadius: BorderRadius.circular(15.0)),
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (_) => const PatientRecord()));
+                          builder: (_) => const PatientRecordScreen()));
                     },
                     child: const Padding(
                       padding: EdgeInsets.all(8.0),

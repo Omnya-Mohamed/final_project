@@ -5,7 +5,7 @@ import 'package:g_project/shared_pref.dart';
 import 'package:g_project/splash_Screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'Prediction_Screen1.dart';
+import 'prediction_screen.dart';
 import 'addPatient_screen.dart';
 //import 'homePage.dart';
 import 'home_screen.dart';

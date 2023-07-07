@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:g_project/api_final_edit.dart';
 import 'package:g_project/widget/fields.dart';
 
-import 'patient_record.dart';
+import 'patient_record_screen.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key, required this.isappbar}) : super(key: key);
@@ -89,7 +89,8 @@ class _SearchPageState extends State<SearchPage> {
                             borderRadius: BorderRadius.circular(15.0)),
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const PatientRecord()));
+                              builder: (context) =>
+                                  const PatientRecordScreen()));
                         },
                         child: const Padding(
                           padding: EdgeInsets.all(8.0),

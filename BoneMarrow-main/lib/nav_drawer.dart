@@ -3,7 +3,7 @@ import 'package:g_project/profileScreen.dart';
 import 'package:g_project/search_screen.dart';
 import 'package:g_project/widget/fields.dart';
 
-import 'Prediction_Screen1.dart';
+import 'prediction_screen.dart';
 import 'changePassword.dart';
 import 'classification_screen.dart';
 import 'f_Page.dart';
@@ -81,7 +81,7 @@ class _NavDrawerState extends State<NavDrawer> {
             leading: Icon(
               Icons.screen_lock_landscape_rounded,
               size: _drawerIconSize,
-              color:  m_color,
+              color: m_color,
             ),
             title: Text(
               'Classification',
@@ -96,7 +96,7 @@ class _NavDrawerState extends State<NavDrawer> {
             leading: Icon(
               Icons.screen_lock_landscape_rounded,
               size: _drawerIconSize,
-              color:  m_color,
+              color: m_color,
             ),
             title: Text(
               'Prediction',
@@ -104,22 +104,26 @@ class _NavDrawerState extends State<NavDrawer> {
             ),
             onTap: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Prediction_Screen()));
+                  MaterialPageRoute(builder: (context) => PredictionScreen()));
             },
           ),
           ListTile(
             leading: Icon(
               Icons.search,
               size: _drawerIconSize,
-              color:  m_color,
+              color: m_color,
             ),
             title: Text(
               'Search for Patient',
               style: TextStyle(fontSize: _drawerFontSize, color: Colors.black),
             ),
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SearchPage(isappbar: true,)));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => SearchPage(
+                            isappbar: true,
+                          )));
             },
           ),
 
@@ -182,7 +186,7 @@ class _NavDrawerState extends State<NavDrawer> {
             leading: Icon(
               Icons.account_circle,
               size: _drawerIconSize,
-              color:  m_color,
+              color: m_color,
             ),
             title: Text(
               'Profile',
@@ -196,29 +200,28 @@ class _NavDrawerState extends State<NavDrawer> {
             },
           ),
           ListTile(
-              leading: Icon(
-                Icons.settings,
-                size: _drawerIconSize,
-                color:  m_color,
-              ),
-              title: Text(
-                'Change Password',
-                style:
-                    TextStyle(fontSize: _drawerFontSize, color: Colors.black),
-              ),
-          onTap: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>const Changepassword()));
-          },
+            leading: Icon(
+              Icons.settings,
+              size: _drawerIconSize,
+              color: m_color,
+            ),
+            title: Text(
+              'Change Password',
+              style: TextStyle(fontSize: _drawerFontSize, color: Colors.black),
+            ),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const Changepassword()));
+            },
           ),
           ListTile(
             leading: Icon(Icons.login_rounded,
                 size: _drawerIconSize, color: m_color),
             title: Text(
               'Login Page',
-              style: TextStyle(
-                  fontSize: _drawerFontSize,
-                  color:Colors.black
-              ),
+              style: TextStyle(fontSize: _drawerFontSize, color: Colors.black),
             ),
             onTap: () {
               Navigator.push(

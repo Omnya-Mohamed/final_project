@@ -1,19 +1,53 @@
 import 'package:flutter/material.dart';
-import 'package:g_project/Prediction_Screen1.dart';
+import 'package:g_project/api_final_edit.dart';
+import 'package:g_project/prediction_screen.dart';
 import 'package:g_project/UpdateRecord.dart';
 import 'package:g_project/classification_screen.dart';
 import 'package:g_project/widget/fields.dart';
 
-class PatientRecord extends StatefulWidget {
-  const PatientRecord({Key? key}) : super(key: key);
+class PatientRecordScreen extends StatefulWidget {
+  final String? name;
+  final String? nid;
+  final String? age;
+  final String? gender;
+  final String? birthDate;
+  final String? phone;
+  final String? address;
+  const PatientRecordScreen({
+    Key? key,
+    this.name,
+    this.nid,
+    this.age,
+    this.gender,
+    this.birthDate,
+    this.phone,
+    this.address,
+  }) : super(key: key);
 
   @override
-  State<PatientRecord> createState() => _PatientRecordState();
+  State<PatientRecordScreen> createState() => _PatientRecordScreenState();
 }
 
-class _PatientRecordState extends State<PatientRecord> {
+class _PatientRecordScreenState extends State<PatientRecordScreen> {
+  // String? patientId;
+  // @override
+  // void initState() {
+  //   patientId = widget.nid;
+  //   super.initState();
+  // }
   @override
   Widget build(BuildContext context) {
+    var historyDiseases;
+
+    getHistoryDiseases() async {
+      await ApiHelperFinalEdit.searchInPatient(nationalId: "${widget.nid}")
+          .then((value) {
+        historyDiseases = value;
+        print(value);
+      });
+      return historyDiseases;
+    }
+
     return Scaffold(
       appBar: AppBar(
         leading: InkWell(
@@ -43,14 +77,11 @@ class _PatientRecordState extends State<PatientRecord> {
                 width: 10,
               ),
               SizedBox(
-                //height: 160,
-                //width: 160,
                 child: Column(
-                  // mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Name :",
+                      "Name: ${widget.name}",
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -58,7 +89,7 @@ class _PatientRecordState extends State<PatientRecord> {
                       ),
                     ),
                     Text(
-                      "NID :",
+                      "NID: ${widget.nid}",
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -66,23 +97,23 @@ class _PatientRecordState extends State<PatientRecord> {
                       ),
                     ),
                     Text(
-                      "Age    :",
+                      "Age: ${widget.age}",
                       style: t_style,
                     ),
                     Text(
-                      "Gender :",
+                      "Gender: ${widget.gender}",
                       style: t_style,
                     ),
                     Text(
-                      "Bith_Date :",
+                      "Birth_Date: ${widget.birthDate}",
                       style: t_style,
                     ),
                     Text(
-                      "Phone :",
+                      "Phone: ${widget.phone}",
                       style: t_style,
                     ),
                     Text(
-                      "Adreess :",
+                      "Address: ${widget.address}",
                       style: t_style,
                     ),
                   ],
@@ -100,57 +131,83 @@ class _PatientRecordState extends State<PatientRecord> {
               fontWeight: FontWeight.bold,
               fontSize: 25,
             )),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         Expanded(
-          child: ListView.builder(
-            //shrinkWrap: true,
-            itemBuilder: (context, index) => Container(
-              margin: EdgeInsets.all(12),
-              height: 150,
-              width: 400,
-              decoration:
-                  BoxDecoration(border: Border.all(color: b_color!, width: 2)),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Process Type :",
-                        style: t_style,
+          child: FutureBuilder(
+            future: ApiHelperFinalEdit.searchInPatient(
+                nationalId: widget.nid.toString()),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const CircularProgressIndicator(); // Show a loading indicator while data is being fetched
+              } else if (snapshot.hasError) {
+                return Text(
+                    'Error: ${snapshot.error}'); // Show an error message if there's an error
+              } else {
+                // Data is available, build the ListView
+                List<dynamic> predictions = snapshot.data ??
+                    []; // Retrieve the classifications data from the snapshot
+
+                return ListView.builder(
+                  itemBuilder: (context, index) {
+                    // Build each item in the ListView using the retrieved data
+                    Map<String, dynamic> classification = predictions[index];
+                    String predictionResult;
+                    if (classification['result'] == "1") {
+                      predictionResult = "Dead";
+                    } else {
+                      predictionResult = "Alive";
+                    }
+                    return Container(
+                      margin: const EdgeInsets.all(12),
+                      height: 150,
+                      width: 400,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: b_color!, width: 2),
                       ),
-                      Text("Classification "),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Result : ",
-                        style: t_style,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Process Type : ${classification['process_type']}",
+                                style: t_style,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Result : $predictionResult",
+                                style: t_style,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                        ],
                       ),
-                      const Text("Positive"),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                ],
-              ),
-            ),
-            itemCount: 10, // ايتغير ع حسب العدد اللي جي
+                    );
+                  },
+                  itemCount: predictions
+                      .length, // Set the number of items in the ListView
+                );
+              }
+            },
           ),
         )
       ]),
@@ -162,7 +219,7 @@ class _PatientRecordState extends State<PatientRecord> {
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: Text("What Do You Want :"),
+                title: const Text("What Do You Want :"),
                 content: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -181,9 +238,9 @@ class _PatientRecordState extends State<PatientRecord> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => UpdateRecord()));
+                                builder: (context) => const UpdateRecord()));
                       },
-                      child: Text("Edit"),
+                      child: const Text("Edit"),
                     ),
                     ElevatedButton(
                       style: ButtonStyle(
@@ -200,42 +257,45 @@ class _PatientRecordState extends State<PatientRecord> {
                         showDialog(
                             context: context,
                             builder: (BuildContext context) {
-                              return  AlertDialog(
-                                  title: Text("Which process do You Want:"),
+                              return AlertDialog(
+                                  title:
+                                      const Text("Which process do You Want:"),
                                   content: Row(
-                                    children:[
+                                    children: [
                                       InkWell(
-                                        child: const Text("Classification",
-                                          style:TextStyle(
-                                            color: Colors.deepPurple,
-                                            fontWeight: FontWeight.bold,
+                                          child: const Text(
+                                            "Classification",
+                                            style: TextStyle(
+                                              color: Colors.deepPurple,
+                                              fontWeight: FontWeight.bold,
+                                            ),
                                           ),
-                                        ),
-                                        onTap:() => Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) => Classification()))
-                                      ),
-                                      SizedBox(
+                                          onTap: () => Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const Classification()))),
+                                      const SizedBox(
                                         width: 10,
                                       ),
                                       InkWell(
-                                          child: const Text("Prediction",
-                                            style:TextStyle(
-                                            color: Colors.deepPurple,
+                                          child: const Text(
+                                            "Prediction",
+                                            style: TextStyle(
+                                              color: Colors.deepPurple,
                                               fontWeight: FontWeight.bold,
+                                            ),
                                           ),
-                                          ),
-                                          onTap:() => Navigator.push(
+                                          onTap: () => Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                  builder: (context) =>Prediction_Screen()))
-                                      ),
+                                                  builder: (context) =>
+                                                      const PredictionScreen()))),
                                     ],
                                   ));
                             });
                       },
-                      child: Text("Add Process"),
+                      child: const Text("Add Process"),
                     ),
                     ElevatedButton(
                       style: ButtonStyle(
@@ -249,7 +309,7 @@ class _PatientRecordState extends State<PatientRecord> {
                         ),
                       ),
                       onPressed: () {},
-                      child: Text("Delete Record"),
+                      child: const Text("Delete Record"),
                     ),
                   ],
                 ),

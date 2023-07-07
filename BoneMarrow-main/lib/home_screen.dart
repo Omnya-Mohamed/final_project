@@ -8,17 +8,19 @@ import 'package:g_project/search_screen.dart';
 //import 'package:widgets/widgets/reorderable_listview.dart';
 //import 'package:widgets/widgets/spinkit_splash.dart';
 
-import 'Prediction_Screen1.dart';
+import 'prediction_screen.dart';
 import 'nav_drawer.dart';
 import 'profileScreen.dart';
 import 'widget/fields.dart';
 
-class HomePage extends StatefulWidget {
+class HomePageScreen extends StatefulWidget {
+  const HomePageScreen({super.key});
+
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomePageScreen> createState() => _HomePageScreenState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageScreenState extends State<HomePageScreen> {
   int index = 0;
   final _bottomNavigationKey = GlobalKey<CurvedNavigationBarState>();
 
@@ -27,7 +29,7 @@ class _HomePageState extends State<HomePage> {
     List<Widget> screens = [
       homeWidget(context),
       ProfileScreen(),
-      SearchPage(isappbar: false),
+      const SearchPage(isappbar: false),
       const Center(
         child: Text("Statistics"),
       ),
@@ -45,7 +47,7 @@ class _HomePageState extends State<HomePage> {
                     fontSize: 28))),
         backgroundColor: Colors.white,
         //elevation: 0.0,
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
         //title:
       ),
       body: screens[index],
@@ -99,12 +101,11 @@ class _HomePageState extends State<HomePage> {
           ),
           child: Container(
             padding: const EdgeInsets.all(16),
-            decoration:  const BoxDecoration(
-
+            decoration: const BoxDecoration(
                 borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(100),
-                  bottomLeft: Radius.circular(100),
-                )),
+              bottomRight: Radius.circular(100),
+              bottomLeft: Radius.circular(100),
+            )),
             child: const Column(children: [
               Text(
                 "About  Processes",
@@ -119,7 +120,7 @@ class _HomePageState extends State<HomePage> {
               Center(
                 child: Text(
                   " Anatomy of the bone. The bone is made up of compact bone, spongy bone, and bone marrow. Compact bone makes up the outer layer of the bone. Spongy bone is found mostly at the ends of bones and contains red marrow. Bone marrow is found in the center of most bones and has many blood vessels. There are two types of bone marrow: red and yellow. Red marrow contains blood stem cells that can become red blood cells, white blood cells, or platelets. Yellow marrow is made mostly of fat.",
-                  style: TextStyle( color: Colors.grey),
+                  style: TextStyle(color: Colors.grey),
                 ),
               ),
               SizedBox(
@@ -128,7 +129,7 @@ class _HomePageState extends State<HomePage> {
             ]),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         Row(
@@ -139,7 +140,7 @@ class _HomePageState extends State<HomePage> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => Classification()));
+                          builder: (context) => const Classification()));
                 },
                 child: Card(
                   shape: RoundedRectangleBorder(
@@ -196,7 +197,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 25,
             ),
             Expanded(
@@ -205,7 +206,7 @@ class _HomePageState extends State<HomePage> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => Prediction_Screen()));
+                          builder: (context) => const PredictionScreen()));
                 },
                 child: Card(
                   shape: RoundedRectangleBorder(
@@ -265,7 +266,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
       ],
