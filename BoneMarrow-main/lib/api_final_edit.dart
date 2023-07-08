@@ -1,9 +1,10 @@
 import "dart:convert";
 import "dart:developer";
-
-import "package:g_project/models.dart";
-import "package:g_project/shared_pref.dart";
-import "package:http/http.dart" as http;
+import "dart:io";
+import 'package:path/path.dart';
+import 'package:http/http.dart' as http;
+import 'package:g_project/models.dart';
+import 'package:g_project/shared_pref.dart';
 
 class ApiHelperFinalEdit {
   static Future<Map<String, dynamic>> searchInClassificationAndPrediction({
@@ -41,7 +42,7 @@ class ApiHelperFinalEdit {
     return {}; // Return an empty map if the ID is not found or an error occurred
   }
 
-  static Future searchInPatient({
+  static Future searchInPatientPredictions({
     required String nationalId,
   }) async {
     var headers = {"Content-Type": "application/json"};
@@ -60,6 +61,31 @@ class ApiHelperFinalEdit {
     // print(userData);
     if (response.statusCode == 200) {
       return userData[0]['predictions'];
+    } else {
+      print("error error server");
+      return PatientModel.fromJson(userData['Patient'[0]]);
+    }
+  }
+
+  static Future searchInPatientClassifications({
+    required String nationalId,
+  }) async {
+    var headers = {"Content-Type": "application/json"};
+
+    var request = http.Request(
+        'POST',
+        Uri.parse(
+            "http://ec2-16-16-128-143.eu-north-1.compute.amazonaws.com/api/v1/searchpd/"));
+    request.body = json.encode({
+      "query": nationalId.toString(),
+    });
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    final stringData = await response.stream.bytesToString();
+    dynamic userData = json.decode(stringData);
+    // print(userData);
+    if (response.statusCode == 200) {
+      return userData[0]['classifications'];
     } else {
       print("error error server");
       return PatientModel.fromJson(userData['Patient'[0]]);
@@ -162,21 +188,26 @@ class ApiHelperFinalEdit {
     required String address,
     required String phoneNumber,
     required String gender,
-    required String? profilePhoto,
-    required int age,
+    required File? profilePhoto,
+    required String age,
     required String birthDate,
     required String name,
   }) async {
     var headers = {
       "Content-Type": "application/json",
-      'Authorization': '${CashHelper.getData(key: 'token')}',
+      // 'Authorization': '${CashHelper.getData(key: 'token')}',
     };
 
-    var request = http.Request(
+    var request = http.MultipartRequest(
         'POST',
         Uri.parse(
             "http://ec2-16-16-128-143.eu-north-1.compute.amazonaws.com/api/v1/patients/"));
-    request.body = json.encode({
+    var length = await profilePhoto!.length();
+    var stream = http.ByteStream(profilePhoto.openRead());
+    var multiPartFile = http.MultipartFile('profile_photo', stream, length,
+        filename: basename(profilePhoto.path));
+    request.files.add(multiPartFile);
+    request.fields.addAll({
       "national_id": nid.toString(),
       "address": address.toString(),
       "phone_number": phoneNumber.toString(),
@@ -184,29 +215,19 @@ class ApiHelperFinalEdit {
       "age": age,
       "name": name.toString(),
       "birth_date": birthDate.toString(),
-      "profile_photo": profilePhoto == null
-          ? null
-          : await http.MultipartFile.fromPath('', profilePhoto),
     });
+    
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     final stringData = await response.stream.bytesToString();
     dynamic userData = json.decode(stringData);
     print(userData);
     if (response.statusCode == 201) {
-      // CashHelper.saveData(key: 'nid', value: userData['national_id']);
-      // CashHelper.saveData(key: 'name', value: userData['name']);
-      //  CashHelper.saveData(key: 'age', value: userData['age']);
-      // CashHelper.saveData(key: 'address', value: userData['address']);
-      //  CashHelper.saveData(key: 'phoneNumber', value: userData['phone_number']);
-      // CashHelper.saveData(key: 'birthDate', value: userData['birth_date']);
-      //  CashHelper.saveData(key: 'gender', value: userData['gender']);
-      // CashHelper.saveData(key: 'profilePhoto', value: userData['profile_photo']);
-
       print("hello");
       return PatientModel.fromJson(userData);
     } else {
       print("error error server");
+      print(response.statusCode.toString());
       return PatientModel.fromJson(userData);
     }
   }

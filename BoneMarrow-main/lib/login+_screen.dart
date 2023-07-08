@@ -19,13 +19,13 @@ class _Login_ScreenState extends State<Login_Screen> {
   String? Email;
 
   var password;
-  GlobalKey<FormState> _key = GlobalKey<FormState>();
+  final GlobalKey<FormState> _key = GlobalKey<FormState>();
   final _key1 = GlobalKey<FormState>();
-  var _namecontroller = TextEditingController();
+  final _namecontroller = TextEditingController();
   var passwordcontroler = TextEditingController();
 
   //var phonecontroller = TextEditingController(;
-  var emailcontroler = TextEditingController();
+  var emailController = TextEditingController();
 
   bool passvisible = true;
 
@@ -109,7 +109,7 @@ class _Login_ScreenState extends State<Login_Screen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const Text(
-                              "Don\'t  have an account ?",
+                              "Don't  have an account ?",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 15,
@@ -120,7 +120,8 @@ class _Login_ScreenState extends State<Login_Screen> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => DoctorRegist()),
+                                      builder: (context) =>
+                                          const DoctorRegist()),
                                 );
                                 setState(() {
                                   // lSwitch = !lSwitch;
@@ -221,7 +222,7 @@ class _Login_ScreenState extends State<Login_Screen> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 InkWell(
-                  child: Text(
+                  child: const Text(
                     "Forget Password ?",
                     style: TextStyle(color: Colors.purple),
                   ),
@@ -229,7 +230,7 @@ class _Login_ScreenState extends State<Login_Screen> {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             MaterialButton(
@@ -252,10 +253,9 @@ class _Login_ScreenState extends State<Login_Screen> {
 
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       } else {
-                        final snackBar = SnackBar(
+                        const snackBar = SnackBar(
                           content: Text('successfuly'),
-                          backgroundColor:
-                              const Color.fromARGB(255, 37, 238, 51),
+                          backgroundColor: Color.fromARGB(255, 37, 238, 51),
                         );
 
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -263,12 +263,10 @@ class _Login_ScreenState extends State<Login_Screen> {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (_) => HomePageScreen()));
+                                  builder: (_) => const HomePageScreen()));
                         });
                       }
                     });
-
-                    ;
                   }
                 },
                 child: const Padding(
@@ -289,14 +287,14 @@ class _Login_ScreenState extends State<Login_Screen> {
 
   myDialog() {
     var ad = AlertDialog(
-      title: Center(child: Text("Enter your Email")),
+      title: const Center(child: Text("Enter your Email")),
       //content: Text("Status:"),
       actions: [
         defultTextFied(
           hint: "Enter your Email",
           // label: "Email",
           type: TextInputType.emailAddress,
-          pIcon: Icon(Icons.email),
+          pIcon: const Icon(Icons.email),
           onSave: () => (String? val) {
             setState(() {});
           },
@@ -306,9 +304,9 @@ class _Login_ScreenState extends State<Login_Screen> {
             }
           },
           vall: false,
-          mycontroler: emailcontroler,
+          mycontroler: emailController,
         ),
-        SizedBox(height: 15),
+        const SizedBox(height: 15),
         MaterialButton(
             minWidth: 30.0,
             color: Colors.purple.shade300,
@@ -316,8 +314,11 @@ class _Login_ScreenState extends State<Login_Screen> {
                 side: BorderSide(color: Colors.purple.shade300),
                 borderRadius: BorderRadius.circular(15.0)),
             onPressed: () {
-              Navigator.pushReplacement(
-                  context, MaterialPageRoute(builder: (_) => ResetPage()));
+              setState(() {
+                ApiHelper.reset(email: emailController.text.trim());
+              });
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (_) => const ResetPage()));
             },
             child: const Padding(
               padding: EdgeInsets.all(8.0),

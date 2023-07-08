@@ -240,13 +240,6 @@ class _HomePageScreenState extends State<HomePageScreen> {
                         //   '30 k',
                         // ),
                       ),
-                      // Padding(
-                      //   padding: const EdgeInsets.all(8.0),
-                      //   child: TextButton(
-                      //     onPressed: () {
-                      //       Navigator.push(
-                      //           context,
-                      //           MaterialPageRoute(
                       //               builder: (context) => Prediction_Screen()));
                       //     },
                       //     style: TextButton.styleFrom(

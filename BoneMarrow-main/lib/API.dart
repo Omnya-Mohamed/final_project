@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:http/http.dart' as http;
+import 'package:path/path.dart';
+import 'package:async/async.dart';
 import 'package:g_project/models.dart';
 import 'package:g_project/shared_pref.dart';
-import "package:http/http.dart" as http;
-import 'package:path/path.dart';
 
 class ApiHelper {
   static Future<RegisterModel> registerAuth(
@@ -121,7 +121,8 @@ class ApiHelper {
   //     //return RegisterModel.fromJson(userData);
   //   }
   // }
-  static uploadFile({required File file, required String nationalId}) async {
+  static uploadFilePrediction(
+      {required File file, required String nationalId}) async {
     var request = http.MultipartRequest(
         'POST',
         Uri.parse(
@@ -149,6 +150,83 @@ class ApiHelper {
     } else {
       print('Error ${myRequest.statusCode}');
     }
+  }
+
+  // static Future uploadFileClassification(
+  //     {required File file, required String nationalId}) async {
+  //   var request = http.MultipartRequest(
+  //       'POST',
+  //       Uri.parse(
+  //           'http://ec2-16-16-128-143.eu-north-1.compute.amazonaws.com/api/v1/classification/'));
+  //   var stream = http.ByteStream(DelegatingStream.typed(file.openRead()));
+  //   var length = await file.length();
+  //   var multipartFile = http.MultipartFile('medicalphoto', stream, length,
+  //       filename: basename(file.path));
+  //   request.fields.addAll({"national_id": nationalId});
+  //   request.files.add(multipartFile);
+  //   var response = await request.send();
+  //   if (response.statusCode == 201 || response.statusCode == 200) {
+  //     print('File uploaded successfully');
+  //   } else {
+  //     print('Error ${response.statusCode}');
+  //   }
+  // }
+
+  static Future<String?> uploadFileClassification({
+    required File file,
+    required String nationalId,
+  }) async {
+    var stream = http.ByteStream(DelegatingStream.typed(file.openRead()));
+    var length = await file.length();
+    var uri = Uri.parse(
+        'http://ec2-16-16-128-143.eu-north-1.compute.amazonaws.com/api/v1/classification/');
+    var request = http.MultipartRequest("POST", uri);
+    var multipartFile = http.MultipartFile(
+      'medicalphoto',
+      stream,
+      length,
+      filename: basename(file.path),
+    );
+
+    request.files.add(multipartFile);
+    request.fields.addAll({
+      "national_id": nationalId.toString(),
+      "medicalphoto": multipartFile.toString(),
+    });
+
+    var response = await request.send();
+    print(response.statusCode);
+
+    String? result;
+
+    await response.stream.transform(utf8.decoder).forEach((value) {
+      Map<String, dynamic> responseBody = jsonDecode(value);
+      result = responseBody['result'];
+      print(result);
+    });
+    switch (result) {
+      case "EBO":
+        result = "EBO: Erythroblast";
+        break;
+      case "PLM":
+        result = "PLM: Plasma Cell";
+        break;
+      case "NGB":
+        result = "NGB: Neutrophil";
+        break;
+      case "EOS":
+        result = "EOS: Eosinophil";
+        break;
+      case "LYT":
+        result = "LYT: Lymphocyte";
+        break;
+      case "MON":
+        result = "MON: Monocyte";
+        break;
+      default:
+    }
+    print("result: $result");
+    return result;
   }
 
   static Future prediction({

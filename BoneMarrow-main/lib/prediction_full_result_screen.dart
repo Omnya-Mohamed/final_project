@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:g_project/prediction_patient_record_screen.dart';
 import 'package:g_project/widget/fields.dart';
-
-import 'patient_record_screen.dart';
 
 class PredictionFullResultScreen extends StatefulWidget {
   final String? nid;
@@ -97,7 +96,7 @@ class _PredictionFullResultScreenState
                       SwitchColor = !SwitchColor;
                     });
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (_) => PatientRecordScreen(
+                        builder: (_) => PredictionPatientRecordScreen(
                               name: widget.predictionName,
                               age: widget.age,
                               address: widget.address,

@@ -1,12 +1,15 @@
 //import 'dart:html';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:g_project/API.dart';
+import 'package:g_project/classification_full_result_screen.dart';
 import 'package:g_project/widget/fields.dart';
 import 'package:image_picker/image_picker.dart';
 
+import 'addPatient_screen.dart';
 import 'api_final_edit.dart';
-import 'c_Full_result.dart';
 
 class Classification extends StatefulWidget {
   const Classification({Key? key}) : super(key: key);
@@ -18,16 +21,17 @@ class Classification extends StatefulWidget {
 //final ImagePicker _picker = ImagePicker();
 
 class _ClassificationState extends State<Classification> {
-  var namecontroler = TextEditingController();
-  var phonecontroler = TextEditingController();
-  var gendercontroler = TextEditingController();
-  var agecontroler = TextEditingController();
-  var addresscontroler = TextEditingController();
+  var nameController = TextEditingController();
+  var phoneController = TextEditingController();
+  var genderController = TextEditingController();
+  var ageController = TextEditingController();
+  var addressController = TextEditingController();
   var nationalIdController = TextEditingController();
   final _key = GlobalKey<FormState>();
   var gender;
   String? _radioVal;
   bool isVisible = false;
+  bool isAddPatientVisible = false;
 
   //late DateTime _startTime;
 
@@ -112,9 +116,15 @@ class _ClassificationState extends State<Classification> {
                       .searchInClassificationAndPrediction(
                           nationalId: nationalIdController.text);
                   setState(() {
-                    if (result.isNotEmpty) {
-                      isVisible = true;
-                    }
+                    setState(() {
+                      if (result.isEmpty) {
+                        isAddPatientVisible = !isAddPatientVisible;
+                        !isVisible;
+                      } else {
+                        isVisible = !isVisible;
+                        !isAddPatientVisible;
+                      }
+                    });
                   });
                 },
                 backgroundColor: Colors.purple,
@@ -127,6 +137,31 @@ class _ClassificationState extends State<Classification> {
           ),
           Column(
             children: [
+              isAddPatientVisible
+                  ? InkWell(
+                      onTap: isAddPatientVisible
+                          ? () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const AddPatientScreen()));
+                            }
+                          : null,
+                      child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: m_color!,
+                          ),
+                          height: 40,
+                          width: 100,
+                          child: const Center(
+                              child: Text(
+                            "Add Patient",
+                            style: TextStyle(color: Colors.white),
+                          ))),
+                    )
+                  : Container(),
               MaterialButton(
                   minWidth: 30.0,
                   color: Colors.purple.shade300,
@@ -195,7 +230,12 @@ class _ClassificationState extends State<Classification> {
     );
   }
 
-  myDialog() {
+  myDialog() async {
+    var classificationResult = await ApiHelper.uploadFileClassification(
+        nationalId: nationalIdController.text, file: pickedImage!);
+    log(pickedImage.toString(), name: "file name");
+    log(nationalIdController.text.trim(), name: "nid");
+    log(classificationResult.toString(), name: "result");
     Widget saveButton = TextButton(
       child: const Text(
         "Save",
@@ -212,23 +252,28 @@ class _ClassificationState extends State<Classification> {
     Widget datailsButton = TextButton(
       child:
           const Text("Show in details", style: TextStyle(color: Colors.purple)),
-      onPressed: () {
+      onPressed: () async {
+        var result =
+            await ApiHelperFinalEdit.searchInClassificationAndPrediction(
+                nationalId: nationalIdController.text);
         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
-          /* return FullResult(
-            result: "Nigative",
-            PName: "${namecontroler.text}",
-            image: pickedImage,
-            id: idcontroler.text,
-            age: agecontroler.text,
-            Gender: gendercontroler.text,
-          );*/
-          return const C_FullResult();
+          return ClassificationFullResultScreen(
+            result: classificationResult,
+            predictionName: result['name'],
+            image: 'pickedImage',
+            nid: result['national_id'].toString(),
+            age: result['age'].toString(),
+            gender: result['gender'],
+            address: result['address'],
+            phoneNumber: result['phone_number'].toString(),
+            birthDate: result['birth_date'].toString(),
+          );
         }));
       },
     );
     var ad = AlertDialog(
       title: const Center(child: Text("Result")),
-      content: const Text("Status:"),
+      content: Text("Status: $classificationResult"),
       actions: [
         saveButton,
         cancelButton,

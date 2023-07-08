@@ -5,7 +5,7 @@ import 'package:g_project/UpdateRecord.dart';
 import 'package:g_project/classification_screen.dart';
 import 'package:g_project/widget/fields.dart';
 
-class PatientRecordScreen extends StatefulWidget {
+class PredictionPatientRecordScreen extends StatefulWidget {
   final String? name;
   final String? nid;
   final String? age;
@@ -13,7 +13,7 @@ class PatientRecordScreen extends StatefulWidget {
   final String? birthDate;
   final String? phone;
   final String? address;
-  const PatientRecordScreen({
+  const PredictionPatientRecordScreen({
     Key? key,
     this.name,
     this.nid,
@@ -25,10 +25,12 @@ class PatientRecordScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<PatientRecordScreen> createState() => _PatientRecordScreenState();
+  State<PredictionPatientRecordScreen> createState() =>
+      _PredictionPatientRecordScreenState();
 }
 
-class _PatientRecordScreenState extends State<PatientRecordScreen> {
+class _PredictionPatientRecordScreenState
+    extends State<PredictionPatientRecordScreen> {
   // String? patientId;
   // @override
   // void initState() {
@@ -40,7 +42,8 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
     var historyDiseases;
 
     getHistoryDiseases() async {
-      await ApiHelperFinalEdit.searchInPatient(nationalId: "${widget.nid}")
+      await ApiHelperFinalEdit.searchInPatientPredictions(
+              nationalId: "${widget.nid}")
           .then((value) {
         historyDiseases = value;
         print(value);
@@ -57,7 +60,7 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
           },
         ),
         title: const Center(
-          child: Text("Patient Record", style: TextStyle(color: Colors.black)),
+          child: Text("Prediction Patient Record", style: TextStyle(color: Colors.black)),
         ),
         backgroundColor: Colors.white,
       ),
@@ -136,7 +139,7 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
         ),
         Expanded(
           child: FutureBuilder(
-            future: ApiHelperFinalEdit.searchInPatient(
+            future: ApiHelperFinalEdit.searchInPatientPredictions(
                 nationalId: widget.nid.toString()),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -152,9 +155,9 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                 return ListView.builder(
                   itemBuilder: (context, index) {
                     // Build each item in the ListView using the retrieved data
-                    Map<String, dynamic> classification = predictions[index];
+                    Map<String, dynamic> prediction = predictions[index];
                     String predictionResult;
-                    if (classification['result'] == "1") {
+                    if (prediction['result'] == "1") {
                       predictionResult = "Dead";
                     } else {
                       predictionResult = "Alive";
@@ -175,7 +178,7 @@ class _PatientRecordScreenState extends State<PatientRecordScreen> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
-                                "Process Type : ${classification['process_type']}",
+                                "Process Type : ${prediction['process_type']}",
                                 style: t_style,
                               ),
                             ],

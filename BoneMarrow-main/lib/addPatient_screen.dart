@@ -1,12 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:flutter/material.dart';
+import 'package:g_project/api_final_edit.dart';
 import 'package:g_project/widget/fields.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-import 'prediction_final_result_screen.dart';
 
 class AddPatientScreen extends StatefulWidget {
   const AddPatientScreen({Key? key}) : super(key: key);
@@ -15,12 +13,13 @@ class AddPatientScreen extends StatefulWidget {
 }
 
 class _AddPatientScreenState extends State<AddPatientScreen> {
-  var namecontroler = TextEditingController();
-  var phonecontroler = TextEditingController();
-  var gendercontroler = TextEditingController();
-  var agecontroler = TextEditingController();
-  var addresscontroler = TextEditingController();
-  var nidcontroler = TextEditingController();
+  var nameController = TextEditingController();
+  var phoneController = TextEditingController();
+  var genderController = TextEditingController();
+  var birthDateController = TextEditingController();
+  var ageController = TextEditingController();
+  var addressController = TextEditingController();
+  var nationalIdController = TextEditingController();
 
   String? gender;
   String? _radioVal;
@@ -48,6 +47,7 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
       pickedImage = File(
         image.path,
       );
+      print("image added");
     });
   }
   //PlatformFile? file;
@@ -72,8 +72,8 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
       appBar: AppBar(
         //leading: IconButton(icon: Icon(Icons.arrow_back,),onPressed: (){},),
         backgroundColor: Colors.purple.shade200,
-        title: Center(
-          child: const Text(
+        title: const Center(
+          child: Text(
             "New Patient ",
             style: TextStyle(fontSize: 25),
           ),
@@ -143,7 +143,7 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                   }
                 },
                 vall: false,
-                mycontroler: nidcontroler,
+                mycontroler: nationalIdController,
               ),
               const SizedBox(
                 height: 8.0,
@@ -162,7 +162,7 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                   }
                 },
                 vall: false,
-                mycontroler: namecontroler,
+                mycontroler: nameController,
               ),
               const SizedBox(
                 height: 10,
@@ -171,7 +171,7 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                 hint: "Patient phone",
                 label: "Phone",
                 type: TextInputType.number,
-                pIcon: Icon(Icons.phone_android),
+                pIcon: const Icon(Icons.phone_android),
                 onSave: () => (String? val) {
                   setState(() {});
                 },
@@ -181,14 +181,33 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                   }
                 },
                 vall: false,
-                mycontroler: phonecontroler,
+                mycontroler: phoneController,
               ),
-              SizedBox(
+              const SizedBox(
+                height: 10,
+              ),
+              defultTextFied(
+                hint: "BirthDate",
+                label: "BirthDate",
+                type: TextInputType.number,
+                pIcon: const Icon(Icons.baby_changing_station),
+                onSave: () => (String? val) {
+                  setState(() {});
+                },
+                validate: () => (String? val) {
+                  if (val!.isEmpty) {
+                    return "this field can't be empty";
+                  }
+                },
+                vall: false,
+                mycontroler: birthDateController,
+              ),
+              const SizedBox(
                 height: 10,
               ),
               defultTextFied(
                 hint: "Patient Age",
-                label: "BirthDate",
+                label: "Age",
                 type: TextInputType.number,
                 pIcon: const Icon(Icons.edit),
                 onSave: () => (String? val) {
@@ -200,7 +219,7 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                   }
                 },
                 vall: false,
-                mycontroler: agecontroler,
+                mycontroler: ageController,
               ),
               const SizedBox(
                 height: 10,
@@ -209,13 +228,13 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                 hint: "Patient Address",
                 label: "Address",
                 type: TextInputType.number,
-                pIcon: Icon(Icons.home_outlined),
+                pIcon: const Icon(Icons.home_outlined),
                 onSave: () => (String? val) {
                   setState(() {});
                 },
                 validate: () {},
                 vall: false,
-                mycontroler: addresscontroler,
+                mycontroler: addressController,
               ),
               Row(
                 children: [
@@ -257,7 +276,19 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                   shape: RoundedRectangleBorder(
                       side: BorderSide(color: Colors.purple.shade300),
                       borderRadius: BorderRadius.circular(15.0)),
-                  onPressed: () {},
+                  onPressed: () {
+                    ApiHelperFinalEdit.addPatient(
+                      nid: nationalIdController.text.trim(),
+                      address: addressController.text.trim(),
+                      phoneNumber: phoneController.text.trim(),
+                      gender: genderController.text.trim(),
+                      profilePhoto: pickedImage,
+                      age: ageController.text.trim(),
+                      birthDate: birthDateController.text.trim(),
+                      name: nameController.text.trim(),
+                    );
+                    print("patient added");
+                  },
                   child: const Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Text(
@@ -274,7 +305,7 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
 
   myDialog() {
     var ad = AlertDialog(
-      title: Center(child: Text("Chose Image From")),
+      title: const Center(child: Text("Choose Image From")),
       //content: Text("Status:"),
       actions: [
         MaterialButton(
@@ -294,7 +325,7 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                     fontSize: 20),
               ),
             )),
-        SizedBox(width: 15),
+        const SizedBox(width: 15),
         MaterialButton(
             minWidth: 30.0,
             color: Colors.purple.shade300,

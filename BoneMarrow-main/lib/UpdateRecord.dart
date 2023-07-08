@@ -3,12 +3,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:g_project/api_final_edit.dart';
-import 'package:g_project/shared_pref.dart';
 import 'package:g_project/widget/fields.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-
-import 'c_Full_result.dart';
 
 class UpdateRecord extends StatefulWidget {
   const UpdateRecord({Key? key}) : super(key: key);
@@ -20,12 +17,12 @@ class UpdateRecord extends StatefulWidget {
 //final ImagePicker _picker = ImagePicker();
 
 class _UpdateRecordState extends State<UpdateRecord> {
-  var namecontroler = TextEditingController();
-  var phonecontroler = TextEditingController();
-  var gendercontroler = TextEditingController();
-  var agecontroler = TextEditingController();
-  var addresscontroler = TextEditingController();
-  var nidcontroler = TextEditingController();
+  var nameController = TextEditingController();
+  var phoneController = TextEditingController();
+  var genderController = TextEditingController();
+  var ageController = TextEditingController();
+  var addressController = TextEditingController();
+  var nationalIdController = TextEditingController();
   final _key = GlobalKey<FormState>();
   var gender;
   String? _radioVal;
@@ -56,7 +53,7 @@ class _UpdateRecordState extends State<UpdateRecord> {
   }
   //late DateTime _startTime;
 
-  DateTime _ProcessTime = DateTime.now();
+  final DateTime _ProcessTime = DateTime.now();
   var ProcessTime;
   @override
   void initState() {
@@ -147,7 +144,7 @@ class _UpdateRecordState extends State<UpdateRecord> {
             },
             validate: () => (String? val) {},
             vall: false,
-            mycontroler: namecontroler,
+            mycontroler: nameController,
           ),
           const SizedBox(
             height: 15,
@@ -162,7 +159,7 @@ class _UpdateRecordState extends State<UpdateRecord> {
             },
             validate: () => (String? val) {},
             vall: false,
-            mycontroler: agecontroler,
+            mycontroler: ageController,
           ),
           const SizedBox(
             height: 10,
@@ -177,7 +174,7 @@ class _UpdateRecordState extends State<UpdateRecord> {
             },
             validate: () => (String? val) {},
             vall: false,
-            mycontroler: phonecontroler,
+            mycontroler: phoneController,
           ),
           const SizedBox(
             height: 15,
@@ -192,7 +189,7 @@ class _UpdateRecordState extends State<UpdateRecord> {
             },
             validate: () => (String? val) {},
             vall: false,
-            mycontroler: addresscontroler,
+            mycontroler: addressController,
           ),
           const SizedBox(
             height: 15,
@@ -207,7 +204,7 @@ class _UpdateRecordState extends State<UpdateRecord> {
             },
             validate: () => (String? val) {},
             vall: false,
-            mycontroler: nidcontroler,
+            mycontroler: nationalIdController,
           ),
           Row(
             children: [
@@ -255,18 +252,20 @@ class _UpdateRecordState extends State<UpdateRecord> {
             onPressed: () {
               ApiHelperFinalEdit.editPatient(
                   id: 1,
-                  address: addresscontroler.text,
-                  phoneNumber: phonecontroler.text,
+                  address: addressController.text,
+                  phoneNumber: phoneController.text,
                   gender: gender,
                   profilePhoto: pickedImage == null ? null : pickedImage!.path,
-                  age: int.parse(agecontroler.text),
-                  name: namecontroler.text,
-                  birthDate: nidcontroler.text);
+                  age: int.parse(ageController.text),
+                  name: nameController.text,
+                  birthDate: nationalIdController.text);
 
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => UpdateRecord()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const UpdateRecord()));
             },
-            child: Text("Edit"),
+            child: const Text("Edit"),
           ),
           const SizedBox(
             height: 15,
@@ -278,7 +277,7 @@ class _UpdateRecordState extends State<UpdateRecord> {
 
   myDialog() {
     var ad = AlertDialog(
-      title: Center(child: Text("Chose Image From")),
+      title: const Center(child: Text("Chose Image From")),
       //content: Text("Status:"),
       actions: [
         MaterialButton(
@@ -298,7 +297,7 @@ class _UpdateRecordState extends State<UpdateRecord> {
                     fontSize: 20),
               ),
             )),
-        SizedBox(width: 15),
+        const SizedBox(width: 15),
         MaterialButton(
             minWidth: 30.0,
             color: Colors.purple.shade300,

@@ -7,7 +7,7 @@ import 'package:g_project/addPatient_screen.dart';
 import 'package:g_project/api_final_edit.dart';
 import 'package:g_project/widget/fields.dart';
 
-import 'prediction_final_result_screen.dart';
+import 'prediction_full_result_screen.dart';
 
 //import 'package:managment/data/model/add_date.dart';
 //import 'package:hive_flutter/hive_flutter.dart';
@@ -31,11 +31,11 @@ class _PredictionScreenState extends State<PredictionScreen> {
   String? selctedItemi;
   String fileName = '';
 
-  var namecontroler = TextEditingController();
-  var phonecontroler = TextEditingController();
-  var gendercontroler = TextEditingController();
-  var agecontroler = TextEditingController();
-  var addresscontroler = TextEditingController();
+  var nameController = TextEditingController();
+  var phoneController = TextEditingController();
+  var genderController = TextEditingController();
+  var ageController = TextEditingController();
+  var addressController = TextEditingController();
   var nationalIdController = TextEditingController();
   bool isVisible = false;
   bool isAddPatientVisible = false;
@@ -285,7 +285,7 @@ class _PredictionScreenState extends State<PredictionScreen> {
   }
 
   myDialog() async {
-    var predictionResult = await ApiHelper.uploadFile(
+    var predictionResult = await ApiHelper.uploadFilePrediction(
       file: file!,
       nationalId: nationalIdController.text.trim(),
     );
