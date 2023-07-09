@@ -170,23 +170,23 @@ class ApiHelperFinalEdit {
   }) async {
     var headers = {
       "Content-Type": "application/json",
-      'Authorization': '${CacheHelper.getData(key: 'token')}',
     };
-
     var request = http.Request(
         'POST',
         Uri.parse(
             "http://ec2-16-16-128-143.eu-north-1.compute.amazonaws.com/patients/$id/delete/"));
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
-    final stringData = await response.stream.bytesToString();
-    dynamic userData = json.decode(stringData);
-    print(userData);
-    if (response.statusCode == 200) {
+    // final stringData = await response.stream.bytesToString();
+    // dynamic userData = json.decode(stringData);
+    // print(userData);
+    if (response.statusCode == 204) {
       print('deleted successfully');
       //return PatientModel.fromJson(userData);
-    } else {
+    } else if (response.statusCode == 500) {
       print("error error server");
+    } else {
+      print(response.statusCode);
     }
   }
 

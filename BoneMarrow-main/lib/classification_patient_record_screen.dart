@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:g_project/api_final_edit.dart';
 import 'package:g_project/prediction_screen.dart';
-import 'package:g_project/update_patient_record_screen.dart';
+import 'package:g_project/edit_patient_record_screen.dart';
 import 'package:g_project/classification_screen.dart';
 import 'package:g_project/widget/fields.dart';
 
@@ -267,7 +267,7 @@ class _ClassificationPatientRecordScreenState
                                 nationalId: widget.nid!);
                         Navigator.of(context)
                             .pushReplacement(MaterialPageRoute(builder: (_) {
-                          return UpdatePatientRecordScreen(
+                          return EditPatientRecordScreen(
                             name: result['name'],
                             // image: 'pickedImage',
                             nid: result['national_id'].toString(),
@@ -347,7 +347,15 @@ class _ClassificationPatientRecordScreenState
                           ),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () async {
+                        var result = await ApiHelperFinalEdit
+                            .searchInClassificationAndPrediction(
+                                nationalId: widget.nid!);
+                        print(result);
+                        ApiHelperFinalEdit.deletePatient(id: result['id']);
+                        print("should have been deleted");
+                        Navigator.pop(context);
+                      },
                       child: const Text("Delete Record"),
                     ),
                   ],

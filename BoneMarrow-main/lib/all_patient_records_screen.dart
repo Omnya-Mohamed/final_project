@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:g_project/api_final_edit.dart';
 import 'package:g_project/prediction_screen.dart';
-import 'package:g_project/update_patient_record_screen.dart';
+import 'package:g_project/edit_patient_record_screen.dart';
 import 'package:g_project/classification_screen.dart';
 import 'package:g_project/widget/fields.dart';
 
@@ -272,7 +272,7 @@ class _AllPatientRecordsScreenState extends State<AllPatientRecordsScreen> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    const UpdatePatientRecordScreen()));
+                                    const EditPatientRecordScreen()));
                       },
                       child: const Text("Edit"),
                     ),

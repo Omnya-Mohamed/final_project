@@ -7,7 +7,7 @@ import 'package:g_project/widget/fields.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
-class UpdatePatientRecordScreen extends StatefulWidget {
+class EditPatientRecordScreen extends StatefulWidget {
   final String? name;
   final String? nid;
   final String? age;
@@ -15,7 +15,7 @@ class UpdatePatientRecordScreen extends StatefulWidget {
   final String? birthDate;
   final String? phone;
   final String? address;
-  const UpdatePatientRecordScreen(
+  const EditPatientRecordScreen(
       {Key? key,
       this.name,
       this.nid,
@@ -27,13 +27,13 @@ class UpdatePatientRecordScreen extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<UpdatePatientRecordScreen> createState() =>
-      _UpdatePatientRecordScreenState();
+  State<EditPatientRecordScreen> createState() =>
+      _EditPatientRecordScreenState();
 }
 
 //final ImagePicker _picker = ImagePicker();
 
-class _UpdatePatientRecordScreenState extends State<UpdatePatientRecordScreen> {
+class _EditPatientRecordScreenState extends State<EditPatientRecordScreen> {
   late final nameController = TextEditingController(text: widget.name);
   late final phoneController = TextEditingController(text: widget.phone);
   late final genderController = TextEditingController(text: widget.gender);
@@ -108,10 +108,12 @@ class _UpdatePatientRecordScreenState extends State<UpdatePatientRecordScreen> {
           Stack(
             alignment: Alignment.center,
             children: [
-              const CircleAvatar(
-                  radius: 65,
-                  backgroundImage: AssetImage(
-                      'assets/images/Bone_marrow_biopsy.jpg')), // SizedBox(
+              pickedImage == null
+                  ? const CircleAvatar(
+                      radius: 65,
+                      backgroundImage:
+                          AssetImage('assets/images/Bone_marrow_biopsy.jpg'))
+                  : Image.file(pickedImage!), // SizedBox(
               //   width: 120,
               //   height: 120,
               //   child: ClipRRect(
