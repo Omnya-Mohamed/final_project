@@ -8,19 +8,19 @@ import 'package:g_project/classification_full_result_screen.dart';
 import 'package:g_project/widget/fields.dart';
 import 'package:image_picker/image_picker.dart';
 
-import 'addPatient_screen.dart';
+import 'add_patient_screen.dart';
 import 'api_final_edit.dart';
 
-class Classification extends StatefulWidget {
-  const Classification({Key? key}) : super(key: key);
+class ClassificationScreen extends StatefulWidget {
+  const ClassificationScreen({Key? key}) : super(key: key);
 
   @override
-  State<Classification> createState() => _ClassificationState();
+  State<ClassificationScreen> createState() => _ClassificationScreenState();
 }
 
 //final ImagePicker _picker = ImagePicker();
 
-class _ClassificationState extends State<Classification> {
+class _ClassificationScreenState extends State<ClassificationScreen> {
   var nameController = TextEditingController();
   var phoneController = TextEditingController();
   var genderController = TextEditingController();
@@ -90,7 +90,7 @@ class _ClassificationState extends State<Classification> {
           Row(
             children: [
               Expanded(
-                child: defultTextFied(
+                child: defaultTextField(
                   // hint: "Enter National ID",
                   label: " NID",
                   type: TextInputType.number,
@@ -103,8 +103,8 @@ class _ClassificationState extends State<Classification> {
                       return "this field can't be empty";
                     }
                   },
-                  vall: false,
-                  mycontroler: nationalIdController,
+                  secureText: false,
+                  myController: nationalIdController,
                 ),
               ),
               const SizedBox(
@@ -145,7 +145,9 @@ class _ClassificationState extends State<Classification> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          const AddPatientScreen()));
+                                          const AddPatientScreen(
+                                            screenName: 'Classification',
+                                          )));
                             }
                           : null,
                       child: Container(

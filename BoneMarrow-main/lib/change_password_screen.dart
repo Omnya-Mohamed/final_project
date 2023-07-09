@@ -1,19 +1,16 @@
 //import 'dart:html';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:g_project/widget/fields.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
-class Changepassword extends StatefulWidget {
-  const Changepassword({Key? key}) : super(key: key);
+class ChangePasswordScreen extends StatefulWidget {
+  const ChangePasswordScreen({Key? key}) : super(key: key);
 
   @override
-  State<Changepassword> createState() => _ChangepasswordState();
+  State<ChangePasswordScreen> createState() => _ChangePasswordScreenState();
 }
 
-class _ChangepasswordState extends State<Changepassword> {
+class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   bool passvisible = false;
   bool passvisible1 = false;
   bool passvisible2 = false;
@@ -51,7 +48,7 @@ class _ChangepasswordState extends State<Changepassword> {
               Form(
                 child: Column(
                   children: [
-                    defultTextFied(
+                    defaultTextField(
                       hint: "Enter Password",
                       label: "Password",
                       type: TextInputType.visiblePassword,
@@ -76,10 +73,10 @@ class _ChangepasswordState extends State<Changepassword> {
                           return "this field can't be empty";
                         }
                       },
-                      vall: passvisible,
-                      mycontroler: oldpasswordcontroler,
+                      secureText: passvisible,
+                      myController: oldpasswordcontroler,
                     ),
-                    defultTextFied(
+                    defaultTextField(
                       hint: "New Password",
                       label: "New Password",
                       type: TextInputType.visiblePassword,
@@ -104,11 +101,11 @@ class _ChangepasswordState extends State<Changepassword> {
                           return "this field can't be empty";
                         }
                       },
-                      vall: passvisible1,
-                      mycontroler: newpasswordcontroler,
+                      secureText: passvisible1,
+                      myController: newpasswordcontroler,
                     ),
                     const SizedBox(height: 16),
-                    defultTextFied(
+                    defaultTextField(
                       hint: "Confirm ",
                       label: "Confirm Password",
                       type: TextInputType.visiblePassword,
@@ -133,8 +130,8 @@ class _ChangepasswordState extends State<Changepassword> {
                           return "this field can't be empty";
                         }
                       },
-                      vall: passvisible2,
-                      mycontroler: confirmpasswordcontroler,
+                      secureText: passvisible2,
+                      myController: confirmpasswordcontroler,
                     ),
 
                     const SizedBox(height: 16),
@@ -162,6 +159,4 @@ class _ChangepasswordState extends State<Changepassword> {
       ),
     );
   }
-
-
 }

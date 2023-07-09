@@ -6,7 +6,7 @@ import 'package:g_project/splash_Screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'prediction_screen.dart';
-import 'addPatient_screen.dart';
+import 'add_patient_screen.dart';
 //import 'homePage.dart';
 import 'home_screen.dart';
 
@@ -15,7 +15,7 @@ late SharedPreferences shared;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   DioHelper.init();
-  CashHelper.init();
+  CacheHelper.init();
 
   runApp(MyApp());
 }

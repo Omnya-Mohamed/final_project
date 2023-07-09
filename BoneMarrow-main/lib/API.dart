@@ -30,8 +30,8 @@ class ApiHelper {
     dynamic userData = json.decode(stringData);
     print(userData);
     if (response.statusCode == 201) {
-      CashHelper.saveData(key: 'email', value: userData['email']);
-      CashHelper.saveData(key: 'userName', value: userData['username']);
+      CacheHelper.saveData(key: 'email', value: userData['email']);
+      CacheHelper.saveData(key: 'userName', value: userData['username']);
       return RegisterModel.fromJson(userData);
     } else {
       print("error error server");
@@ -58,7 +58,7 @@ class ApiHelper {
     print(userData);
     if (response.statusCode == 200) {
       print(userData);
-      CashHelper.saveData(
+      CacheHelper.saveData(
           key: 'token', value: userData['auth_token'] as String);
       return loginAuthModel.fromJson(userData);
     } else {

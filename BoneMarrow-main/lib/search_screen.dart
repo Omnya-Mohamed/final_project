@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:g_project/all_patient_records_screen.dart';
 import 'package:g_project/api_final_edit.dart';
 import 'package:g_project/widget/fields.dart';
 
-import 'classification_patient_record_screen.dart';
+import 'add_patient_screen.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key, required this.isappbar}) : super(key: key);
@@ -15,8 +16,13 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   String? searchValue;
   var searchController = TextEditingController();
+  bool isVisible = false;
+  bool isAddPatientVisible = false;
   @override
   Widget build(BuildContext context) {
+    var result =
+        ApiHelperFinalEdit.searchInPatientRecords(nationalId: '30110202200103');
+    print(result);
     return Scaffold(
       appBar: widget.isappbar
           ? AppBar(
@@ -60,9 +66,21 @@ class _SearchPageState extends State<SearchPage> {
                   width: 15,
                 ),
                 FloatingActionButton.small(
-                  onPressed: () {
-                    ApiHelperFinalEdit.searchInClassificationAndPrediction(
-                        nationalId: searchController.text);
+                  onPressed: () async {
+                    var result = await ApiHelperFinalEdit
+                        .searchInClassificationAndPrediction(
+                            nationalId: searchController.text.trim());
+                    setState(() {
+                      setState(() {
+                        if (result.isEmpty) {
+                          isAddPatientVisible = !isAddPatientVisible;
+                          !isVisible;
+                        } else {
+                          isVisible = !isVisible;
+                          !isAddPatientVisible;
+                        }
+                      });
+                    });
                   },
                   backgroundColor: m_color,
                   child: const Icon(Icons.search),
@@ -71,38 +89,98 @@ class _SearchPageState extends State<SearchPage> {
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              shrinkWrap: true,
-              padding: const EdgeInsets.only(right: 16, left: 16, top: 10),
-              itemBuilder: (context, i) {
-                return Card(
-                  // color: Colors.blue,
-                  elevation: 10,
-                  child: ListTile(
-                    title: const Text("Patient Name"),
-                    subtitle: const Text("ID:"),
-                    trailing: MaterialButton(
-                        minWidth: 20.0,
-                        color: m_color,
-                        shape: RoundedRectangleBorder(
-                            side: const BorderSide(color: Colors.white),
-                            borderRadius: BorderRadius.circular(15.0)),
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>
-                                  const ClassificationPatientRecordScreen()));
-                        },
-                        child: const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text(
-                            "PRecord",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        )),
+            child: isVisible
+                ? FutureBuilder(
+                    future:
+                        ApiHelperFinalEdit.searchInClassificationAndPrediction(
+                            nationalId: searchController.text.trim()),
+                    // shrinkWrap: true,
+                    // padding: const EdgeInsets.only(right: 16, left: 16, top: 10),
+                    builder: (context, snapshot) {
+                      return Card(
+                        // color: Colors.blue,
+                        elevation: 10,
+                        child: ListTile(
+                          title: Text(
+                              "Patient Name: ${snapshot.data?.values.elementAt(2)}"),
+                          subtitle:
+                              Text("ID: ${snapshot.data?.values.elementAt(1)}"),
+                          trailing: MaterialButton(
+                              minWidth: 20.0,
+                              color: m_color,
+                              shape: RoundedRectangleBorder(
+                                  side: const BorderSide(color: Colors.white),
+                                  borderRadius: BorderRadius.circular(15.0)),
+                              onPressed: () async {
+                                var result = await ApiHelperFinalEdit
+                                    .searchInClassificationAndPrediction(
+                                        nationalId: searchController.text);
+                                Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(builder: (_) {
+                                  return AllPatientRecordsScreen(
+                                    name: result['name'],
+                                    nid: result['national_id'].toString(),
+                                    age: result['age'].toString(),
+                                    gender: result['gender'],
+                                    address: result['address'],
+                                    phone: result['phone_number'].toString(),
+                                    birthDate: result['birth_date'].toString(),
+                                  );
+                                }));
+                              },
+                              child: const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text(
+                                  "PRecord",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              )),
+                        ),
+                      );
+                    },
+                  )
+                : SizedBox(
+                    height: 100,
+                    child: Column(
+                      children: [
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          'OR',
+                          style: t_style.copyWith(fontSize: 16),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        InkWell(
+                          onTap: !isVisible
+                              ? () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const AddPatientScreen(
+                                                screenName: 'Home',
+                                              )));
+                                }
+                              : null,
+                          child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                color: m_color!,
+                              ),
+                              height: 40,
+                              width: 100,
+                              child: const Center(
+                                  child: Text(
+                                "Add Patient",
+                                style: TextStyle(color: Colors.white),
+                              ))),
+                        ),
+                      ],
+                    ),
                   ),
-                );
-              },
-            ),
           ),
         ],
       ),

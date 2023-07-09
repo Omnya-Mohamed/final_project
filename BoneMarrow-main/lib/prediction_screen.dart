@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:g_project/API.dart';
-import 'package:g_project/addPatient_screen.dart';
+import 'package:g_project/add_patient_screen.dart';
 import 'package:g_project/api_final_edit.dart';
 import 'package:g_project/widget/fields.dart';
 
@@ -97,7 +97,7 @@ class _PredictionScreenState extends State<PredictionScreen> {
             child: Row(
               children: [
                 Expanded(
-                  child: defultTextFied(
+                  child: defaultTextField(
                     // hint: "Enter National ID",
                     label: " NID",
                     type: TextInputType.number,
@@ -113,8 +113,8 @@ class _PredictionScreenState extends State<PredictionScreen> {
                         return "this field can't be empty";
                       }
                     },
-                    vall: false,
-                    mycontroler: nationalIdController,
+                    secureText: false,
+                    myController: nationalIdController,
                   ),
                 ),
                 const SizedBox(
@@ -165,8 +165,9 @@ class _PredictionScreenState extends State<PredictionScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      const AddPatientScreen()));
+                                  builder: (context) => const AddPatientScreen(
+                                        screenName: 'Prediction',
+                                      )));
                         }
                       : null,
                   child: Container(

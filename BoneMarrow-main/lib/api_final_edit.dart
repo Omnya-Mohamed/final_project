@@ -1,5 +1,4 @@
 import "dart:convert";
-import "dart:developer";
 import "dart:io";
 import 'package:path/path.dart';
 import 'package:http/http.dart' as http;
@@ -27,7 +26,7 @@ class ApiHelperFinalEdit {
     http.StreamedResponse response = await request.send();
     final stringData = await response.stream.bytesToString();
     Map<String, dynamic> userData = json.decode(stringData);
-    log(userData.toString(), name: "user data");
+    // log(userData.toString(), name: "user data");
 
     if (response.statusCode == 200) {
       if ((userData['Patient']).isNotEmpty) {
@@ -40,6 +39,32 @@ class ApiHelperFinalEdit {
     }
 
     return {}; // Return an empty map if the ID is not found or an error occurred
+  }
+
+  static Future<List> searchInPatientRecords({
+    required String nationalId,
+  }) async {
+    var headers = {"Content-Type": "application/json"};
+
+    var request = http.Request(
+        'POST',
+        Uri.parse(
+            "http://ec2-16-16-128-143.eu-north-1.compute.amazonaws.com/api/v1/searchpd/"));
+    request.body = json.encode({
+      "query": nationalId.toString(),
+    });
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    final stringData = await response.stream.bytesToString();
+    dynamic userData = json.decode(stringData);
+    // print(userData);
+    if (response.statusCode == 200) {
+      return [userData[0]['classifications'], userData[0]['predictions']];
+    } else {
+      print("error error server");
+      return [];
+      // return PatientModel.fromJson(userData['Patient'[0]]);
+    }
   }
 
   static Future searchInPatientPredictions({
@@ -97,38 +122,42 @@ class ApiHelperFinalEdit {
     required String address,
     required String phoneNumber,
     required String gender,
-    required String? profilePhoto,
+    required File? profilePhoto,
     required int age,
-    required String birthDate,
+    required String nationalId,
     required String name,
   }) async {
     var headers = {
       "Content-Type": "application/json",
-      'Authorization': '${CashHelper.getData(key: 'token')}',
+      'Authorization': '${CacheHelper.getData(key: 'token')}',
     };
 
-    var request = http.Request(
+    var request = http.MultipartRequest(
         'PUT',
         Uri.parse(
-            "http://ec2-16-16-128-143.eu-north-1.compute.amazonaws.com/api/v1/patients/4/edit/"));
-    request.body = json.encode({
-      "id": id,
-      "address": address.toString(),
-      "phone_number": phoneNumber.toString(),
+            "http://ec2-16-16-128-143.eu-north-1.compute.amazonaws.com/api/v1/patients/$id/edit/"));
+    var length = await profilePhoto!.length();
+    var stream = http.ByteStream(profilePhoto.openRead());
+    var multiPartFile = http.MultipartFile('profile_photo', stream, length,
+        filename: basename(profilePhoto.path));
+    request.files.add(multiPartFile);
+    request.fields.addAll({
+      "id": id.toString(),
+      "address": address,
+      "phone_number": phoneNumber,
       "gender": gender.toLowerCase(),
-      "age": age,
-      "name": name.toString(),
-      "birth_date": birthDate.toString(),
-      "profile_photo": profilePhoto == null
-          ? null
-          : await http.MultipartFile.fromPath('', profilePhoto),
+      "age": age.toString(),
+      "name": name,
+      "national_id": nationalId,
     });
+
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     final stringData = await response.stream.bytesToString();
     dynamic userData = json.decode(stringData);
     print(userData);
     if (response.statusCode == 200) {
+      print("updated");
       return PatientModel.fromJson(userData);
     } else {
       print("error error server");
@@ -141,7 +170,7 @@ class ApiHelperFinalEdit {
   }) async {
     var headers = {
       "Content-Type": "application/json",
-      'Authorization': '${CashHelper.getData(key: 'token')}',
+      'Authorization': '${CacheHelper.getData(key: 'token')}',
     };
 
     var request = http.Request(
@@ -216,7 +245,7 @@ class ApiHelperFinalEdit {
       "name": name.toString(),
       "birth_date": birthDate.toString(),
     });
-    
+
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     final stringData = await response.stream.bytesToString();

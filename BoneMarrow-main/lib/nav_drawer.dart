@@ -4,12 +4,14 @@ import 'package:g_project/search_screen.dart';
 import 'package:g_project/widget/fields.dart';
 
 import 'prediction_screen.dart';
-import 'changePassword.dart';
+import 'change_password_screen.dart';
 import 'classification_screen.dart';
 import 'f_Page.dart';
 import 'login+_screen.dart';
 
 class NavDrawer extends StatefulWidget {
+  const NavDrawer({super.key});
+
   // const NavDrawer({Key? key}) : super(key: key);
 
   @override
@@ -40,9 +42,9 @@ class _NavDrawerState extends State<NavDrawer> {
       padding: EdgeInsets.only(
         top: MediaQuery.of(context).padding.top,
       ),
-      child: Column(
+      child: const Column(
         children: [
-          const CircleAvatar(
+          CircleAvatar(
               radius: 52,
               backgroundImage:
                   AssetImage('assets/images/Bone_marrow_biopsy.jpg')
@@ -83,13 +85,15 @@ class _NavDrawerState extends State<NavDrawer> {
               size: _drawerIconSize,
               color: m_color,
             ),
-            title: Text(
+            title: const Text(
               'Classification',
               style: TextStyle(fontSize: 17, color: Colors.black),
             ),
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Classification()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ClassificationScreen()));
             },
           ),
           ListTile(
@@ -103,8 +107,10 @@ class _NavDrawerState extends State<NavDrawer> {
               style: TextStyle(fontSize: _drawerFontSize, color: Colors.black),
             ),
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => PredictionScreen()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const PredictionScreen()));
             },
           ),
           ListTile(
@@ -121,7 +127,7 @@ class _NavDrawerState extends State<NavDrawer> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => SearchPage(
+                      builder: (context) => const SearchPage(
                             isappbar: true,
                           )));
             },
@@ -194,8 +200,8 @@ class _NavDrawerState extends State<NavDrawer> {
             ),
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => ProfileScreen(
-                        isAppar: true,
+                  builder: (context) => const ProfileScreen(
+                        isAppBar: true,
                       )));
             },
           ),
@@ -213,7 +219,7 @@ class _NavDrawerState extends State<NavDrawer> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const Changepassword()));
+                      builder: (context) => const ChangePasswordScreen()));
             },
           ),
           ListTile(
@@ -226,7 +232,7 @@ class _NavDrawerState extends State<NavDrawer> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Login_Screen()),
+                MaterialPageRoute(builder: (context) => const Login_Screen()),
               );
             },
           ),
@@ -241,8 +247,8 @@ class _NavDrawerState extends State<NavDrawer> {
               style: TextStyle(fontSize: _drawerFontSize, color: Colors.black),
             ),
             onTap: () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => FirstPage()));
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const FirstPage()));
             },
           ),
         ],

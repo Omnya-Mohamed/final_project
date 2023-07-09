@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:g_project/API.dart';
 import 'package:g_project/registerScreen.dart';
+import 'package:g_project/shared_pref.dart';
 import 'package:g_project/widget/fields.dart';
 
 import 'ResetPage.dart';
@@ -169,7 +172,7 @@ class _Login_ScreenState extends State<Login_Screen> {
             const SizedBox(
               height: 15,
             ),
-            defultTextFied(
+            defaultTextField(
               hint: "Enter your username",
               label: "UserName",
               type: TextInputType.emailAddress,
@@ -184,13 +187,13 @@ class _Login_ScreenState extends State<Login_Screen> {
                   return "this field can't be empty";
                 }
               },
-              vall: false,
-              mycontroler: _namecontroller,
+              secureText: false,
+              myController: _namecontroller,
             ),
             const SizedBox(
               height: 15,
             ),
-            defultTextFied(
+            defaultTextField(
               hint: "Enter Password",
               label: "Password",
               type: TextInputType.visiblePassword,
@@ -215,8 +218,8 @@ class _Login_ScreenState extends State<Login_Screen> {
                   return "this field can't be empty";
                 }
               },
-              vall: passvisible,
-              mycontroler: passwordcontroler,
+              secureText: passvisible,
+              myController: passwordcontroler,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -254,12 +257,16 @@ class _Login_ScreenState extends State<Login_Screen> {
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       } else {
                         const snackBar = SnackBar(
-                          content: Text('successfuly'),
+                          content: Text('Logged in Successfully'),
                           backgroundColor: Color.fromARGB(255, 37, 238, 51),
                         );
 
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        Future.delayed(const Duration(seconds: 4), () {
+                        CacheHelper.saveData(
+                            key: 'userName',
+                            value: _namecontroller.text.trim());
+                        log('saved to cache');
+                        Future.delayed(const Duration(seconds: 2), () {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
@@ -290,7 +297,7 @@ class _Login_ScreenState extends State<Login_Screen> {
       title: const Center(child: Text("Enter your Email")),
       //content: Text("Status:"),
       actions: [
-        defultTextFied(
+        defaultTextField(
           hint: "Enter your Email",
           // label: "Email",
           type: TextInputType.emailAddress,
@@ -303,8 +310,8 @@ class _Login_ScreenState extends State<Login_Screen> {
               return "this field can't be empty";
             }
           },
-          vall: false,
-          mycontroler: emailController,
+          secureText: false,
+          myController: emailController,
         ),
         const SizedBox(height: 15),
         MaterialButton(

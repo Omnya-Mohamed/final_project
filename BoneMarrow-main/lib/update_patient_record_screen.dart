@@ -7,22 +7,39 @@ import 'package:g_project/widget/fields.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
-class UpdateRecord extends StatefulWidget {
-  const UpdateRecord({Key? key}) : super(key: key);
+class UpdatePatientRecordScreen extends StatefulWidget {
+  final String? name;
+  final String? nid;
+  final String? age;
+  final String? gender;
+  final String? birthDate;
+  final String? phone;
+  final String? address;
+  const UpdatePatientRecordScreen(
+      {Key? key,
+      this.name,
+      this.nid,
+      this.age,
+      this.gender,
+      this.birthDate,
+      this.phone,
+      this.address})
+      : super(key: key);
 
   @override
-  State<UpdateRecord> createState() => _UpdateRecordState();
+  State<UpdatePatientRecordScreen> createState() =>
+      _UpdatePatientRecordScreenState();
 }
 
 //final ImagePicker _picker = ImagePicker();
 
-class _UpdateRecordState extends State<UpdateRecord> {
-  var nameController = TextEditingController();
-  var phoneController = TextEditingController();
-  var genderController = TextEditingController();
-  var ageController = TextEditingController();
-  var addressController = TextEditingController();
-  var nationalIdController = TextEditingController();
+class _UpdatePatientRecordScreenState extends State<UpdatePatientRecordScreen> {
+  late final nameController = TextEditingController(text: widget.name);
+  late final phoneController = TextEditingController(text: widget.phone);
+  late final genderController = TextEditingController(text: widget.gender);
+  late final ageController = TextEditingController(text: widget.age);
+  late final addressController = TextEditingController(text: widget.address);
+  late final nationalIdController = TextEditingController(text: widget.nid);
   final _key = GlobalKey<FormState>();
   var gender;
   String? _radioVal;
@@ -134,77 +151,85 @@ class _UpdateRecordState extends State<UpdateRecord> {
           const SizedBox(
             height: 10,
           ),
-          defultTextFied(
+          defaultTextField(
             // hint: "Enter Patient name",
-            label: " Name",
+            label: "Name",
+            // initialValue: widget.name ?? "Name",
             type: TextInputType.text,
+
             pIcon: const Icon(Icons.person),
             onSave: () => (String? val) {
               setState(() {});
             },
             validate: () => (String? val) {},
-            vall: false,
-            mycontroler: nameController,
+            secureText: false,
+            myController: nameController,
           ),
           const SizedBox(
             height: 15,
           ),
-          defultTextFied(
+          defaultTextField(
             // hint: "Patient Age",
             label: "Age",
             type: TextInputType.number,
             pIcon: const Icon(Icons.edit),
+            // initialValue: widget.age ?? "Age",
+
             onSave: () => (String? val) {
               setState(() {});
             },
             validate: () => (String? val) {},
-            vall: false,
-            mycontroler: ageController,
+            secureText: false,
+            myController: ageController,
           ),
           const SizedBox(
             height: 10,
           ),
-          defultTextFied(
+          defaultTextField(
             hint: "Patient phone",
             label: "Phone",
             type: TextInputType.number,
+            // initialValue: widget.phone ?? "Phone",
             pIcon: const Icon(Icons.phone_android),
             onSave: () => (String? val) {
               setState(() {});
             },
             validate: () => (String? val) {},
-            vall: false,
-            mycontroler: phoneController,
+            secureText: false,
+            myController: phoneController,
           ),
           const SizedBox(
             height: 15,
           ),
-          defultTextFied(
+          defaultTextField(
             hint: "Patient Address",
             label: "Address",
-            type: TextInputType.number,
+            type: TextInputType.text,
+            // initialValue: widget.address ?? "Address",
             pIcon: const Icon(Icons.home_outlined),
             onSave: () => (String? val) {
               setState(() {});
             },
             validate: () => (String? val) {},
-            vall: false,
-            mycontroler: addressController,
+            secureText: false,
+            myController: addressController,
           ),
           const SizedBox(
             height: 15,
           ),
-          defultTextFied(
+          defaultTextField(
             // hint: "Enter National ID",
             label: " BirthDate",
             type: TextInputType.number,
+            // initialValue: widget.birthDate ?? "BirthDate",
+
             pIcon: const Icon(Icons.edit),
             onSave: () => (String? val) {
               setState(() {});
             },
             validate: () => (String? val) {},
-            vall: false,
-            mycontroler: nationalIdController,
+            secureText: false,
+            myController: nationalIdController,
           ),
           Row(
             children: [
@@ -249,21 +274,20 @@ class _UpdateRecordState extends State<UpdateRecord> {
               ),
               backgroundColor: MaterialStateProperty.all<Color>(m_color!),
             ),
-            onPressed: () {
+            onPressed: () async {
+              var result =
+                  await ApiHelperFinalEdit.searchInClassificationAndPrediction(
+                      nationalId: nationalIdController.text);
               ApiHelperFinalEdit.editPatient(
-                  id: 1,
+                  id: result['id'],
                   address: addressController.text,
                   phoneNumber: phoneController.text,
                   gender: gender,
-                  profilePhoto: pickedImage == null ? null : pickedImage!.path,
+                  profilePhoto: pickedImage,
                   age: int.parse(ageController.text),
                   name: nameController.text,
-                  birthDate: nationalIdController.text);
-
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const UpdateRecord()));
+                  nationalId: nationalIdController.text);
+              Navigator.pop(context);
             },
             child: const Text("Edit"),
           ),

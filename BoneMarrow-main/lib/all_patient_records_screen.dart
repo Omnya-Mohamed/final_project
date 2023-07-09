@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:g_project/api_final_edit.dart';
 import 'package:g_project/prediction_screen.dart';
-import 'package:g_project/classification_screen.dart';
 import 'package:g_project/update_patient_record_screen.dart';
+import 'package:g_project/classification_screen.dart';
 import 'package:g_project/widget/fields.dart';
 
-class PredictionPatientRecordScreen extends StatefulWidget {
+class AllPatientRecordsScreen extends StatefulWidget {
   final String? name;
   final String? nid;
   final String? age;
@@ -13,7 +13,7 @@ class PredictionPatientRecordScreen extends StatefulWidget {
   final String? birthDate;
   final String? phone;
   final String? address;
-  const PredictionPatientRecordScreen({
+  const AllPatientRecordsScreen({
     Key? key,
     this.name,
     this.nid,
@@ -25,12 +25,11 @@ class PredictionPatientRecordScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<PredictionPatientRecordScreen> createState() =>
-      _PredictionPatientRecordScreenState();
+  State<AllPatientRecordsScreen> createState() =>
+      _AllPatientRecordsScreenState();
 }
 
-class _PredictionPatientRecordScreenState
-    extends State<PredictionPatientRecordScreen> {
+class _AllPatientRecordsScreenState extends State<AllPatientRecordsScreen> {
   // String? patientId;
   // @override
   // void initState() {
@@ -61,7 +60,7 @@ class _PredictionPatientRecordScreenState
           },
         ),
         title: const Center(
-          child: Text("Prediction Patient Record",
+          child: Text("All Patient Records",
               style: TextStyle(color: Colors.black)),
         ),
         backgroundColor: Colors.white,
@@ -141,7 +140,7 @@ class _PredictionPatientRecordScreenState
         ),
         Expanded(
           child: FutureBuilder(
-            future: ApiHelperFinalEdit.searchInPatientPredictions(
+            future: ApiHelperFinalEdit.searchInPatientRecords(
                 nationalId: widget.nid.toString()),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -151,19 +150,48 @@ class _PredictionPatientRecordScreenState
                     'Error: ${snapshot.error}'); // Show an error message if there's an error
               } else {
                 // Data is available, build the ListView
-                List<dynamic> predictions = snapshot.data ??
+                List<dynamic> classificationsAndPredictions = snapshot.data
+                            ?.elementAt(0) +
+                        snapshot.data?.elementAt(1) ??
                     []; // Retrieve the classifications data from the snapshot
 
                 return ListView.builder(
                   itemBuilder: (context, index) {
                     // Build each item in the ListView using the retrieved data
-                    Map<String, dynamic> prediction = predictions[index];
-                    String predictionResult;
-                    if (prediction['result'] == "1") {
-                      predictionResult = "Dead";
-                    } else {
-                      predictionResult = "Alive";
+                    Map<String, dynamic> record =
+                        classificationsAndPredictions[index];
+                    String? result;
+                    switch (record['result']) {
+                      case "EBO":
+                        result = "EBO: Erythroblast";
+                        break;
+                      case "PLM":
+                        result = "PLM: Plasma Cell";
+                        break;
+                      case "NGB":
+                        result = "NGB: Neutrophil";
+                        break;
+                      case "EOS":
+                        result = "EOS: Eosinophil";
+                        break;
+                      case "LYT":
+                        result = "LYT: Lymphocyte";
+                        break;
+                      case "MON":
+                        result = "MON: Monocyte";
+                        break;
+                      case "1":
+                        result = "Dead";
+                        break;
+                      case "0":
+                        result = "Alive";
+                        break;
+                      case "":
+                        result = "Sth went wrong, Upload again!";
+                        break;
+                      default:
                     }
+                    // var result = record['result'];
                     return Container(
                       margin: const EdgeInsets.all(12),
                       height: 150,
@@ -180,7 +208,7 @@ class _PredictionPatientRecordScreenState
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
-                                "Process Type : ${prediction['process_type']}",
+                                "Process Type : ${record['process_type']}",
                                 style: t_style,
                               ),
                             ],
@@ -193,7 +221,7 @@ class _PredictionPatientRecordScreenState
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
-                                "Result : $predictionResult",
+                                "Result : $result",
                                 style: t_style,
                               ),
                             ],
@@ -208,7 +236,7 @@ class _PredictionPatientRecordScreenState
                       ),
                     );
                   },
-                  itemCount: predictions
+                  itemCount: classificationsAndPredictions
                       .length, // Set the number of items in the ListView
                 );
               }
@@ -239,23 +267,12 @@ class _PredictionPatientRecordScreenState
                         backgroundColor:
                             MaterialStateProperty.all<Color>(m_color!),
                       ),
-                      onPressed: () async {
-                        var result = await ApiHelperFinalEdit
-                            .searchInClassificationAndPrediction(
-                                nationalId: widget.nid!);
-                        Navigator.of(context)
-                            .pushReplacement(MaterialPageRoute(builder: (_) {
-                          return UpdatePatientRecordScreen(
-                            name: result['name'],
-                            // image: 'pickedImage',
-                            nid: result['national_id'].toString(),
-                            age: result['age'].toString(),
-                            gender: result['gender'],
-                            address: result['address'],
-                            phone: result['phone_number'].toString(),
-                            birthDate: result['birth_date'].toString(),
-                          );
-                        }));
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const UpdatePatientRecordScreen()));
                       },
                       child: const Text("Edit"),
                     ),

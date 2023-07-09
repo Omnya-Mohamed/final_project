@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:g_project/api_final_edit.dart';
 import 'package:g_project/prediction_screen.dart';
-import 'package:g_project/UpdateRecord.dart';
+import 'package:g_project/update_patient_record_screen.dart';
 import 'package:g_project/classification_screen.dart';
 import 'package:g_project/widget/fields.dart';
 
@@ -43,10 +43,11 @@ class _ClassificationPatientRecordScreenState
   // }
   @override
   Widget build(BuildContext context) {
+    // ignore: prefer_typing_uninitialized_variables
     var historyDiseases;
 
     getHistoryDiseases() async {
-      await ApiHelperFinalEdit.searchInPatientPredictions(
+      await ApiHelperFinalEdit.searchInPatientRecords(
               nationalId: "${widget.nid}")
           .then((value) {
         historyDiseases = value;
@@ -260,11 +261,23 @@ class _ClassificationPatientRecordScreenState
                         backgroundColor:
                             MaterialStateProperty.all<Color>(m_color!),
                       ),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const UpdateRecord()));
+                      onPressed: () async {
+                        var result = await ApiHelperFinalEdit
+                            .searchInClassificationAndPrediction(
+                                nationalId: widget.nid!);
+                        Navigator.of(context)
+                            .pushReplacement(MaterialPageRoute(builder: (_) {
+                          return UpdatePatientRecordScreen(
+                            name: result['name'],
+                            // image: 'pickedImage',
+                            nid: result['national_id'].toString(),
+                            age: result['age'].toString(),
+                            gender: result['gender'],
+                            address: result['address'],
+                            phone: result['phone_number'].toString(),
+                            birthDate: result['birth_date'].toString(),
+                          );
+                        }));
                       },
                       child: const Text("Edit"),
                     ),
@@ -300,7 +313,7 @@ class _ClassificationPatientRecordScreenState
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      const Classification()))),
+                                                      const ClassificationScreen()))),
                                       const SizedBox(
                                         width: 10,
                                       ),

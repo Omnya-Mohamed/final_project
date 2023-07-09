@@ -1,6 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-class CashHelper {  
+class CacheHelper {
   static SharedPreferences? sharedPreferences;
   static init() async {
     sharedPreferences = await SharedPreferences.getInstance();
@@ -8,22 +8,22 @@ class CashHelper {
 
   static saveData({required String key, required dynamic value}) {
     if (value is bool) {
-      sharedPreferences!.setBool(
+      sharedPreferences?.setBool(
         key,
         value,
       );
     } else if (value is String) {
-      sharedPreferences!.setString(
+      sharedPreferences?.setString(
         key,
         value,
       );
     } else if (value is int) {
-      sharedPreferences!.setInt(
+      sharedPreferences?.setInt(
         key,
         value,
       );
     } else {
-      sharedPreferences!.setDouble(
+      sharedPreferences?.setDouble(
         key,
         value,
       );
@@ -31,7 +31,7 @@ class CashHelper {
   }
 
   static getData({required key}) {
-    return sharedPreferences!.get(
+    return sharedPreferences?.get(
       key,
     );
   }

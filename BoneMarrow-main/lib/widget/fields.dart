@@ -1,45 +1,50 @@
 import 'package:flutter/material.dart';
+
 var m_color = Colors.deepPurple[300];
 var b_color = Colors.deepPurple[200];
-var t_calor =Colors.grey[700];
+var t_calor = Colors.grey[700];
 var t_style = TextStyle(
-fontSize: 20,
-fontWeight: FontWeight.bold,
-color:t_calor,
+  fontSize: 20,
+  fontWeight: FontWeight.bold,
+  color: t_calor,
 );
 
-class defultTextFied extends StatelessWidget {
+class defaultTextField extends StatelessWidget {
   String? hint;
   String? label;
+  String? initialValue;
   Widget? pIcon;
   Widget? sIcon;
   TextInputType? type;
   Function()? onTab;
   Function()? validate;
   Function()? onSave;
-  bool? vall = false;
-   var mycontroler = TextEditingController();
-  defultTextFied({
+  bool? secureText = false;
+  var myController = TextEditingController();
+  defaultTextField({
+    super.key,
     this.hint,
     this.label,
     this.onSave,
     this.pIcon,
     this.sIcon,
+    this.initialValue,
     this.type,
     this.validate,
-    this.vall,
-    required this.mycontroler,
+    this.secureText,
+    required this.myController,
     this.onTab,
   });
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-  height:70,
+      height: 70,
       child: TextFormField(
         keyboardType: type,
         validator: validate!(),
+        initialValue: initialValue,
         onSaved: onSave!(),
-        obscureText: vall!,
+        obscureText: secureText!,
         decoration: InputDecoration(
           labelText: label,
           labelStyle: TextStyle(
@@ -50,29 +55,29 @@ class defultTextFied extends StatelessWidget {
           hintStyle: TextStyle(
             fontSize: 19,
             color: Colors.grey[700],
-
           ),
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
-              borderSide: BorderSide(color: Colors.purple.shade200, width: 1.2)),
-            enabledBorder: OutlineInputBorder(
+              borderSide:
+                  BorderSide(color: Colors.purple.shade200, width: 1.2)),
+          enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
-              borderSide:BorderSide(color: Colors.purple.shade200, width: 1.2)),
-            focusedBorder: OutlineInputBorder(
+              borderSide:
+                  BorderSide(color: Colors.purple.shade200, width: 1.2)),
+          focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(14),
             borderSide: BorderSide(color: Colors.purple.shade200, width: 1.2),
           ),
           filled: true,
           fillColor: Colors.white,
           prefixIcon: pIcon,
-            suffixIcon:sIcon,
+          suffixIcon: sIcon,
         ),
-        controller: mycontroler,
+        controller: myController,
       ),
     );
   }
 }
-
 
 Widget defaultButton({
   double width = double.infinity,
@@ -84,13 +89,13 @@ Widget defaultButton({
 }) =>
     Container(
       width: width,
+      decoration: BoxDecoration(
+          color: background, borderRadius: BorderRadius.circular(redius)),
       child: MaterialButton(
         onPressed: function(),
         child: Text(
           isUpperCase ? text.toUpperCase() : text,
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
         ),
       ),
-      decoration: BoxDecoration(
-          color: background, borderRadius: BorderRadius.circular(redius)),
     );

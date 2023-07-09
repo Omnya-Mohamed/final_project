@@ -140,7 +140,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const Classification()));
+                          builder: (context) => const ClassificationScreen()));
                 },
                 child: Card(
                   shape: RoundedRectangleBorder(

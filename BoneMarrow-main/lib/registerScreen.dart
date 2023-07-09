@@ -26,7 +26,7 @@ class _DoctorRegistState extends State<DoctorRegist> {
 
   @override
   Widget build(BuildContext context) {
-    print('userName ${CashHelper.getData(
+    print('userName ${CacheHelper.getData(
       key: 'email',
     )}');
     return Scaffold(
@@ -97,7 +97,7 @@ class _DoctorRegistState extends State<DoctorRegist> {
         ),
         child: Column(
           children: [
-            defultTextFied(
+            defaultTextField(
               hint: "enter your name",
               type: TextInputType.text,
               pIcon: Icon(Icons.person),
@@ -109,13 +109,13 @@ class _DoctorRegistState extends State<DoctorRegist> {
                   return "this field can't be empty";
                 }
               },
-              vall: false,
-              mycontroler: namecontroller,
+              secureText: false,
+              myController: namecontroller,
             ),
             SizedBox(
               height: 10,
             ),
-            defultTextFied(
+            defaultTextField(
               hint: "enter your Email",
               // label: "Email",
               type: TextInputType.emailAddress,
@@ -128,13 +128,13 @@ class _DoctorRegistState extends State<DoctorRegist> {
                   return "this field can't be empty";
                 }
               },
-              vall: false,
-              mycontroler: emailcontroler,
+              secureText: false,
+              myController: emailcontroler,
             ),
             SizedBox(
               height: 8.0,
             ),
-            defultTextFied(
+            defaultTextField(
               hint: "Enter Password",
               //  label: "Password",
               type: TextInputType.text,
@@ -157,13 +157,13 @@ class _DoctorRegistState extends State<DoctorRegist> {
                   return "this field can't be empty";
                 }
               },
-              vall: false,
-              mycontroler: passwordcontroler,
+              secureText: false,
+              myController: passwordcontroler,
             ),
             SizedBox(
               height: 8.0,
             ),
-            defultTextFied(
+            defaultTextField(
               hint: "Comfirm password",
               label: "Comfirm password",
               type: TextInputType.text,
@@ -186,8 +186,8 @@ class _DoctorRegistState extends State<DoctorRegist> {
                   return "this field can't be empty";
                 }
               },
-              vall: false,
-              mycontroler: comfirmPasscontroler,
+              secureText: false,
+              myController: comfirmPasscontroler,
             ),
             SizedBox(
               height: 8.0,

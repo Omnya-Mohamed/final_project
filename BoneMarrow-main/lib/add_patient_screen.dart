@@ -1,13 +1,18 @@
 import 'dart:io';
-
+// the first
 import 'package:flutter/material.dart';
 import 'package:g_project/api_final_edit.dart';
+import 'package:g_project/classification_screen.dart';
+import 'package:g_project/home_screen.dart';
+import 'package:g_project/prediction_screen.dart';
 import 'package:g_project/widget/fields.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
 class AddPatientScreen extends StatefulWidget {
-  const AddPatientScreen({Key? key}) : super(key: key);
+  final String screenName;
+  const AddPatientScreen({Key? key, required this.screenName})
+      : super(key: key);
   @override
   State<AddPatientScreen> createState() => _AddPatientScreenState();
 }
@@ -89,10 +94,12 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
               Stack(
                 alignment: Alignment.center,
                 children: [
-                  const CircleAvatar(
-                      radius: 65,
-                      backgroundImage: AssetImage(
-                          'assets/images/Bone_marrow_biopsy.jpg')), // SizedBox(
+                  pickedImage == null
+                      ? const CircleAvatar(
+                          radius: 65,
+                          backgroundImage: AssetImage(
+                              'assets/images/Bone_marrow_biopsy.jpg'))
+                      : Image.file(pickedImage!), // SizedBox(
                   //   width: 120,
                   //   height: 120,
                   //   child: ClipRRect(
@@ -129,7 +136,7 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
               const SizedBox(
                 height: 15.0,
               ),
-              defultTextFied(
+              defaultTextField(
                 // hint: "Enter National ID",
                 label: " NID",
                 type: TextInputType.number,
@@ -142,13 +149,13 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                     return "this field can't be empty";
                   }
                 },
-                vall: false,
-                mycontroler: nationalIdController,
+                secureText: false,
+                myController: nationalIdController,
               ),
               const SizedBox(
                 height: 8.0,
               ),
-              defultTextFied(
+              defaultTextField(
                 hint: "Enter Patient name",
                 label: " Name",
                 type: TextInputType.text,
@@ -161,13 +168,13 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                     return "this field can't be empty";
                   }
                 },
-                vall: false,
-                mycontroler: nameController,
+                secureText: false,
+                myController: nameController,
               ),
               const SizedBox(
                 height: 10,
               ),
-              defultTextFied(
+              defaultTextField(
                 hint: "Patient phone",
                 label: "Phone",
                 type: TextInputType.number,
@@ -180,13 +187,13 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                     return "this field can't be empty";
                   }
                 },
-                vall: false,
-                mycontroler: phoneController,
+                secureText: false,
+                myController: phoneController,
               ),
               const SizedBox(
                 height: 10,
               ),
-              defultTextFied(
+              defaultTextField(
                 hint: "BirthDate",
                 label: "BirthDate",
                 type: TextInputType.number,
@@ -199,13 +206,13 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                     return "this field can't be empty";
                   }
                 },
-                vall: false,
-                mycontroler: birthDateController,
+                secureText: false,
+                myController: birthDateController,
               ),
               const SizedBox(
                 height: 10,
               ),
-              defultTextFied(
+              defaultTextField(
                 hint: "Patient Age",
                 label: "Age",
                 type: TextInputType.number,
@@ -218,23 +225,23 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                     return "this field can't be empty";
                   }
                 },
-                vall: false,
-                mycontroler: ageController,
+                secureText: false,
+                myController: ageController,
               ),
               const SizedBox(
                 height: 10,
               ),
-              defultTextFied(
+              defaultTextField(
                 hint: "Patient Address",
                 label: "Address",
-                type: TextInputType.number,
+                type: TextInputType.name,
                 pIcon: const Icon(Icons.home_outlined),
                 onSave: () => (String? val) {
                   setState(() {});
                 },
                 validate: () {},
-                vall: false,
-                mycontroler: addressController,
+                secureText: false,
+                myController: addressController,
               ),
               Row(
                 children: [
@@ -281,12 +288,29 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                       nid: nationalIdController.text.trim(),
                       address: addressController.text.trim(),
                       phoneNumber: phoneController.text.trim(),
-                      gender: genderController.text.trim(),
+                      gender: gender!,
                       profilePhoto: pickedImage,
                       age: ageController.text.trim(),
                       birthDate: birthDateController.text.trim(),
                       name: nameController.text.trim(),
                     );
+                    if (widget.screenName == 'Prediction') {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const PredictionScreen()));
+                    } else if (widget.screenName == 'Classification') {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const ClassificationScreen()));
+                    } else {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const HomePageScreen()));
+                    }
                     print("patient added");
                   },
                   child: const Padding(
@@ -314,7 +338,10 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
             shape: RoundedRectangleBorder(
                 side: BorderSide(color: Colors.purple.shade300),
                 borderRadius: BorderRadius.circular(15.0)),
-            onPressed: () => CameraImage(),
+            onPressed: () {
+              CameraImage();
+              Navigator.pop(context);
+            },
             child: const Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(
@@ -332,7 +359,10 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
             shape: RoundedRectangleBorder(
                 side: BorderSide(color: Colors.purple.shade300),
                 borderRadius: BorderRadius.circular(15.0)),
-            onPressed: () => GalleryImage(),
+            onPressed: () {
+              GalleryImage();
+              Navigator.pop(context);
+            },
             child: const Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(
@@ -346,7 +376,7 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
       ],
     );
     showDialog(
-        barrierDismissible: true,
+        barrierDismissible: false,
         context: context,
         builder: (BuildContext context) {
           return ad;
