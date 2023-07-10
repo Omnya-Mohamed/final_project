@@ -172,15 +172,17 @@ class ApiHelperFinalEdit {
       "Content-Type": "application/json",
     };
     var request = http.Request(
-        'POST',
+        'DELETE',
         Uri.parse(
-            "http://ec2-16-16-128-143.eu-north-1.compute.amazonaws.com/patients/$id/delete/"));
+            "http://ec2-16-16-128-143.eu-north-1.compute.amazonaws.com/api/v1/patients/$id/delete/"));
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     // final stringData = await response.stream.bytesToString();
     // dynamic userData = json.decode(stringData);
     // print(userData);
-    if (response.statusCode == 204) {
+    if (response.statusCode == 204 ||
+        response.statusCode == 200 ||
+        response.statusCode == 201) {
       print('deleted successfully');
       //return PatientModel.fromJson(userData);
     } else if (response.statusCode == 500) {
@@ -207,6 +209,27 @@ class ApiHelperFinalEdit {
     if (response.statusCode == 200) {
       return List<PatientModel>.from(
           (userData as List).map((e) => PatientModel.fromJson(e)).toList());
+    } else {
+      print("error error server patient  list");
+    }
+  }
+
+  static Future getPatientsCount() async {
+    var headers = {
+      "Content-Type": "application/json",
+    };
+
+    var request = http.Request(
+        'GET',
+        Uri.parse(
+            "http://ec2-16-16-128-143.eu-north-1.compute.amazonaws.com/api/v1/patients/count/"));
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    final stringData = await response.stream.bytesToString();
+    dynamic userData = json.decode(stringData);
+    if (response.statusCode == 200) {
+      print('count: ${userData['patient_count']}');
+      return userData['patient_count'];
     } else {
       print("error error server patient  list");
     }

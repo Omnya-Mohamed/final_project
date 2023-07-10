@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:g_project/widget/fields.dart';
 
-import 'home_screen.dart';
 import 'classification_patient_record_screen.dart';
 
 class ClassificationFullResultScreen extends StatefulWidget {
@@ -45,28 +44,7 @@ class _ClassificationFullResultScreenState
         backgroundColor: m_color,
         leading: IconButton(
           onPressed: () {
-            showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                      title: const Text('Alert'),
-                      content: const Text(
-                          'Are you sure to close  this process .. !'),
-                      actions: [
-                        ElevatedButton(
-                          onPressed: () {},
-                          child: const Text('Save'),
-                        ),
-                        ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const HomePageScreen()));
-                            },
-                            child: const Text('ignore'))
-                      ],
-                    ));
+            Navigator.pop(context);
           },
           icon: const Icon(Icons.arrow_back),
         ),

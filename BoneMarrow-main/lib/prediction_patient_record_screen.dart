@@ -333,7 +333,11 @@ class _PredictionPatientRecordScreenState
                         int deleteId = await result['id'];
                         await ApiHelperFinalEdit.deletePatient(id: deleteId);
                         print("should have been deleted");
-                        Navigator.pop(context);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const PredictionScreen()));
                       },
                       child: const Text("Delete Record"),
                     ),

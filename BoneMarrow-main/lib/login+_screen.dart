@@ -267,10 +267,12 @@ class _Login_ScreenState extends State<Login_Screen> {
                             value: _namecontroller.text.trim());
                         log('saved to cache');
                         Future.delayed(const Duration(seconds: 2), () {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => const HomePageScreen()));
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => const HomePageScreen()),
+                            (route) => false,
+                          );
                         });
                       }
                     });

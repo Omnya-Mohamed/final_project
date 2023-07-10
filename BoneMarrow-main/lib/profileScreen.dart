@@ -68,8 +68,8 @@ class ProfileScreen extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 8),
-              Text((CacheHelper.getData(key: 'email') ?? ""),
-                  style: Theme.of(context).textTheme.headlineMedium),
+              // Text((CacheHelper.getData(key: 'email') ?? ""),
+              //     style: Theme.of(context).textTheme.headlineMedium),
               Text(
                 ("${CacheHelper.getData(key: 'userName')}".capitalize() ?? ""),
                 style: const TextStyle(fontSize: 28),

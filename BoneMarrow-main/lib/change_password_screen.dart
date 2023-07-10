@@ -1,6 +1,7 @@
 //import 'dart:html';
 
 import 'package:flutter/material.dart';
+import 'package:g_project/API.dart';
 import 'package:g_project/widget/fields.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
@@ -15,8 +16,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   bool passvisible1 = false;
   bool passvisible2 = false;
   var oldpasswordcontroler = TextEditingController();
-  var newpasswordcontroler = TextEditingController();
-  var confirmpasswordcontroler = TextEditingController();
+  var newPasswordController = TextEditingController();
+  var confirmPasswordController = TextEditingController();
   var password;
 
   @override
@@ -50,7 +51,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   children: [
                     defaultTextField(
                       hint: "Enter Password",
-                      label: "Password",
+                      label: "Enter Password",
                       type: TextInputType.visiblePassword,
                       pIcon: Icon(Icons.lock, color: Colors.purple.shade100),
                       sIcon: IconButton(
@@ -75,6 +76,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       },
                       secureText: passvisible,
                       myController: oldpasswordcontroler,
+                    ),
+                    const SizedBox(
+                      height: 10,
                     ),
                     defaultTextField(
                       hint: "New Password",
@@ -102,12 +106,14 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         }
                       },
                       secureText: passvisible1,
-                      myController: newpasswordcontroler,
+                      myController: newPasswordController,
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     defaultTextField(
                       hint: "Confirm ",
-                      label: "Confirm Password",
+                      label: "Confirm New Password",
                       type: TextInputType.visiblePassword,
                       pIcon: Icon(Icons.lock, color: Colors.purple.shade100),
                       sIcon: IconButton(
@@ -131,7 +137,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         }
                       },
                       secureText: passvisible2,
-                      myController: confirmpasswordcontroler,
+                      myController: confirmPasswordController,
                     ),
 
                     const SizedBox(height: 16),
@@ -139,13 +145,28 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          await ApiHelper.changePassword(
+                            newPassword: newPasswordController.text.trim(),
+                            confirmNewPassword:
+                                confirmPasswordController.text.trim(),
+                          );
+                          const snackBar = SnackBar(
+                            content: Text('Changed Password Successfully'),
+                            backgroundColor: Color.fromARGB(255, 37, 238, 51),
+                          );
+
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        },
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.grey,
+                            backgroundColor: Colors.deepPurple[300],
                             side: BorderSide.none,
                             shape: const StadiumBorder()),
-                        child: const Text('Change',
-                            style: TextStyle(color: Colors.white)),
+                        child: const Padding(
+                          padding: EdgeInsets.all(16.0),
+                          child: Text('Change',
+                              style: TextStyle(color: Colors.white)),
+                        ),
                       ),
                     ),
                     const SizedBox(height: 1),

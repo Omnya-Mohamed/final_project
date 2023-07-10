@@ -12,7 +12,9 @@ class ApiHelper {
       required String email,
       required String password,
       required String rePassword}) async {
-    var headers = {"Content-Type": "application/json"};
+    var headers = {
+      "Content-Type": "application/json",
+    };
 
     var request = http.Request(
         'POST',
@@ -46,7 +48,7 @@ class ApiHelper {
     var request = http.Request(
         'POST',
         Uri.parse(
-            "http://ec2-16-16-128-143.eu-north-1.compute.amazonaws.com/auth/token/login/"));
+            "http://ec2-16-16-128-143.eu-north-1.compute.amazonaws.com/auth/jwt/create/"));
     request.body = json.encode({
       "username": userName.toString().trim(),
       "password": password.toString(),
@@ -55,15 +57,49 @@ class ApiHelper {
     http.StreamedResponse response = await request.send();
     final stringData = await response.stream.bytesToString();
     dynamic userData = json.decode(stringData);
-    print(userData);
     if (response.statusCode == 200) {
-      print(userData);
+      print(userData['access']);
       CacheHelper.saveData(
-          key: 'token', value: userData['auth_token'] as String);
+          key: 'access_token', value: userData['access'] as String);
+      CacheHelper.saveData(key: 'password', value: password);
+      print("access token and password stored successfully");
       return loginAuthModel.fromJson(userData);
     } else {
       print("error error server");
       return loginAuthModel.fromJson(userData);
+    }
+  }
+
+  static Future changePassword(
+      {required String newPassword, required String confirmNewPassword}) async {
+    Map<String, String> headers = {
+      "Content-Type": "application/json",
+      // "authorization": CacheHelper.getData(key: 'access_token'),
+      "Authorization": "Bearer ${CacheHelper.getData(key: 'access_token')}",
+    };
+
+    var request = http.Request(
+        'POST',
+        Uri.parse(
+            "http://ec2-16-16-128-143.eu-north-1.compute.amazonaws.com/auth/users/set_password/"));
+    request.body = json.encode({
+      "new_password": newPassword.toString(),
+      "re_new_password": confirmNewPassword.toString(),
+      "current_password": CacheHelper.getData(key: 'password').toString(),
+    });
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    final stringData = await response.stream.bytesToString();
+    dynamic userData = json.decode(stringData);
+    if (response.statusCode == 204 ||
+        response.statusCode == 200 ||
+        response.statusCode == 201) {
+      print("Changed successfully");
+    } else {
+      print(CacheHelper.getData(key: 'password'));
+      print(CacheHelper.getData(key: 'access_token'));
+      print(response.statusCode);
+      print("error error server");
     }
   }
 

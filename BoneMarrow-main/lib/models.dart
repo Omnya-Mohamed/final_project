@@ -21,7 +21,7 @@ class loginAuthModel {
   loginAuthModel({this.authToken});
 
   loginAuthModel.fromJson(Map<String, dynamic> json) {
-    authToken = json['auth_token'];
+    authToken = json['access'];
   }
 }
 

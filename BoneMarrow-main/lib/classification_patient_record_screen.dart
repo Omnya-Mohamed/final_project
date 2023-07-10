@@ -354,7 +354,7 @@ class _ClassificationPatientRecordScreenState
                         print(result);
                         ApiHelperFinalEdit.deletePatient(id: result['id']);
                         print("should have been deleted");
-                        Navigator.pop(context);
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>ClassificationScreen()));
                       },
                       child: const Text("Delete Record"),
                     ),

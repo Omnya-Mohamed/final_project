@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:g_project/api_final_edit.dart';
+import 'package:g_project/home_screen.dart';
 import 'package:g_project/prediction_screen.dart';
 import 'package:g_project/edit_patient_record_screen.dart';
 import 'package:g_project/classification_screen.dart';
@@ -56,7 +57,10 @@ class _AllPatientRecordsScreenState extends State<AllPatientRecordsScreen> {
         leading: InkWell(
           child: Icon(Icons.arrow_back, color: m_color),
           onTap: () {
-            Navigator.of(context).pop();
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const HomePageScreen()));
           },
         ),
         title: const Center(
@@ -267,12 +271,23 @@ class _AllPatientRecordsScreenState extends State<AllPatientRecordsScreen> {
                         backgroundColor:
                             MaterialStateProperty.all<Color>(m_color!),
                       ),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const EditPatientRecordScreen()));
+                      onPressed: () async {
+                        var result = await ApiHelperFinalEdit
+                            .searchInClassificationAndPrediction(
+                                nationalId: widget.nid!);
+                        Navigator.of(context)
+                            .pushReplacement(MaterialPageRoute(builder: (_) {
+                          return EditPatientRecordScreen(
+                            name: result['name'],
+                            // image: 'pickedImage',
+                            nid: result['national_id'].toString(),
+                            age: result['age'].toString(),
+                            gender: result['gender'],
+                            address: result['address'],
+                            phone: result['phone_number'].toString(),
+                            birthDate: result['birth_date'].toString(),
+                          );
+                        }));
                       },
                       child: const Text("Edit"),
                     ),
