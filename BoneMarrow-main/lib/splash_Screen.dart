@@ -24,14 +24,17 @@ class splashScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 // crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text("Loading",style: TextStyle(fontSize: 25),),
+                  Text(
+                    "Loading",
+                    style: TextStyle(fontSize: 25),
+                  ),
                   Lottie.asset("assets/images/loading.json",
                       width: 200, height: 200),
                 ],
               )
             ],
           ),
-          nextScreen: const OnboardingScreen(),
+          nextScreen: OnboardingScreen(),
           // splashTransition: SplashTransition.fadeTransition,
           // pageTransitionType: PageTransitionType.scale,
           backgroundColor: Colors.white),

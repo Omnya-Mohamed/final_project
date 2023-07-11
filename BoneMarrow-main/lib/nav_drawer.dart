@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:g_project/profileScreen.dart';
 import 'package:g_project/search_screen.dart';
+import 'package:g_project/shared/constansts.dart/app_values.dart';
 import 'package:g_project/widget/fields.dart';
 
 import 'prediction_screen.dart';
@@ -12,7 +13,7 @@ import 'login+_screen.dart';
 class NavDrawer extends StatefulWidget {
   const NavDrawer({super.key});
 
-  // const NavDrawer({Key? key}) : super(key: key);
+  //  NavDrawer({Key? key}) : super(key: key);
 
   @override
   State<NavDrawer> createState() => _NavDrawerState();
@@ -42,31 +43,31 @@ class _NavDrawerState extends State<NavDrawer> {
       padding: EdgeInsets.only(
         top: MediaQuery.of(context).padding.top,
       ),
-      child: const Column(
+      child: Column(
         children: [
-          CircleAvatar(
+          const CircleAvatar(
               radius: 52,
               backgroundImage:
                   AssetImage('assets/images/Bone_marrow_biopsy.jpg')
               //backgroundImage: NetworkImage("https://static.sciencelearn.org.nz/images/images/000/004/324/embed/Bone_marrow_biopsy.jpg?1674173795"),
               ),
           SizedBox(
-            height: 10,
+            height: s_10,
           ),
-          Text(
+          const Text(
             "Bone_marrow",
             style: TextStyle(
                 fontSize: 28, color: Colors.white, fontWeight: FontWeight.bold),
           ),
-          SizedBox(
+          const SizedBox(
             height: 8,
           ),
-          Text(
+          const Text(
             "(Transplantation)",
             style: TextStyle(
                 fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
           ),
-          SizedBox(
+          const SizedBox(
             height: 8,
           ),
         ],
@@ -93,7 +94,7 @@ class _NavDrawerState extends State<NavDrawer> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const ClassificationScreen()));
+                      builder: (context) => ClassificationScreen()));
             },
           ),
           ListTile(
@@ -107,10 +108,8 @@ class _NavDrawerState extends State<NavDrawer> {
               style: TextStyle(fontSize: _drawerFontSize, color: Colors.black),
             ),
             onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const PredictionScreen()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => PredictionScreen()));
             },
           ),
           ListTile(
@@ -127,7 +126,7 @@ class _NavDrawerState extends State<NavDrawer> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const SearchPage(
+                      builder: (context) => SearchPage(
                             isappbar: true,
                           )));
             },
@@ -200,7 +199,7 @@ class _NavDrawerState extends State<NavDrawer> {
             ),
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const ProfileScreen(
+                  builder: (context) => ProfileScreen(
                         isAppBar: true,
                       )));
             },
@@ -219,7 +218,7 @@ class _NavDrawerState extends State<NavDrawer> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const ChangePasswordScreen()));
+                      builder: (context) => ChangePasswordScreen()));
             },
           ),
           ListTile(
@@ -247,8 +246,8 @@ class _NavDrawerState extends State<NavDrawer> {
               style: TextStyle(fontSize: _drawerFontSize, color: Colors.black),
             ),
             onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const FirstPage()));
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => FirstPage()));
             },
           ),
         ],

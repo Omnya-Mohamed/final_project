@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:g_project/prediction_patient_record_screen.dart';
+import 'package:g_project/shared/constansts.dart/app_colors.dart';
 import 'package:g_project/widget/fields.dart';
 
 class PredictionFullResultScreen extends StatefulWidget {
@@ -52,14 +53,14 @@ class _PredictionFullResultScreenState
             margin: const EdgeInsets.all(16),
             height: 300,
             width: double.infinity,
-            decoration: const BoxDecoration(
-              color: Color(0xFFffffff),
+            decoration: BoxDecoration(
+              color: const Color(0xFFffffff),
               boxShadow: [
                 BoxShadow(
                   color: Colors.grey,
                   blurRadius: 15.0, // soften the shadow
                   spreadRadius: 5.0, //extend the shadow
-                  offset: Offset(
+                  offset: const Offset(
                     5.0, // Move to right 5  horizontally
                     5.0, // Move to bottom 5 Vertically
                   ),
@@ -106,8 +107,8 @@ class _PredictionFullResultScreenState
                               nid: widget.nid,
                             )));
                   },
-                  child: const Padding(
-                    padding: EdgeInsets.all(8.0),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
                     child: Text(
                       "Continue",
                       style: TextStyle(color: Colors.black),

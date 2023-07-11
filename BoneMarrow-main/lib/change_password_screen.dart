@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:g_project/API.dart';
+import 'package:g_project/login+_screen.dart';
+import 'package:g_project/shared/constansts.dart/app_values.dart';
 import 'package:g_project/widget/fields.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
@@ -15,7 +17,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   bool passvisible = false;
   bool passvisible1 = false;
   bool passvisible2 = false;
-  var oldpasswordcontroler = TextEditingController();
+  var oldPasswordController = TextEditingController();
   var newPasswordController = TextEditingController();
   var confirmPasswordController = TextEditingController();
   var password;
@@ -75,10 +77,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         }
                       },
                       secureText: passvisible,
-                      myController: oldpasswordcontroler,
+                      myController: oldPasswordController,
                     ),
-                    const SizedBox(
-                      height: 10,
+                    SizedBox(
+                      height: s_10,
                     ),
                     defaultTextField(
                       hint: "New Password",
@@ -108,8 +110,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       secureText: passvisible1,
                       myController: newPasswordController,
                     ),
-                    const SizedBox(
-                      height: 10,
+                    SizedBox(
+                      height: s_10,
                     ),
                     defaultTextField(
                       hint: "Confirm ",
@@ -147,6 +149,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       child: ElevatedButton(
                         onPressed: () async {
                           await ApiHelper.changePassword(
+                            oldPassword: oldPasswordController.text.trim(),
                             newPassword: newPasswordController.text.trim(),
                             confirmNewPassword:
                                 confirmPasswordController.text.trim(),
@@ -157,6 +160,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           );
 
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Login_Screen()));
                         },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.deepPurple[300],

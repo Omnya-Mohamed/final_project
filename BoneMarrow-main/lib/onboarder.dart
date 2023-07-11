@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
 import 'f_Page.dart';
+
 class OnBoardingPage extends StatefulWidget {
   const OnBoardingPage({Key? key}) : super(key: key);
 
@@ -16,7 +17,7 @@ class OnBoardingPageState extends State<OnBoardingPage> {
 
   void _onIntroEnd(context) {
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) =>  const FirstPage()),
+      MaterialPageRoute(builder: (_) => FirstPage()),
     );
   }
 
@@ -75,28 +76,28 @@ class OnBoardingPageState extends State<OnBoardingPage> {
         PageViewModel(
           title: "Fractional shares",
           body:
-          "Instead of having to buy an entire share, invest any amount you want.",
+              "Instead of having to buy an entire share, invest any amount you want.",
           image: _buildImage('img1.jpg'),
           decoration: pageDecoration,
         ),
         PageViewModel(
           title: "Learn as you go",
           body:
-          "Download the Stockpile app and master the market with our mini-lesson.",
+              "Download the Stockpile app and master the market with our mini-lesson.",
           image: _buildImage('img2.jpg'),
           decoration: pageDecoration,
         ),
         PageViewModel(
           title: "Kids and teens",
           body:
-          "Kids and teens can track their stocks 24/7 and place trades that you approve.",
+              "Kids and teens can track their stocks 24/7 and place trades that you approve.",
           image: _buildImage('img3.jpg'),
           decoration: pageDecoration,
         ),
         PageViewModel(
           title: "Full Screen Page",
           body:
-          "Pages can be full screen as well.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc id euismod lectus, non tempor felis. Nam rutrum rhoncus est ac venenatis.",
+              "Pages can be full screen as well.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc id euismod lectus, non tempor felis. Nam rutrum rhoncus est ac venenatis.",
           image: _buildFullscreenImage(),
           decoration: pageDecoration.copyWith(
             contentMargin: const EdgeInsets.symmetric(horizontal: 16),
@@ -133,9 +134,9 @@ class OnBoardingPageState extends State<OnBoardingPage> {
         ),
         PageViewModel(
           title: "Title of last page - reversed",
-          bodyWidget: Row(
+          bodyWidget: const Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
+            children: [
               Text("Click on ", style: bodyStyle),
               Icon(Icons.edit),
               Text(" to edit a post", style: bodyStyle),

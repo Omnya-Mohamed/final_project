@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:g_project/shared/constansts.dart/app_colors.dart';
+import 'package:g_project/shared/constansts.dart/app_values.dart';
 import 'package:g_project/shared_pref.dart';
 import 'package:g_project/widget/fields.dart';
 
@@ -15,7 +17,7 @@ class DoctorRegist extends StatefulWidget {
 class _DoctorRegistState extends State<DoctorRegist> {
   String bText = "Sign Up";
   bool lSwitch = true;
-  GlobalKey<FormState> _key = GlobalKey<FormState>();
+  final GlobalKey<FormState> _key = GlobalKey<FormState>();
   final _key1 = GlobalKey<FormState>();
   var namecontroller = TextEditingController();
   var phonecontroller = TextEditingController();
@@ -32,7 +34,7 @@ class _DoctorRegistState extends State<DoctorRegist> {
     return Scaffold(
       body: Container(
         height: double.infinity,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             gradient: LinearGradient(
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,
@@ -48,16 +50,16 @@ class _DoctorRegistState extends State<DoctorRegist> {
                         image: AssetImage('assets/images/Rimage.png'),
                         fit: BoxFit.fill)),
               ),
-              Text(
+              const Text(
                 "Hello!",
                 style: TextStyle(color: Colors.white, fontSize: 25),
               ),
               SizedBox(
-                height: 10,
+                height: s_10,
               ),
               Register(),
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Text(
+                const Text(
                   "Have an account ?",
                   style: TextStyle(
                       fontSize: 20,
@@ -66,13 +68,15 @@ class _DoctorRegistState extends State<DoctorRegist> {
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (_) => Login_Screen()));
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const Login_Screen()));
                     setState(() {
                       lSwitch = !lSwitch;
                     });
                   },
-                  child: Text(
+                  child: const Text(
                     "Login",
                     style: TextStyle(
                         fontSize: 25,
@@ -92,7 +96,7 @@ class _DoctorRegistState extends State<DoctorRegist> {
     return Form(
       key: _key,
       child: Container(
-        margin: EdgeInsets.symmetric(
+        margin: const EdgeInsets.symmetric(
           horizontal: 10,
         ),
         child: Column(
@@ -100,7 +104,7 @@ class _DoctorRegistState extends State<DoctorRegist> {
             defaultTextField(
               hint: "enter your name",
               type: TextInputType.text,
-              pIcon: Icon(Icons.person),
+              pIcon: const Icon(Icons.person),
               onSave: () => (String? val) {
                 setState(() {});
               },
@@ -113,13 +117,13 @@ class _DoctorRegistState extends State<DoctorRegist> {
               myController: namecontroller,
             ),
             SizedBox(
-              height: 10,
+              height: s_10,
             ),
             defaultTextField(
               hint: "enter your Email",
               // label: "Email",
               type: TextInputType.emailAddress,
-              pIcon: Icon(Icons.email),
+              pIcon: const Icon(Icons.email),
               onSave: () => (String? val) {
                 setState(() {});
               },
@@ -131,14 +135,14 @@ class _DoctorRegistState extends State<DoctorRegist> {
               secureText: false,
               myController: emailcontroler,
             ),
-            SizedBox(
+            const SizedBox(
               height: 8.0,
             ),
             defaultTextField(
               hint: "Enter Password",
               //  label: "Password",
               type: TextInputType.text,
-              pIcon: Icon(Icons.lock),
+              pIcon: const Icon(Icons.lock),
               sIcon: IconButton(
                 icon: Icon(
                   passvisible ? Icons.visibility : Icons.visibility_off,
@@ -160,14 +164,14 @@ class _DoctorRegistState extends State<DoctorRegist> {
               secureText: false,
               myController: passwordcontroler,
             ),
-            SizedBox(
+            const SizedBox(
               height: 8.0,
             ),
             defaultTextField(
               hint: "Comfirm password",
               label: "Comfirm password",
               type: TextInputType.text,
-              pIcon: Icon(Icons.lock),
+              pIcon: const Icon(Icons.lock),
               sIcon: IconButton(
                 icon: Icon(
                   passvisible ? Icons.visibility : Icons.visibility_off,
@@ -189,7 +193,7 @@ class _DoctorRegistState extends State<DoctorRegist> {
               secureText: false,
               myController: comfirmPasscontroler,
             ),
-            SizedBox(
+            const SizedBox(
               height: 8.0,
             ),
             MaterialButton(

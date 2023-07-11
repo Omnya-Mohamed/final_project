@@ -3,11 +3,15 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:g_project/api_final_edit.dart';
 import 'package:g_project/classification_screen.dart';
-import 'package:g_project/home_screen.dart';
+import 'package:g_project/main_bottom_navigation_bar.dart';
 import 'package:g_project/prediction_screen.dart';
+import 'package:g_project/shared/constansts.dart/app_colors.dart';
+import 'package:g_project/shared/constansts.dart/app_strings.dart';
 import 'package:g_project/widget/fields.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+
+import '../shared/constansts.dart/app_values.dart';
 
 class AddPatientScreen extends StatefulWidget {
   final String screenName;
@@ -52,31 +56,14 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
       pickedImage = File(
         image.path,
       );
-      print("image added");
     });
   }
-  //PlatformFile? file;
-
-  // void loadP_File() async {
-  //   FilePickerResult? result = await FilePicker.platform.pickFiles();
-  //   if (result != null) {
-  //     setState(() {
-  //       file = result.files.first;
-  //     });
-  //
-  //     // File file = File(result.files.single.path);
-  //     print(file?.name);
-  //   } else {
-  //     // User canceled the picker
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        //leading: IconButton(icon: Icon(Icons.arrow_back,),onPressed: (){},),
-        backgroundColor: Colors.purple.shade200,
+        backgroundColor: purple200,
         title: const Center(
           child: Text(
             "New Patient ",
@@ -88,38 +75,19 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
         padding: const EdgeInsets.all(20.0),
         child: SingleChildScrollView(
           child: Column(
-            // mainAxisAlignment: MainAxisAlignment.center,
-            //crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Stack(
                 alignment: Alignment.center,
                 children: [
                   pickedImage == null
                       ? const CircleAvatar(
-                          radius: 65,
-                          backgroundImage: AssetImage(
-                              'assets/images/Bone_marrow_biopsy.jpg'))
+                          radius: 65, backgroundImage: AssetImage(mainPhoto))
                       : Image.file(pickedImage!), // SizedBox(
-                  //   width: 120,
-                  //   height: 120,
-                  //   child: ClipRRect(
-                  //       borderRadius: BorderRadius.circular(50),
-                  //       child:  pickedImage == null
-                  //           ? Image(
-                  //           image: AssetImage('assets/images/doctor2.jpg'))
-                  //           : Image.file(
-                  //         pickedImage!,
-                  //         // width: 400,
-                  //         // height: 400,
-                  //       )
-                  //
-                  //       ),
-                  // ),
                   Positioned(
                     bottom: 0,
                     right: 0,
                     child: InkWell(
-                      onTap: () => myDialog(),
+                      onTap: () => chooseImageTypeDialog(),
                       child: Container(
                         width: 35,
                         height: 35,
@@ -137,7 +105,6 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                 height: 15.0,
               ),
               defaultTextField(
-                // hint: "Enter National ID",
                 label: " NID",
                 type: TextInputType.number,
                 pIcon: const Icon(Icons.edit),
@@ -171,8 +138,8 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                 secureText: false,
                 myController: nameController,
               ),
-              const SizedBox(
-                height: 10,
+              SizedBox(
+                height: s_10,
               ),
               defaultTextField(
                 hint: "Patient phone",
@@ -190,8 +157,8 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                 secureText: false,
                 myController: phoneController,
               ),
-              const SizedBox(
-                height: 10,
+              SizedBox(
+                height: s_10,
               ),
               defaultTextField(
                 hint: "BirthDate",
@@ -209,8 +176,8 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                 secureText: false,
                 myController: birthDateController,
               ),
-              const SizedBox(
-                height: 10,
+              SizedBox(
+                height: s_10,
               ),
               defaultTextField(
                 hint: "Patient Age",
@@ -228,8 +195,8 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                 secureText: false,
                 myController: ageController,
               ),
-              const SizedBox(
-                height: 10,
+              SizedBox(
+                height: s_10,
               ),
               defaultTextField(
                 hint: "Patient Address",
@@ -294,24 +261,22 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                       birthDate: birthDateController.text.trim(),
                       name: nameController.text.trim(),
                     );
-                    if (widget.screenName == 'Prediction') {
+                    if (widget.screenName == prediction) {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const PredictionScreen()));
-                    } else if (widget.screenName == 'Classification') {
+                              builder: (context) => PredictionScreen()));
+                    } else if (widget.screenName == classification) {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  const ClassificationScreen()));
+                              builder: (context) => ClassificationScreen()));
                     } else {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const HomePageScreen()));
+                              builder: (context) => MainBottomNavigationBar()));
                     }
-                    print("patient added");
                   },
                   child: const Padding(
                     padding: EdgeInsets.all(8.0),
@@ -327,7 +292,7 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
     );
   }
 
-  myDialog() {
+  chooseImageTypeDialog() {
     var ad = AlertDialog(
       title: const Center(child: Text("Choose Image From")),
       //content: Text("Status:"),

@@ -3,9 +3,10 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:g_project/API.dart';
-import 'package:g_project/add_patient_screen.dart';
+import 'package:g_project/screens/add_patient_screen.dart';
 import 'package:g_project/api_final_edit.dart';
 import 'package:g_project/widget/fields.dart';
+import 'package:readmore/readmore.dart';
 
 import 'prediction_full_result_screen.dart';
 
@@ -13,9 +14,9 @@ import 'prediction_full_result_screen.dart';
 //import 'package:hive_flutter/hive_flutter.dart';
 
 class PredictionScreen extends StatefulWidget {
-  const PredictionScreen({super.key});
+  PredictionScreen({super.key});
 
-  //const Prediction_Screen({super.key});
+  // Prediction_Screen({super.key});
 
   @override
   State<PredictionScreen> createState() => _PredictionScreenState();
@@ -43,7 +44,7 @@ class _PredictionScreenState extends State<PredictionScreen> {
 
   final List<String> _itemei = [
     'Male',
-    "Femal",
+    "Female",
   ];
   @override
   File? file;
@@ -65,6 +66,7 @@ class _PredictionScreenState extends State<PredictionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // appBar: AppBar(title:  Text('Classification')),
       backgroundColor: Colors.grey.shade100,
       body: SafeArea(
         child: Stack(
@@ -93,7 +95,20 @@ class _PredictionScreenState extends State<PredictionScreen> {
         // crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 15),
+            padding: EdgeInsets.all(16.0),
+            child: ReadMoreText(
+              "For survival outcome prediction, the mobile app leverages a machine learning model trained on a large dataset containing patient information, treatment variables, and post-transplant outcomes. By inputting relevant patient data into the app, healthcare professionals can obtain real-time predictions regarding the likelihood of survival after BMT. This predictive capability aids in treatment decision-making and allows physicians to customize patient care plans.",
+              trimLines: 3,
+              colorClickableText: Colors.pink,
+              trimMode: TrimMode.Line,
+              trimCollapsedText: 'Show more',
+              trimExpandedText: '..Show less',
+              textAlign: TextAlign.justify,
+              moreStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15),
             child: Row(
               children: [
                 Expanded(
@@ -101,7 +116,7 @@ class _PredictionScreenState extends State<PredictionScreen> {
                     // hint: "Enter National ID",
                     label: " NID",
                     type: TextInputType.number,
-                    pIcon: const Icon(Icons.edit),
+                    pIcon: Icon(Icons.edit),
                     onSave: () => (String? val) {
                       setState(() {
                         ApiHelperFinalEdit.searchInClassificationAndPrediction(
@@ -117,26 +132,33 @@ class _PredictionScreenState extends State<PredictionScreen> {
                     myController: nationalIdController,
                   ),
                 ),
-                const SizedBox(
+                SizedBox(
                   width: 15,
                 ),
                 FloatingActionButton.small(
                   onPressed: () async {
-                    var result = await ApiHelperFinalEdit
-                        .searchInClassificationAndPrediction(
-                            nationalId: nationalIdController.text);
-                    setState(() {
-                      if (result.isEmpty) {
+                    if (nationalIdController.text.isEmpty) {
+                      setState(() {
                         isAddPatientVisible = !isAddPatientVisible;
                         !isVisible;
-                      } else {
-                        isVisible = !isVisible;
-                        !isAddPatientVisible;
-                      }
-                    });
+                      });
+                    } else {
+                      var result = await ApiHelperFinalEdit
+                          .searchInClassificationAndPrediction(
+                              nationalId: nationalIdController.text);
+                      setState(() {
+                        if (result.isEmpty) {
+                          isAddPatientVisible = !isAddPatientVisible;
+                          !isVisible;
+                        } else {
+                          isVisible = !isVisible;
+                          !isAddPatientVisible;
+                        }
+                      });
+                    }
                   },
                   backgroundColor: Colors.purple,
-                  child: const Icon(Icons.search),
+                  child: Icon(Icons.search),
                 )
               ],
             ),
@@ -151,7 +173,7 @@ class _PredictionScreenState extends State<PredictionScreen> {
                       ),
                       height: 40,
                       width: 100,
-                      child: const Center(
+                      child: Center(
                           child: Text(
                         "upload files",
                         style: TextStyle(color: Colors.white),
@@ -165,7 +187,7 @@ class _PredictionScreenState extends State<PredictionScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const AddPatientScreen(
+                                  builder: (context) => AddPatientScreen(
                                         screenName: 'Prediction',
                                       )));
                         }
@@ -177,7 +199,7 @@ class _PredictionScreenState extends State<PredictionScreen> {
                       ),
                       height: 40,
                       width: 100,
-                      child: const Center(
+                      child: Center(
                           child: Text(
                         "Add Patient",
                         style: TextStyle(color: Colors.white),
@@ -185,7 +207,7 @@ class _PredictionScreenState extends State<PredictionScreen> {
                 )
               : Container(),
 
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
           fileName.isNotEmpty
               ? Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -197,14 +219,14 @@ class _PredictionScreenState extends State<PredictionScreen> {
                             fileName = '';
                           });
                         },
-                        icon: const Icon(Icons.close))
+                        icon: Icon(Icons.close))
                   ],
                 )
               : Container(),
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
           //Spacer(),
           StartProcess(),
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
         ],
       ),
     );
@@ -223,7 +245,7 @@ class _PredictionScreenState extends State<PredictionScreen> {
         ),
         width: 130,
         height: 40,
-        child: const Text(
+        child: Text(
           'Start Process',
           style: TextStyle(
             //fontFamily: 'f',
@@ -244,16 +266,16 @@ class _PredictionScreenState extends State<PredictionScreen> {
           height: 240,
           decoration: BoxDecoration(
             color: Colors.deepPurple[300],
-            borderRadius: const BorderRadius.only(
+            borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(20),
               bottomRight: Radius.circular(20),
             ),
           ),
           child: Column(
             children: [
-              const SizedBox(height: 40),
+              SizedBox(height: 40),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
+                padding: EdgeInsets.symmetric(horizontal: 15),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -262,16 +284,16 @@ class _PredictionScreenState extends State<PredictionScreen> {
                       onTap: () {
                         Navigator.of(context).pop();
                       },
-                      child: const Icon(Icons.arrow_back, color: Colors.white),
+                      child: Icon(Icons.arrow_back, color: Colors.white),
                     ),
-                    const Text(
+                    Text(
                       'Prediction',
                       style: TextStyle(
                           fontSize: 40,
                           fontWeight: FontWeight.w600,
                           color: Colors.white),
                     ),
-                    const Icon(
+                    Icon(
                       Icons.notification_add,
                       color: Colors.white,
                     )
@@ -291,21 +313,20 @@ class _PredictionScreenState extends State<PredictionScreen> {
       nationalId: nationalIdController.text.trim(),
     );
     Widget saveButton = TextButton(
-      child: const Text(
+      child: Text(
         "Save",
         style: TextStyle(color: Colors.purple),
       ),
       onPressed: () {},
     );
     Widget cancelButton = TextButton(
-      child: const Text("Cancel", style: TextStyle(color: Colors.purple)),
+      child: Text("Cancel", style: TextStyle(color: Colors.purple)),
       onPressed: () {
         Navigator.of(context).pop();
       },
     );
     Widget detailsButton = TextButton(
-      child:
-          const Text("Show in details", style: TextStyle(color: Colors.purple)),
+      child: Text("Show in details", style: TextStyle(color: Colors.purple)),
       onPressed: () async {
         var result =
             await ApiHelperFinalEdit.searchInClassificationAndPrediction(
@@ -327,7 +348,7 @@ class _PredictionScreenState extends State<PredictionScreen> {
     );
 
     var ad = AlertDialog(
-      title: const Center(child: Text("Result")),
+      title: Center(child: Text("Result")),
       content: Text("Status: $predictionResult"),
       actions: [
         saveButton,

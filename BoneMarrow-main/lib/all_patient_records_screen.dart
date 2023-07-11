@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:g_project/api_final_edit.dart';
-import 'package:g_project/home_screen.dart';
+import 'package:g_project/main_bottom_navigation_bar.dart';
 import 'package:g_project/prediction_screen.dart';
 import 'package:g_project/edit_patient_record_screen.dart';
 import 'package:g_project/classification_screen.dart';
+import 'package:g_project/shared/constansts.dart/app_values.dart';
 import 'package:g_project/widget/fields.dart';
 
 class AllPatientRecordsScreen extends StatefulWidget {
@@ -14,7 +15,7 @@ class AllPatientRecordsScreen extends StatefulWidget {
   final String? birthDate;
   final String? phone;
   final String? address;
-  const AllPatientRecordsScreen({
+  AllPatientRecordsScreen({
     Key? key,
     this.name,
     this.nid,
@@ -60,10 +61,10 @@ class _AllPatientRecordsScreenState extends State<AllPatientRecordsScreen> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const HomePageScreen()));
+                    builder: (context) => MainBottomNavigationBar()));
           },
         ),
-        title: const Center(
+        title: Center(
           child: Text("All Patient Records",
               style: TextStyle(color: Colors.black)),
         ),
@@ -81,7 +82,7 @@ class _AllPatientRecordsScreenState extends State<AllPatientRecordsScreen> {
                 width: 140,
                 fit: BoxFit.fill,
               ),
-              const SizedBox(
+              SizedBox(
                 width: 10,
               ),
               SizedBox(
@@ -130,17 +131,17 @@ class _AllPatientRecordsScreenState extends State<AllPatientRecordsScreen> {
             ],
           ),
         ),
-        const SizedBox(
-          height: 10,
+        SizedBox(
+          height: s_10,
         ),
-        const Text("About History Diseases",
+        Text("About History Diseases",
             style: TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.bold,
               fontSize: 25,
             )),
-        const SizedBox(
-          height: 10,
+        SizedBox(
+          height: s_10,
         ),
         Expanded(
           child: FutureBuilder(
@@ -148,7 +149,7 @@ class _AllPatientRecordsScreenState extends State<AllPatientRecordsScreen> {
                 nationalId: widget.nid.toString()),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator(); // Show a loading indicator while data is being fetched
+                return CircularProgressIndicator(); // Show a loading indicator while data is being fetched
               } else if (snapshot.hasError) {
                 return Text(
                     'Error: ${snapshot.error}'); // Show an error message if there's an error
@@ -197,7 +198,7 @@ class _AllPatientRecordsScreenState extends State<AllPatientRecordsScreen> {
                     }
                     // var result = record['result'];
                     return Container(
-                      margin: const EdgeInsets.all(12),
+                      margin: EdgeInsets.all(12),
                       height: 150,
                       width: 400,
                       decoration: BoxDecoration(
@@ -217,7 +218,7 @@ class _AllPatientRecordsScreenState extends State<AllPatientRecordsScreen> {
                               ),
                             ],
                           ),
-                          const SizedBox(
+                          SizedBox(
                             height: 8,
                           ),
                           Row(
@@ -230,10 +231,10 @@ class _AllPatientRecordsScreenState extends State<AllPatientRecordsScreen> {
                               ),
                             ],
                           ),
-                          const SizedBox(
+                          SizedBox(
                             height: 8,
                           ),
-                          const SizedBox(
+                          SizedBox(
                             height: 8,
                           ),
                         ],
@@ -250,13 +251,13 @@ class _AllPatientRecordsScreenState extends State<AllPatientRecordsScreen> {
       ]),
       floatingActionButton: FloatingActionButton(
         backgroundColor: m_color,
-        child: const Icon(Icons.add),
+        child: Icon(Icons.add),
         onPressed: () {
           showDialog(
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: const Text("What Do You Want :"),
+                title: Text("What Do You Want :"),
                 content: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -289,7 +290,7 @@ class _AllPatientRecordsScreenState extends State<AllPatientRecordsScreen> {
                           );
                         }));
                       },
-                      child: const Text("Edit"),
+                      child: Text("Edit"),
                     ),
                     ElevatedButton(
                       style: ButtonStyle(
@@ -307,12 +308,11 @@ class _AllPatientRecordsScreenState extends State<AllPatientRecordsScreen> {
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
-                                  title:
-                                      const Text("Which process do You Want:"),
+                                  title: Text("Which process do You Want:"),
                                   content: Row(
                                     children: [
                                       InkWell(
-                                          child: const Text(
+                                          child: Text(
                                             "Classification",
                                             style: TextStyle(
                                               color: Colors.deepPurple,
@@ -323,12 +323,12 @@ class _AllPatientRecordsScreenState extends State<AllPatientRecordsScreen> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      const ClassificationScreen()))),
-                                      const SizedBox(
+                                                      ClassificationScreen()))),
+                                      SizedBox(
                                         width: 10,
                                       ),
                                       InkWell(
-                                          child: const Text(
+                                          child: Text(
                                             "Prediction",
                                             style: TextStyle(
                                               color: Colors.deepPurple,
@@ -339,12 +339,12 @@ class _AllPatientRecordsScreenState extends State<AllPatientRecordsScreen> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      const PredictionScreen()))),
+                                                      PredictionScreen()))),
                                     ],
                                   ));
                             });
                       },
-                      child: const Text("Add Process"),
+                      child: Text("Add Process"),
                     ),
                     ElevatedButton(
                       style: ButtonStyle(
@@ -358,7 +358,7 @@ class _AllPatientRecordsScreenState extends State<AllPatientRecordsScreen> {
                         ),
                       ),
                       onPressed: () {},
-                      child: const Text("Delete Record"),
+                      child: Text("Delete Record"),
                     ),
                   ],
                 ),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:g_project/shared/constansts.dart/app_colors.dart';
+import 'package:g_project/shared/constansts.dart/app_values.dart';
 import 'package:g_project/widget/fields.dart';
 
 import 'classification_patient_record_screen.dart';
@@ -66,9 +68,9 @@ class _ClassificationFullResultScreenState
                   child: Container(
                     height: 100,
                     width: 280,
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.only(
+                        borderRadius: const BorderRadius.only(
                           bottomRight: Radius.circular(50),
                           topRight: Radius.circular(50),
                         )),
@@ -88,8 +90,8 @@ class _ClassificationFullResultScreenState
               ],
             ),
           ),
-          const SizedBox(
-            height: 10,
+          SizedBox(
+            height: s_10,
           ),
           SizedBox(
             height: 250,
@@ -152,7 +154,7 @@ class _ClassificationFullResultScreenState
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 22),
                         ),
-                        const Divider(
+                        Divider(
                           color: Colors.purple,
                         ),
                         Text(
@@ -212,8 +214,8 @@ class _ClassificationFullResultScreenState
                               birthDate: widget.birthDate,
                             )));
                   },
-                  child: const Padding(
-                    padding: EdgeInsets.all(8.0),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
                     child: Text(
                       "Continue",
                       style: TextStyle(color: Colors.white),

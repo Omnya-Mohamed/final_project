@@ -3,6 +3,7 @@ import 'package:g_project/api_final_edit.dart';
 import 'package:g_project/prediction_screen.dart';
 import 'package:g_project/edit_patient_record_screen.dart';
 import 'package:g_project/classification_screen.dart';
+import 'package:g_project/shared/constansts.dart/app_values.dart';
 import 'package:g_project/widget/fields.dart';
 
 class ClassificationPatientRecordScreen extends StatefulWidget {
@@ -15,7 +16,7 @@ class ClassificationPatientRecordScreen extends StatefulWidget {
   final String? address;
   final String? phoneNumber;
   final String? birthDate;
-  const ClassificationPatientRecordScreen({
+  ClassificationPatientRecordScreen({
     Key? key,
     this.nid,
     this.age,
@@ -64,7 +65,7 @@ class _ClassificationPatientRecordScreenState
             Navigator.of(context).pop();
           },
         ),
-        title: const Center(
+        title: Center(
           child: Text("Classification Patient Record",
               style: TextStyle(color: Colors.black)),
         ),
@@ -82,7 +83,7 @@ class _ClassificationPatientRecordScreenState
                 width: 140,
                 fit: BoxFit.fill,
               ),
-              const SizedBox(
+              SizedBox(
                 width: 10,
               ),
               SizedBox(
@@ -131,17 +132,17 @@ class _ClassificationPatientRecordScreenState
             ],
           ),
         ),
-        const SizedBox(
-          height: 10,
+        SizedBox(
+          height: s_10,
         ),
-        const Text("About History Diseases",
+        Text("About History Diseases",
             style: TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.bold,
               fontSize: 25,
             )),
-        const SizedBox(
-          height: 10,
+        SizedBox(
+          height: s_10,
         ),
         Expanded(
           child: FutureBuilder(
@@ -149,7 +150,7 @@ class _ClassificationPatientRecordScreenState
                 nationalId: widget.nid.toString()),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator(); // Show a loading indicator while data is being fetched
+                return CircularProgressIndicator(); // Show a loading indicator while data is being fetched
               } else if (snapshot.hasError) {
                 return Text(
                     'Error: ${snapshot.error}'); // Show an error message if there's an error
@@ -187,7 +188,7 @@ class _ClassificationPatientRecordScreenState
                     }
 
                     return Container(
-                      margin: const EdgeInsets.all(12),
+                      margin: EdgeInsets.all(12),
                       height: 150,
                       width: 400,
                       decoration: BoxDecoration(
@@ -207,7 +208,7 @@ class _ClassificationPatientRecordScreenState
                               ),
                             ],
                           ),
-                          const SizedBox(
+                          SizedBox(
                             height: 8,
                           ),
                           Row(
@@ -220,10 +221,10 @@ class _ClassificationPatientRecordScreenState
                               ),
                             ],
                           ),
-                          const SizedBox(
+                          SizedBox(
                             height: 8,
                           ),
-                          const SizedBox(
+                          SizedBox(
                             height: 8,
                           ),
                         ],
@@ -240,13 +241,13 @@ class _ClassificationPatientRecordScreenState
       ]),
       floatingActionButton: FloatingActionButton(
         backgroundColor: m_color,
-        child: const Icon(Icons.add),
+        child: Icon(Icons.add),
         onPressed: () {
           showDialog(
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: const Text("What Do You Want :"),
+                title: Text("What Do You Want :"),
                 content: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -279,7 +280,7 @@ class _ClassificationPatientRecordScreenState
                           );
                         }));
                       },
-                      child: const Text("Edit"),
+                      child: Text("Edit"),
                     ),
                     ElevatedButton(
                       style: ButtonStyle(
@@ -297,12 +298,11 @@ class _ClassificationPatientRecordScreenState
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
-                                  title:
-                                      const Text("Which process do You Want:"),
+                                  title: Text("Which process do You Want:"),
                                   content: Row(
                                     children: [
                                       InkWell(
-                                          child: const Text(
+                                          child: Text(
                                             "Classification",
                                             style: TextStyle(
                                               color: Colors.deepPurple,
@@ -313,12 +313,12 @@ class _ClassificationPatientRecordScreenState
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      const ClassificationScreen()))),
-                                      const SizedBox(
+                                                      ClassificationScreen()))),
+                                      SizedBox(
                                         width: 10,
                                       ),
                                       InkWell(
-                                          child: const Text(
+                                          child: Text(
                                             "Prediction",
                                             style: TextStyle(
                                               color: Colors.deepPurple,
@@ -329,12 +329,12 @@ class _ClassificationPatientRecordScreenState
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      const PredictionScreen()))),
+                                                      PredictionScreen()))),
                                     ],
                                   ));
                             });
                       },
-                      child: const Text("Add Process"),
+                      child: Text("Add Process"),
                     ),
                     ElevatedButton(
                       style: ButtonStyle(
@@ -354,9 +354,12 @@ class _ClassificationPatientRecordScreenState
                         print(result);
                         ApiHelperFinalEdit.deletePatient(id: result['id']);
                         print("should have been deleted");
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>ClassificationScreen()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ClassificationScreen()));
                       },
-                      child: const Text("Delete Record"),
+                      child: Text("Delete Record"),
                     ),
                   ],
                 ),

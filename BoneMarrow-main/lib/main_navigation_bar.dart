@@ -52,16 +52,16 @@ class _MainNavigationBarState extends State<MainNavigationBar> {
                         topRight: Radius.circular(30))),
               ),
             ),
-            const Column(
+            Column(
               //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Align(alignment: Alignment.topCenter, child: CardList()),
                 //LastInvestment(),
                 // Deposits(),
-                SizedBox(
+                const SizedBox(
                   height: 25,
                 ),
-                Text("about process"),
+                const Text("about process"),
               ],
             ),
           ],

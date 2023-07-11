@@ -58,7 +58,7 @@ class ProfileScreen extends StatelessWidget {
                   //     decoration: BoxDecoration(
                   //         borderRadius: BorderRadius.circular(100),
                   //         color:m_color),
-                  //     child: const Icon(
+                  //     child:  Icon(
                   //       LineAwesomeIcons.alternate_pencil,
                   //       color: Colors.black,
                   //       size: 20,
@@ -87,7 +87,7 @@ class ProfileScreen extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const UpdateProfileScreen()));
+                            builder: (context) => UpdateProfileScreen()));
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: m_color,
@@ -97,9 +97,9 @@ class ProfileScreen extends StatelessWidget {
                       style: TextStyle(color: Colors.white)),
                 ),
               ),
-              // const SizedBox(height: 10),
+              //  SizedBox(height: 10),
               const Divider(),
-              //  const SizedBox(height: 10),
+              //   SizedBox(height: 10),
 
               ProfileMenuWidget(
                   title: "Change Password ",
@@ -108,15 +108,14 @@ class ProfileScreen extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                const ChangePasswordScreen()));
+                            builder: (context) => ChangePasswordScreen()));
                   }),
               ProfileMenuWidget(
                   title: " patients",
                   icon: LineAwesomeIcons.person_entering_booth,
                   onPress: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const SearchPage(
+                        builder: (context) => SearchPage(
                               isappbar: true,
                             )));
                   }),
@@ -133,8 +132,8 @@ class ProfileScreen extends StatelessWidget {
                   title: "Logout",
                   icon: LineAwesomeIcons.alternate_sign_out,
                   onPress: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const FirstPage()));
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => FirstPage()));
                   }),
               // ProfileMenuWidget(
               //     title: "Logout",
@@ -144,8 +143,8 @@ class ProfileScreen extends StatelessWidget {
               //     onPress: () {
               //       Get.defaultDialog(
               //         title: "LOGOUT",
-              //         titleStyle: const TextStyle(fontSize: 20),
-              //         content: const Padding(
+              //         titleStyle:  TextStyle(fontSize: 20),
+              //         content:  Padding(
               //           padding: EdgeInsets.symmetric(vertical: 15.0),
               //           child: Text("Are you sure, you want to Logout?"),
               //         ),
@@ -156,11 +155,11 @@ class ProfileScreen extends StatelessWidget {
               //             style: ElevatedButton.styleFrom(
               //                 backgroundColor: Colors.redAccent,
               //                 side: BorderSide.none),
-              //             child: const Text("Yes"),
+              //             child:  Text("Yes"),
               //           ),
               //         ),
               //         cancel: OutlinedButton(
-              //             onPressed: () => Get.back(), child: const Text("No")),
+              //             onPressed: () => Get.back(), child:  Text("No")),
               //       );
               //     }),
             ],

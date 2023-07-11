@@ -5,10 +5,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:g_project/API.dart';
 import 'package:g_project/classification_full_result_screen.dart';
+import 'package:g_project/shared/components/show_more_text.dart';
+import 'package:g_project/shared/constansts.dart/app_strings.dart';
+import 'package:g_project/shared/constansts.dart/app_values.dart';
 import 'package:g_project/widget/fields.dart';
 import 'package:image_picker/image_picker.dart';
 
-import 'add_patient_screen.dart';
+import 'screens/add_patient_screen.dart';
 import 'api_final_edit.dart';
 
 class ClassificationScreen extends StatefulWidget {
@@ -32,12 +35,8 @@ class _ClassificationScreenState extends State<ClassificationScreen> {
   String? _radioVal;
   bool isVisible = false;
   bool isAddPatientVisible = false;
-
-  //late DateTime _startTime;
-
   final DateTime _ProcessTime = DateTime.now();
   var ProcessTime;
-
   final ImagePicker _picker = ImagePicker();
   File? pickedImage;
 
@@ -54,17 +53,12 @@ class _ClassificationScreenState extends State<ClassificationScreen> {
   }
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepPurple[200],
         title: const Text(
-          "Hello! Doctor",
+          classification,
           style: TextStyle(fontSize: 25),
         ),
       ),
@@ -84,14 +78,21 @@ class _ClassificationScreenState extends State<ClassificationScreen> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const SizedBox(
-            height: 15,
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: ShowMoreText(
+              text:
+                  "The mobile app uses a deep learning model trained on patient data to classify image of bone marrow cell to be easy for doctors to identify type of cell",
+              lines: 1,
+            ),
+          ),
+          SizedBox(
+            height: s_10,
           ),
           Row(
             children: [
               Expanded(
                 child: defaultTextField(
-                  // hint: "Enter National ID",
                   label: " NID",
                   type: TextInputType.number,
                   pIcon: const Icon(Icons.edit),
@@ -112,10 +113,15 @@ class _ClassificationScreenState extends State<ClassificationScreen> {
               ),
               FloatingActionButton.small(
                 onPressed: () async {
-                  var result = await ApiHelperFinalEdit
-                      .searchInClassificationAndPrediction(
-                          nationalId: nationalIdController.text);
-                  setState(() {
+                  if (nationalIdController.text.isEmpty) {
+                    setState(() {
+                      isAddPatientVisible = !isAddPatientVisible;
+                      !isVisible;
+                    });
+                  } else {
+                    var result = await ApiHelperFinalEdit
+                        .searchInClassificationAndPrediction(
+                            nationalId: nationalIdController.text);
                     setState(() {
                       if (result.isEmpty) {
                         isAddPatientVisible = !isAddPatientVisible;
@@ -125,15 +131,15 @@ class _ClassificationScreenState extends State<ClassificationScreen> {
                         !isAddPatientVisible;
                       }
                     });
-                  });
+                  }
                 },
                 backgroundColor: Colors.purple,
                 child: const Icon(Icons.search),
               )
             ],
           ),
-          const SizedBox(
-            height: 15,
+          SizedBox(
+            height: isVisible ? 10 : 0,
           ),
           Column(
             children: [
@@ -146,7 +152,7 @@ class _ClassificationScreenState extends State<ClassificationScreen> {
                                   MaterialPageRoute(
                                       builder: (context) =>
                                           const AddPatientScreen(
-                                            screenName: 'Classification',
+                                            screenName: classification,
                                           )));
                             }
                           : null,
@@ -178,8 +184,8 @@ class _ClassificationScreenState extends State<ClassificationScreen> {
                       style: TextStyle(color: Colors.white),
                     ),
                   )),
-              const SizedBox(
-                height: 10,
+              SizedBox(
+                height: s_10,
               ),
               Container(
                 width: 350,
@@ -203,8 +209,8 @@ class _ClassificationScreenState extends State<ClassificationScreen> {
                             height: 400,
                           )),
               ),
-              const SizedBox(
-                height: 10,
+              SizedBox(
+                height: s_10,
               ),
               MaterialButton(
                   minWidth: 30.0,

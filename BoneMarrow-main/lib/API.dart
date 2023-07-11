@@ -71,7 +71,7 @@ class ApiHelper {
   }
 
   static Future changePassword(
-      {required String newPassword, required String confirmNewPassword}) async {
+      {required String newPassword, required String confirmNewPassword,required String oldPassword}) async {
     Map<String, String> headers = {
       "Content-Type": "application/json",
       // "authorization": CacheHelper.getData(key: 'access_token'),
@@ -85,7 +85,7 @@ class ApiHelper {
     request.body = json.encode({
       "new_password": newPassword.toString(),
       "re_new_password": confirmNewPassword.toString(),
-      "current_password": CacheHelper.getData(key: 'password').toString(),
+      "current_password": oldPassword.toString(),
     });
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();

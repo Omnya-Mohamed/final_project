@@ -3,11 +3,12 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:g_project/API.dart';
 import 'package:g_project/registerScreen.dart';
+import 'package:g_project/shared/constansts.dart/app_colors.dart';
 import 'package:g_project/shared_pref.dart';
 import 'package:g_project/widget/fields.dart';
 
 import 'ResetPage.dart';
-import 'home_screen.dart';
+import 'main_bottom_navigation_bar.dart';
 
 class Login_Screen extends StatefulWidget {
   const Login_Screen({Key? key}) : super(key: key);
@@ -103,7 +104,7 @@ class _Login_ScreenState extends State<Login_Screen> {
                       Text(
                         "Welcome Doctor",
                         style: TextStyle(
-                            color: Colors.purple.shade300,
+                            color: purple300,
                             fontWeight: FontWeight.bold,
                             fontSize: 30),
                       ),
@@ -238,9 +239,9 @@ class _Login_ScreenState extends State<Login_Screen> {
             ),
             MaterialButton(
                 minWidth: 30.0,
-                color: Colors.purple.shade300,
+                color: purple300,
                 shape: RoundedRectangleBorder(
-                    side: BorderSide(color: Colors.purple.shade300),
+                    side: BorderSide(color: purple300),
                     borderRadius: BorderRadius.circular(15.0)),
                 onPressed: () {
                   if (_key1.currentState!.validate()) {
@@ -270,7 +271,7 @@ class _Login_ScreenState extends State<Login_Screen> {
                           Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                                builder: (_) => const HomePageScreen()),
+                                builder: (_) => MainBottomNavigationBar()),
                             (route) => false,
                           );
                         });
@@ -318,16 +319,16 @@ class _Login_ScreenState extends State<Login_Screen> {
         const SizedBox(height: 15),
         MaterialButton(
             minWidth: 30.0,
-            color: Colors.purple.shade300,
+            color: purple300,
             shape: RoundedRectangleBorder(
-                side: BorderSide(color: Colors.purple.shade300),
+                side: BorderSide(color: purple300),
                 borderRadius: BorderRadius.circular(15.0)),
             onPressed: () {
               setState(() {
                 ApiHelper.reset(email: emailController.text.trim());
               });
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (_) => const ResetPage()));
+              Navigator.pushReplacement(
+                  context, MaterialPageRoute(builder: (_) => ResetPage()));
             },
             child: const Padding(
               padding: EdgeInsets.all(8.0),

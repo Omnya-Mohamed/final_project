@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:g_project/api_final_edit.dart';
+import 'package:g_project/shared/constansts.dart/app_colors.dart';
+import 'package:g_project/shared/constansts.dart/app_values.dart';
 import 'package:g_project/widget/fields.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
@@ -15,7 +17,7 @@ class EditPatientRecordScreen extends StatefulWidget {
   final String? birthDate;
   final String? phone;
   final String? address;
-  const EditPatientRecordScreen(
+  EditPatientRecordScreen(
       {Key? key,
       this.name,
       this.nid,
@@ -82,7 +84,7 @@ class _EditPatientRecordScreenState extends State<EditPatientRecordScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepPurple[200],
-        title: const Center(
+        title: Center(
           child: Text(
             "Patient Information",
             style: TextStyle(fontSize: 25),
@@ -91,7 +93,7 @@ class _EditPatientRecordScreenState extends State<EditPatientRecordScreen> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(10.0),
+          padding: EdgeInsets.all(10.0),
           child: PatientData(),
         ),
       ),
@@ -109,7 +111,7 @@ class _EditPatientRecordScreenState extends State<EditPatientRecordScreen> {
             alignment: Alignment.center,
             children: [
               pickedImage == null
-                  ? const CircleAvatar(
+                  ? CircleAvatar(
                       radius: 65,
                       backgroundImage:
                           AssetImage('assets/images/Bone_marrow_biopsy.jpg'))
@@ -140,18 +142,18 @@ class _EditPatientRecordScreenState extends State<EditPatientRecordScreen> {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(100),
                         color: Colors.white),
-                    child: const Icon(LineAwesomeIcons.camera,
+                    child: Icon(LineAwesomeIcons.camera,
                         color: Colors.black, size: 25),
                   ),
                 ),
               ),
             ],
           ),
-          const SizedBox(
+          SizedBox(
             height: 15.0,
           ),
-          const SizedBox(
-            height: 10,
+          SizedBox(
+            height: s_10,
           ),
           defaultTextField(
             // hint: "Enter Patient name",
@@ -159,7 +161,7 @@ class _EditPatientRecordScreenState extends State<EditPatientRecordScreen> {
             // initialValue: widget.name ?? "Name",
             type: TextInputType.text,
 
-            pIcon: const Icon(Icons.person),
+            pIcon: Icon(Icons.person),
             onSave: () => (String? val) {
               setState(() {});
             },
@@ -167,14 +169,14 @@ class _EditPatientRecordScreenState extends State<EditPatientRecordScreen> {
             secureText: false,
             myController: nameController,
           ),
-          const SizedBox(
+          SizedBox(
             height: 15,
           ),
           defaultTextField(
             // hint: "Patient Age",
             label: "Age",
             type: TextInputType.number,
-            pIcon: const Icon(Icons.edit),
+            pIcon: Icon(Icons.edit),
             // initialValue: widget.age ?? "Age",
 
             onSave: () => (String? val) {
@@ -184,15 +186,15 @@ class _EditPatientRecordScreenState extends State<EditPatientRecordScreen> {
             secureText: false,
             myController: ageController,
           ),
-          const SizedBox(
-            height: 10,
+          SizedBox(
+            height: s_10,
           ),
           defaultTextField(
             hint: "Patient phone",
             label: "Phone",
             type: TextInputType.number,
             // initialValue: widget.phone ?? "Phone",
-            pIcon: const Icon(Icons.phone_android),
+            pIcon: Icon(Icons.phone_android),
             onSave: () => (String? val) {
               setState(() {});
             },
@@ -200,7 +202,7 @@ class _EditPatientRecordScreenState extends State<EditPatientRecordScreen> {
             secureText: false,
             myController: phoneController,
           ),
-          const SizedBox(
+          SizedBox(
             height: 15,
           ),
           defaultTextField(
@@ -208,7 +210,7 @@ class _EditPatientRecordScreenState extends State<EditPatientRecordScreen> {
             label: "Address",
             type: TextInputType.text,
             // initialValue: widget.address ?? "Address",
-            pIcon: const Icon(Icons.home_outlined),
+            pIcon: Icon(Icons.home_outlined),
             onSave: () => (String? val) {
               setState(() {});
             },
@@ -216,7 +218,7 @@ class _EditPatientRecordScreenState extends State<EditPatientRecordScreen> {
             secureText: false,
             myController: addressController,
           ),
-          const SizedBox(
+          SizedBox(
             height: 15,
           ),
           defaultTextField(
@@ -225,7 +227,7 @@ class _EditPatientRecordScreenState extends State<EditPatientRecordScreen> {
             type: TextInputType.number,
             // initialValue: widget.birthDate ?? "BirthDate",
 
-            pIcon: const Icon(Icons.edit),
+            pIcon: Icon(Icons.edit),
             onSave: () => (String? val) {
               setState(() {});
             },
@@ -235,13 +237,13 @@ class _EditPatientRecordScreenState extends State<EditPatientRecordScreen> {
           ),
           Row(
             children: [
-              const Text(
+              Text(
                 "Gender ?",
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
               ),
               Expanded(
                 child: RadioListTile(
-                  title: const Text("Male"),
+                  title: Text("Male"),
                   value: "male",
                   groupValue: gender,
                   activeColor: Colors.purple,
@@ -254,7 +256,7 @@ class _EditPatientRecordScreenState extends State<EditPatientRecordScreen> {
               ),
               Expanded(
                 child: RadioListTile(
-                  title: const Text("Female"),
+                  title: Text("Female"),
                   value: "female",
                   groupValue: gender,
                   activeColor: Colors.purple,
@@ -291,9 +293,9 @@ class _EditPatientRecordScreenState extends State<EditPatientRecordScreen> {
                   nationalId: nationalIdController.text);
               Navigator.pop(context);
             },
-            child: const Text("Edit"),
+            child: Text("Edit"),
           ),
-          const SizedBox(
+          SizedBox(
             height: 15,
           ),
         ],
@@ -303,7 +305,7 @@ class _EditPatientRecordScreenState extends State<EditPatientRecordScreen> {
 
   myDialog() {
     var ad = AlertDialog(
-      title: const Center(child: Text("Chose Image From")),
+      title: Center(child: Text("Chose Image From")),
       //content: Text("Status:"),
       actions: [
         MaterialButton(
@@ -313,7 +315,7 @@ class _EditPatientRecordScreenState extends State<EditPatientRecordScreen> {
                 side: BorderSide(color: Colors.purple.shade300),
                 borderRadius: BorderRadius.circular(15.0)),
             onPressed: () => CameraImage(),
-            child: const Padding(
+            child: Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(
                 "Camera",
@@ -323,7 +325,7 @@ class _EditPatientRecordScreenState extends State<EditPatientRecordScreen> {
                     fontSize: 20),
               ),
             )),
-        const SizedBox(width: 15),
+        SizedBox(width: 15),
         MaterialButton(
             minWidth: 30.0,
             color: Colors.purple.shade300,
@@ -331,7 +333,7 @@ class _EditPatientRecordScreenState extends State<EditPatientRecordScreen> {
                 side: BorderSide(color: Colors.purple.shade300),
                 borderRadius: BorderRadius.circular(15.0)),
             onPressed: () => GalleryImage(),
-            child: const Padding(
+            child: Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(
                 "Gallery",

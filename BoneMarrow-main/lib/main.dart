@@ -6,9 +6,9 @@ import 'package:g_project/splash_Screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'prediction_screen.dart';
-import 'add_patient_screen.dart';
+import 'screens/add_patient_screen.dart';
 //import 'homePage.dart';
-import 'home_screen.dart';
+import 'main_bottom_navigation_bar.dart';
 
 late SharedPreferences shared;
 
@@ -21,7 +21,7 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -5,7 +5,7 @@ import 'package:introduction_screen/introduction_screen.dart';
 import 'f_Page.dart';
 
 class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({Key? key}) : super(key: key);
+  OnboardingScreen({Key? key}) : super(key: key);
 
   @override
   State<OnboardingScreen> createState() => _OnboardingScreenState();
@@ -17,17 +17,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   void initState() {
     SystemChrome.setSystemUIOverlayStyle(
-        const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+        SystemUiOverlayStyle(statusBarColor: Colors.transparent));
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-    const bodyStyle = TextStyle(fontSize: 19.0);
+   const  bodyStyle = TextStyle(fontSize: 19.0);
     const pageDecoration = PageDecoration(
       titleTextStyle: TextStyle(fontSize: 38.0, fontWeight: FontWeight.w700),
       bodyTextStyle: bodyStyle,
       bodyPadding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
-
       pageColor: Colors.white,
       imagePadding: EdgeInsets.zero,
     );
@@ -36,7 +36,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       globalBackgroundColor: Colors.white,
       pages: [
         PageViewModel(
-          title: "Bone Marrow ",
+          title: "Bone Marrow Transplantation\n(BMPC)",
           body:
               "Stride is a social network for skaters - discover, share and get inspired.",
           image: Image.asset('assets/images/Splash 4.jpeg'),
@@ -48,7 +48,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               " Share pictures of your latest tricks and challenges with other users, find out about upcoming events, or ask them for tips.",
           image: Image.asset('assets/images/splash6.jpeg'),
           // footer: Padding(
-          //   padding: const EdgeInsets.fromLTRB(15.0, 65.0, 15.0, 0.0),
+          //   padding:  EdgeInsets.fromLTRB(15.0, 65.0, 15.0, 0.0),
           //   child: ElevatedButton(
           //     onPressed: () {
           //       Navigator.push(
@@ -56,7 +56,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           //         MaterialPageRoute(builder: (context) => FirstPage()),
           //       );
           //     },
-          //     child: const Text(
+          //     child:  Text(
           //       'GET STARTED',
           //       style: TextStyle(
           //           color: Colors.white,
@@ -64,7 +64,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           //           fontSize: 20),
           //     ),
           //     style: ElevatedButton.styleFrom(
-          //       minimumSize: const Size.fromHeight(55), // NEW
+          //       minimumSize:  Size.fromHeight(55), // NEW
           //       primary: Colors.purple.shade200,
           //       shape: RoundedRectangleBorder(
           //         borderRadius: BorderRadius.circular(8.0),
@@ -80,25 +80,22 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       skipOrBackFlex: 0,
       nextFlex: 0,
       showBackButton: true,
-      skip:const Text('skip',
-    style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black)) ,
-      back: const Text('Back',
+      skip: Text('skip',
           style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black)),
-      next: const Text('Next',
+      back: Text('Back',
           style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black)),
-      done:const Text('Done',
+      next: Text('Next',
           style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black)),
-      onDone: ()=>
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => FirstPage()),
-          ),
-
-
+      done: Text('Done',
+          style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black)),
+      onDone: () => Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => FirstPage()),
+      ),
       curve: Curves.fastLinearToSlowEaseIn,
-      controlsMargin: const EdgeInsets.all(26),
+      controlsMargin: EdgeInsets.all(26),
       controlsPadding: EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
-      dotsDecorator: const DotsDecorator(
+      dotsDecorator: DotsDecorator(
         size: Size(8.0, 8.0),
         color: Color(0xFFBDBDBD),
         activeSize: Size(15.0, 5.0),

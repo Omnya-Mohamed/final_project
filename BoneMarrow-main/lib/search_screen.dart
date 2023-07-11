@@ -3,10 +3,10 @@ import 'package:g_project/all_patient_records_screen.dart';
 import 'package:g_project/api_final_edit.dart';
 import 'package:g_project/widget/fields.dart';
 
-import 'add_patient_screen.dart';
+import 'screens/add_patient_screen.dart';
 
 class SearchPage extends StatefulWidget {
-  const SearchPage({Key? key, required this.isappbar}) : super(key: key);
+  SearchPage({Key? key, required this.isappbar}) : super(key: key);
   final bool isappbar;
 
   @override
@@ -30,7 +30,7 @@ class _SearchPageState extends State<SearchPage> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                icon: const Icon(Icons.arrow_back, color: Colors.black),
+                icon: Icon(Icons.arrow_back, color: Colors.black),
               ),
               elevation: 0,
               backgroundColor: Colors.transparent,
@@ -39,7 +39,7 @@ class _SearchPageState extends State<SearchPage> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 10, right: 16, left: 16),
+            padding: EdgeInsets.only(top: 10, right: 16, left: 16),
             child: Row(
               children: [
                 Expanded(
@@ -62,7 +62,7 @@ class _SearchPageState extends State<SearchPage> {
                     ),
                   ),
                 ),
-                const SizedBox(
+                SizedBox(
                   width: 15,
                 ),
                 FloatingActionButton.small(
@@ -83,7 +83,7 @@ class _SearchPageState extends State<SearchPage> {
                     });
                   },
                   backgroundColor: m_color,
-                  child: const Icon(Icons.search),
+                  child: Icon(Icons.search),
                 ),
               ],
             ),
@@ -95,7 +95,7 @@ class _SearchPageState extends State<SearchPage> {
                         ApiHelperFinalEdit.searchInClassificationAndPrediction(
                             nationalId: searchController.text.trim()),
                     // shrinkWrap: true,
-                    // padding: const EdgeInsets.only(right: 16, left: 16, top: 10),
+                    // padding:  EdgeInsets.only(right: 16, left: 16, top: 10),
                     builder: (context, snapshot) {
                       return Card(
                         // color: Colors.blue,
@@ -109,7 +109,7 @@ class _SearchPageState extends State<SearchPage> {
                               minWidth: 20.0,
                               color: m_color,
                               shape: RoundedRectangleBorder(
-                                  side: const BorderSide(color: Colors.white),
+                                  side: BorderSide(color: Colors.white),
                                   borderRadius: BorderRadius.circular(15.0)),
                               onPressed: () async {
                                 var result = await ApiHelperFinalEdit
@@ -128,7 +128,7 @@ class _SearchPageState extends State<SearchPage> {
                                   );
                                 }));
                               },
-                              child: const Padding(
+                              child: Padding(
                                 padding: EdgeInsets.all(8.0),
                                 child: Text(
                                   "PRecord",
@@ -143,14 +143,14 @@ class _SearchPageState extends State<SearchPage> {
                     height: 100,
                     child: Column(
                       children: [
-                        const SizedBox(
+                        SizedBox(
                           height: 20,
                         ),
                         Text(
                           'OR',
                           style: t_style.copyWith(fontSize: 16),
                         ),
-                        const SizedBox(
+                        SizedBox(
                           height: 20,
                         ),
                         InkWell(
@@ -160,7 +160,7 @@ class _SearchPageState extends State<SearchPage> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              const AddPatientScreen(
+                                              AddPatientScreen(
                                                 screenName: 'Home',
                                               )));
                                 }
@@ -172,7 +172,7 @@ class _SearchPageState extends State<SearchPage> {
                               ),
                               height: 40,
                               width: 100,
-                              child: const Center(
+                              child: Center(
                                   child: Text(
                                 "Add Patient",
                                 style: TextStyle(color: Colors.white),

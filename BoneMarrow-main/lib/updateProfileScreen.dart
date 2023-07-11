@@ -2,6 +2,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:g_project/shared/constansts.dart/app_colors.dart';
 import 'package:g_project/widget/fields.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
@@ -100,7 +101,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(100),
                             color: Colors.white),
-                        child: const Icon(LineAwesomeIcons.camera,
+                        child: Icon(LineAwesomeIcons.camera,
                             color: Colors.black, size: 25),
                       ),
                     ),
@@ -113,7 +114,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   children: [
                     TextFormField(
                       decoration: InputDecoration(
-                        label: Text('New Username'),
+                        label: const Text('New Username'),
                         prefixIcon: const Icon(LineAwesomeIcons.user),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20),
@@ -137,7 +138,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                     const SizedBox(height: 16),
                     TextFormField(
                       decoration: InputDecoration(
-                        label: Text('NEW Phone'),
+                        label: const Text('NEW Phone'),
                         prefixIcon: const Icon(LineAwesomeIcons.phone),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20),
@@ -149,8 +150,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                     const SizedBox(height: 16),
                     TextFormField(
                       decoration: InputDecoration(
-                        label: Text('New Address'),
-                        prefixIcon: Icon(LineAwesomeIcons.envelope_1),
+                        label: const Text('New Address'),
+                        prefixIcon: const Icon(LineAwesomeIcons.envelope_1),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20),
                           borderSide: BorderSide(
@@ -169,7 +170,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                             backgroundColor: Colors.grey,
                             side: BorderSide.none,
                             shape: const StadiumBorder()),
-                        child: const Text('Update',
+                        child: Text('Update',
                             style: TextStyle(color: Colors.white)),
                       ),
                     ),
@@ -187,7 +188,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
 
   myDialog() {
     var ad = AlertDialog(
-      title: Center(child: Text("Chose Image From")),
+      title: const Center(child: Text("Chose Image From")),
       //content: Text("Status:"),
       actions: [
         MaterialButton(
@@ -197,8 +198,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                 side: BorderSide(color: Colors.purple.shade300),
                 borderRadius: BorderRadius.circular(15.0)),
             onPressed: () => CameraImage(),
-            child: const Padding(
-              padding: EdgeInsets.all(8.0),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
               child: Text(
                 "Camera",
                 style: TextStyle(
@@ -207,7 +208,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                     fontSize: 20),
               ),
             )),
-        SizedBox(width: 15),
+        const SizedBox(width: 15),
         MaterialButton(
             minWidth: 30.0,
             color: Colors.purple.shade300,
@@ -215,8 +216,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                 side: BorderSide(color: Colors.purple.shade300),
                 borderRadius: BorderRadius.circular(15.0)),
             onPressed: () => GalleryImage(),
-            child: const Padding(
-              padding: EdgeInsets.all(8.0),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
               child: Text(
                 "Gallery",
                 style: TextStyle(
