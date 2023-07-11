@@ -5,6 +5,14 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Flutter",
+            "type": "dart",
+            "request": "launch",
+            "program": "/Users/ibrahimmansour/Documents/Study/flutter projects/final_project/BoneMarrow-main/lib/screens/main.dart"
+        },
+        
+        
+        {
             "name": "BoneMarrow-main",
             "cwd": "BoneMarrow-main",
             "request": "launch",
