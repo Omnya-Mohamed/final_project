@@ -1,17 +1,17 @@
 import 'dart:io';
 // the first
 import 'package:flutter/material.dart';
-import 'package:g_project/api_final_edit.dart';
-import 'package:g_project/classification_screen.dart';
-import 'package:g_project/main_bottom_navigation_bar.dart';
-import 'package:g_project/prediction_screen.dart';
-import 'package:g_project/shared/constansts.dart/app_colors.dart';
-import 'package:g_project/shared/constansts.dart/app_strings.dart';
-import 'package:g_project/widget/fields.dart';
+import 'package:g_project/screens/classification_screen.dart';
+import 'package:g_project/shared/constansts/app_colors.dart';
+import 'package:g_project/shared/constansts/app_strings.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
-import '../shared/constansts.dart/app_values.dart';
+import '../core/repos/api_helper.dart';
+import '../shared/components/default_text_form_field.dart';
+import '../shared/constansts/app_values.dart';
+import 'main_bottom_navigation_bar.dart';
+import 'not_refactored/prediction_screen.dart';
 
 class AddPatientScreen extends StatefulWidget {
   final String screenName;
@@ -251,7 +251,7 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
                       side: BorderSide(color: Colors.purple.shade300),
                       borderRadius: BorderRadius.circular(15.0)),
                   onPressed: () {
-                    ApiHelperFinalEdit.addPatient(
+                    ApiHelper.addPatient(
                       nid: nationalIdController.text.trim(),
                       address: addressController.text.trim(),
                       phoneNumber: phoneController.text.trim(),

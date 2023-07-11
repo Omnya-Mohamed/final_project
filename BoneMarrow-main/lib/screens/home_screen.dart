@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:g_project/prediction_screen.dart';
-import 'package:g_project/shared/components/bezier_draw.dart';
+import 'package:g_project/utils/Animation/bezier_draw.dart';
 import 'package:g_project/shared/components/patients_progress_indicator.dart';
 import 'package:g_project/shared/components/show_more_text.dart';
-import 'package:g_project/shared/constansts.dart/app_strings.dart';
+import 'package:g_project/shared/constansts/app_strings.dart';
 
-import '../api_final_edit.dart';
-import '../classification_screen.dart';
-import '../shared/constansts.dart/app_values.dart';
+import '../core/repos/api_helper.dart';
+import 'classification_screen.dart';
+import '../shared/constansts/app_values.dart';
+import 'not_refactored/prediction_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -20,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int? patientsCount;
   @override
   void initState() {
-    var result = ApiHelperFinalEdit.getPatientsCount().then((value) {
+    var result = ApiHelper.getPatientsCount().then((value) {
       setState(() {
         patientsCount = value;
       });
@@ -37,15 +37,15 @@ class _HomeScreenState extends State<HomeScreen> {
           Stack(
             children: [
               BezierDraw(),
-              Center(
+              const Center(
                 child: Column(
                   children: [
-                    const SizedBox(
+                    SizedBox(
                       height: 15,
                     ),
                     Text(
                       dashboard,
-                      style: const TextStyle(
+                      style: TextStyle(
                           fontSize: 30,
                           fontWeight: FontWeight.bold,
                           color: Colors.white),
@@ -70,9 +70,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           Expanded(
                             child: Column(
                               children: [
-                                Text(
+                                const Text(
                                   about,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 22.0),
                                 ),
@@ -109,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        ClassificationScreen()));
+                                        const ClassificationScreen()));
                           },
                           child: Card(
                             shape: RoundedRectangleBorder(

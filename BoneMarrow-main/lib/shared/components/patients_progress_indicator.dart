@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:proste_bezier_curve/proste_bezier_curve.dart';
 
-import '../../api_final_edit.dart';
-import '../constansts.dart/app_strings.dart';
-import '../constansts.dart/app_values.dart';
+import '../../core/repos/api_helper.dart';
+import '../constansts/app_strings.dart';
+import '../constansts/app_values.dart';
 
 class PatientsProgressIndicator extends StatefulWidget {
   PatientsProgressIndicator({super.key});
@@ -18,7 +18,7 @@ class _PatientsProgressIndicatorState extends State<PatientsProgressIndicator> {
   int? patientsCount;
   @override
   void initState() {
-    var result = ApiHelperFinalEdit.getPatientsCount().then((value) {
+    var result = ApiHelper.getPatientsCount().then((value) {
       setState(() {
         patientsCount = value;
       });
